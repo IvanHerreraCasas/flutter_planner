@@ -1,0 +1,67 @@
+name: flutter_planner
+description: A Very Good Project created by Very Good CLI.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  activities_api:
+    path: packages/activities/activities_api
+  activities_repository:
+    path: packages/activities/activities_repository
+  authentication_api:
+    path: packages/authentication/authentication_api
+  authentication_repository:
+    path: packages/authentication/authentication_repository 
+  authentication_ui:
+    path: packages/authentication/authentication_ui 
+  bloc: ^8.0.3
+  dropdown_button2: ^1.4.0
+  dynamic_timeline:
+    git: https://github.com/IvanHerreraCasas/dynamic_timeline
+  equatable: ^2.0.3
+  flex_color_scheme: ^5.0.0
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  flutter_dotenv: ^5.0.2
+  flutter_localizations:
+    sdk: flutter
+  go_router: ^3.0.7
+  google_fonts: ^2.3.1
+  hydrated_bloc: ^8.1.0
+  intl: ^0.17.0   
+  loader_overlay: ^2.0.6
+  path_provider: ^2.0.9
+  routines_api:
+    path: packages/routines/routines_api
+  routines_repository:
+    path: packages/routines/routines_repository
+  stream_transform: ^2.0.0
+  supabase_activities_api:
+    path: packages/activities/supabase_activities_api
+  supabase_authentication_api:
+    path: packages/authentication/supabase_authentication_api
+  supabase_flutter: ^0.3.0 
+  supabase_routines_api:
+    path: packages/routines/supabase_routines_api
+  table_calendar: ^3.0.5
+  url_launcher: ^6.0.20
+
+dev_dependencies:
+  bloc_test: ^9.0.3
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^2.4.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+  - .env
+
+

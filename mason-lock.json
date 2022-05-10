@@ -1,0 +1,10 @@
+{
+    "bricks": {
+        "bloc": {
+            "version": "0.1.1"
+        },
+        "flutter_responsive_layout": {
+            "version": "0.1.2"
+        }
+    }
+}

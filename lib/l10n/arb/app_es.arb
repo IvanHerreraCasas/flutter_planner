@@ -1,0 +1,11 @@
+{
+    "@@locale": "es",
+    "signInTitle": "Iniciar sesión",
+    "signUpTitle": "Crea una cuenta nueva",
+    "emailFormDescription": "Tu e-mail",
+    "passwordFormDescription": "Contraseña",
+    "accountQuestion": "¿Ya tienes una cuenta?",
+    "accountSuggestion": "Inicia sesión",
+    "noAccountQuestion": "¿No tienes una cuenta?",
+    "noAccountSuggestion": "Regístrate"
+}
