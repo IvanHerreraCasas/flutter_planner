@@ -31,7 +31,7 @@ class HomeLayoutBuilder extends StatelessWidget {
             appBar: appBar,
             drawer: drawer(currentSize),
 
-            // to have the same widget tree and avoid 
+            // to have the same widget tree and avoid
             // unnessary rebuilds on resize
             // Scaffold -> Row -> Expanded -> body
             body: Row(

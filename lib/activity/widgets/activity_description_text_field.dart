@@ -10,7 +10,7 @@ class ActivityDescriptionTextField extends StatelessWidget {
     final initialDescription = context.select(
       (ActivityBloc bloc) => bloc.state.initialActivity.description,
     );
-    
+
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

@@ -33,7 +33,7 @@ class PlannerCalendar extends StatelessWidget {
     final focusedDay = context.select(
       (PlannerBloc bloc) => bloc.state.focusedDay,
     );
-    
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,

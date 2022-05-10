@@ -23,9 +23,7 @@ class SignInButton extends StatelessWidget {
             )
           : Text(
               'Sign in',
-              style: theme
-                  .textTheme
-                  .bodyText1!
+              style: theme.textTheme.bodyText1!
                   .copyWith(color: Theme.of(context).colorScheme.onPrimary),
             ),
     );

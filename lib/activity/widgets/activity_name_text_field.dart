@@ -11,7 +11,7 @@ class ActivityNameTextField extends StatelessWidget {
     final initialName = context.select(
       (ActivityBloc bloc) => bloc.state.initialActivity.name,
     );
-    
+
     return NameTextField(
       initialText: initialName,
       hintText: 'Activity ...',
