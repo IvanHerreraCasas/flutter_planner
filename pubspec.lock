@@ -165,12 +165,10 @@ packages:
   dynamic_timeline:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "12b13ef7322d67d2f04b2ddcbc1df33716d91698"
-      url: "https://github.com/IvanHerreraCasas/dynamic_timeline"
-    source: git
-    version: "0.1.0"
+      name: dynamic_timeline
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0+1"
   equatable:
     dependency: "direct main"
     description:

@@ -19,8 +19,7 @@ dependencies:
     path: packages/authentication/authentication_ui 
   bloc: ^8.0.3
   dropdown_button2: ^1.4.0
-  dynamic_timeline:
-    git: https://github.com/IvanHerreraCasas/dynamic_timeline
+  dynamic_timeline: ^0.1.0+1
   equatable: ^2.0.3
   flex_color_scheme: ^5.0.0
   flutter:
