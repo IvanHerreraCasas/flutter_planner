@@ -85,9 +85,26 @@ _\*Flutter Planner works on iOS, Android, Web, and Windows._
 
 ## Dependencies
 
+- [dynamic_timeline](https://pub.dev/packages/dynamic_timeline)
 - [flutter_bloc](https://pub.dev/packages/flutter_bloc)
 - [supabase_flutter](https://pub.dev/packages/supabase_flutter)
 - [go_router](https://pub.dev/packages/go_router)
+
+---
+
+## Future features
+
+This application is been developed in my free time for personal use, some future features that will be added are
+
+- 100% test coverage.
+- Settings page for custom theme and user configuration.
+- Projects or tasks page.
+  
+---
+
+## Contribution
+
+If you have a suggestion or would to contribute feel free to [contact me](https://github.com/IvanHerreraCasas), fill an issue or make a pull request :).
 
 
 [coverage_badge]: coverage_badge.svg
