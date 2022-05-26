@@ -62,15 +62,15 @@ class RoutineBloc extends Bloc<RoutineEvent, RoutineState> {
     RoutineDeleted event,
     Emitter<RoutineState> emit,
   ) async {
-    emit(state.copyWith(status: RoutineStatus.loading));
-    try {
-      if (state.initialRoutine.id != null) {
+    if (state.initialRoutine.id != null) {
+      emit(state.copyWith(status: RoutineStatus.loading));
+      try {
         await _routinesRepository.deleteRoutine(state.initialRoutine.id!);
         emit(state.copyWith(status: RoutineStatus.success));
+      } catch (e) {
+        log(e.toString());
+        emit(state.copyWith(status: RoutineStatus.failure));
       }
-    } catch (e) {
-      log(e.toString());
-      emit(state.copyWith(status: RoutineStatus.failure));
     }
   }
 
