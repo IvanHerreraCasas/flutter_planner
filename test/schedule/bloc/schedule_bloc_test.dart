@@ -90,22 +90,18 @@ void main() {
               .thenAnswer((_) => Future.value(fakeRoutine));
         },
         build: buildBloc,
-        seed: () => ScheduleState(selectedRoutine: fakeRoutine),
+        // selected routine must have the same id, but different object.
+        seed: () => ScheduleState(
+          selectedRoutine: fakeRoutine.copyWith(
+            startTime: DateTime(1970, 1, 1, 8),
+          ),
+        ),
         act: (bloc) => bloc.add(
           ScheduleRoutineChanged(fakeRoutine),
         ),
-        
-        /*doesn't work
-        wait: Duration(seconds: 1),
         expect: () => <ScheduleState>[
           ScheduleState(selectedRoutine: fakeRoutine),
-        ],*/
-        verify: (bloc) {
-          expect(
-            bloc.state,
-            equals(ScheduleState(selectedRoutine: fakeRoutine)),
-          );
-        },
+        ],
       );
     });
 
