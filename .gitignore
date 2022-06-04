@@ -99,6 +99,7 @@ unlinked_spec.ds
 
 # Coverage
 coverage/
+genhtml.perl
 
 # Submodules
 !pubspec.lock
