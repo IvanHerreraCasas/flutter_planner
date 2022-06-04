@@ -23,6 +23,8 @@ class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
 
 class MockRoutinesRepository extends Mock implements RoutinesRepository {}
 
+class MockGoRouter extends Mock implements GoRouter {}
+
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
@@ -51,75 +53,9 @@ extension PumpApp on WidgetTester {
             GlobalMaterialLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
-          home: widget,
-        ),
-      ),
-    );
-  }
-
-  Future<void> pumpRouterApp(
-    Widget widget, {
-    AuthenticationRepository? authenticationRepository,
-    ActivitiesRepository? activitiesRepository,
-    RoutinesRepository? routinesRepository,
-  }) {
-    const initialLocation = '/_initial';
-
-    final router = GoRouter(
-      initialLocation: initialLocation,
-      routes: [
-        GoRoute(
-          path: '/',
-          redirect: (state) => '/home/planner',
-        ),
-        GoRoute(
-          path: initialLocation,
-          builder: (context, state) => widget,
-        ),
-        GoRoute(
-          path: '/home:page',
-          builder: (context, state) => Container(
-            key: state.pageKey,
+          home: Scaffold(
+            body: widget,
           ),
-        ),
-        GoRoute(
-          path: '/sign-in',
-          builder: (context, state) => Container(
-            key: state.pageKey,
-          ),
-        ),
-        GoRoute(
-          path: '/sign-up',
-          builder: (context, state) => Container(
-            key: state.pageKey,
-          ),
-        ),
-      ],
-    );
-
-    return pumpWidget(
-      MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider(
-            create: (context) =>
-                authenticationRepository ?? MockAuthenticationRepository(),
-          ),
-          RepositoryProvider(
-            create: (context) =>
-                activitiesRepository ?? MockActivitiesRepository(),
-          ),
-          RepositoryProvider(
-            create: (context) => routinesRepository ?? MockRoutinesRepository(),
-          ),
-        ],
-        child: MaterialApp.router(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          routeInformationParser: router.routeInformationParser,
-          routerDelegate: router.routerDelegate,
         ),
       ),
     );
