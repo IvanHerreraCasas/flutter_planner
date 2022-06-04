@@ -62,7 +62,7 @@ class ActivityPage extends StatelessWidget {
               break;
             case ActivityStatus.success:
               context.loaderOverlay.hide();
-              Navigator.of(context).pop();
+              context.pop();
               break;
             case ActivityStatus.failure:
               context.loaderOverlay.hide();
