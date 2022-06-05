@@ -12,18 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_planner/l10n/l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
 
-class MockAuthenticationRepository extends Mock
-    implements AuthenticationRepository {}
-
-class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
-
-class MockRoutinesRepository extends Mock implements RoutinesRepository {}
-
-class MockGoRouter extends Mock implements GoRouter {}
+import 'helpers.dart';
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
