@@ -19,6 +19,7 @@ class ActivityTimePickers extends StatelessWidget {
     return Column(
       children: [
         DropdownTimePicker(
+          key: const Key('start time picker'),
           time: startTime,
           onChanged: (dateTime) => context
               .read<ActivityBloc>()
@@ -39,6 +40,7 @@ class ActivityTimePickers extends StatelessWidget {
           },
         ),
         DropdownTimePicker(
+          key: const Key('end time picker'),
           time: endTime,
           onChanged: (dateTime) => context
               .read<ActivityBloc>()
