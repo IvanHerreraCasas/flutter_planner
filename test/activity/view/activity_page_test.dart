@@ -70,6 +70,8 @@ void main() {
     });
 
     testWidgets('renders ActivityLayoutBuilder', (tester) async {
+      FlutterError.onError = ignoreOverflowErrors;
+
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(ActivityLayoutBuilder), findsOneWidget);
