@@ -11,14 +11,11 @@ import '../sign_in_mocks.dart';
 void main() {
   group('SignInPage', () {
     late SignInBloc signInBloc;
-    late AuthenticationRepository authenticationRepository;
 
     setUp(() {
       signInBloc = MockSignInBloc();
-      authenticationRepository = MockAuthenticationRepository();
 
       when(() => signInBloc.state).thenReturn(const SignInState());
-      when(() => authenticationRepository);
     });
 
     Widget buildSubject() {
