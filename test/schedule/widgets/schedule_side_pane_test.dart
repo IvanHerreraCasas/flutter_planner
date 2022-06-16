@@ -35,7 +35,7 @@ void main() {
     }
 
     testWidgets(
-        'renders a RoutinePage with correct initialRoutine '
+        'renders a RoutinePage '
         'when selectedRoutine is not null', (tester) async {
       when(() => scheduleBloc.state).thenReturn(
         ScheduleState(selectedRoutine: mockRoutine),
@@ -44,9 +44,6 @@ void main() {
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(RoutinePage), findsOneWidget);
-      final routinePage = tester.widget<RoutinePage>(find.byType(RoutinePage));
-
-      expect(routinePage.initialRoutine, equals(mockRoutine));
     });
 
     testWidgets('renders SizedBox with non size', (tester) async {
