@@ -10,7 +10,6 @@ import 'package:routines_repository/routines_repository.dart';
 class RoutinePage extends StatelessWidget {
   const RoutinePage({
     Key? key,
-    required this.initialRoutine,
     this.isPage = false,
   }) : super(key: key);
 
@@ -19,54 +18,49 @@ class RoutinePage extends StatelessWidget {
   static GoRoute route() {
     return GoRoute(
       path: 'routine',
-      builder: (context, state) => RoutinePage(
-        initialRoutine: state.extra! as Routine,
-        isPage: true,
+      builder: (context, state) => BlocProvider(
+        create: (context) => RoutineBloc(
+          routinesRepository: context.read<RoutinesRepository>(),
+          initialRoutine: state.extra! as Routine,
+        ),
+        child: const RoutinePage(),
       ),
     );
   }
 
-  final Routine initialRoutine;
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RoutineBloc(
-        routinesRepository: context.read<RoutinesRepository>(),
-        initialRoutine: initialRoutine,
-      ),
-      child: LoaderOverlay(
-        child: BlocListener<RoutineBloc, RoutineState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            switch (state.status) {
-              case RoutineStatus.initial:
-                break;
-              case RoutineStatus.loading:
-                context.loaderOverlay.show();
-                break;
-              case RoutineStatus.success:
-                context.loaderOverlay.hide();
-                if (isPage) {
-                  Navigator.of(context).pop();
-                } else {
-                  context
-                      .read<ScheduleBloc>()
-                      .add(const ScheduleSelectedRoutineChanged(null));
-                }
-                break;
-              case RoutineStatus.failure:
-                context.loaderOverlay.hide();
-                // TODO(ivan): Handle RoutineStatus.failure
-                break;
-            }
-          },
-          child: RoutineLayoutBuilder(
-            headerButtons: () => RoutineHeaderButtons(isPage: isPage),
-            nameTextField: () => const RoutineNameTextField(),
-            dayPicker: () => const RoutineDayPicker(),
-            timePickers: () => const RoutineTimePickers(),
-          ),
+    return LoaderOverlay(
+      child: BlocListener<RoutineBloc, RoutineState>(
+        listenWhen: (previous, current) => previous.status != current.status,
+        listener: (context, state) {
+          switch (state.status) {
+            case RoutineStatus.initial:
+              break;
+            case RoutineStatus.loading:
+              context.loaderOverlay.show();
+              break;
+            case RoutineStatus.success:
+              context.loaderOverlay.hide();
+              if (isPage) {
+                Navigator.of(context).pop();
+              } else {
+                context
+                    .read<ScheduleBloc>()
+                    .add(const ScheduleSelectedRoutineChanged(null));
+              }
+              break;
+            case RoutineStatus.failure:
+              context.loaderOverlay.hide();
+              // TODO(ivan): Handle RoutineStatus.failure
+              break;
+          }
+        },
+        child: RoutineLayoutBuilder(
+          headerButtons: () => RoutineHeaderButtons(isPage: isPage),
+          nameTextField: () => const RoutineNameTextField(),
+          dayPicker: () => const RoutineDayPicker(),
+          timePickers: () => const RoutineTimePickers(),
         ),
       ),
     );

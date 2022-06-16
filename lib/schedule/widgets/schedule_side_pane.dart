@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/routine/routine.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:routines_api/routines_api.dart';
+import 'package:routines_repository/routines_repository.dart';
 
 class ScheduleSidePane extends StatelessWidget {
   const ScheduleSidePane({Key? key}) : super(key: key);
@@ -31,9 +32,14 @@ class ScheduleSidePane extends StatelessWidget {
               icon: const Icon(Icons.close),
             ),
             Expanded(
-              child: RoutinePage(
-                key: ValueKey<Routine?>(selectedRoutine),
-                initialRoutine: selectedRoutine,
+              child: BlocProvider(
+                create: (context) => RoutineBloc(
+                  routinesRepository: context.read<RoutinesRepository>(),
+                  initialRoutine: selectedRoutine,
+                ),
+                child: RoutinePage(
+                  key: ValueKey<Routine?>(selectedRoutine),
+                ),
               ),
             )
           ],
