@@ -43,7 +43,7 @@ class RoutinePage extends StatelessWidget {
             case RoutineStatus.success:
               context.loaderOverlay.hide();
               if (isPage) {
-                Navigator.of(context).pop();
+                context.pop();
               } else {
                 context
                     .read<ScheduleBloc>()
