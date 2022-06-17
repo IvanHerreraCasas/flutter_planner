@@ -18,7 +18,7 @@ void main() {
     late GoRouter goRouter;
 
     setUp(() {
-      routineBloc = MockRoutineMocks();
+      routineBloc = MockRoutineBloc();
       scheduleBloc = MockScheduleBloc();
       goRouter = MockGoRouter();
 
