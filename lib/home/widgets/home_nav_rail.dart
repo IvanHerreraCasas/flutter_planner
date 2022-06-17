@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/home/home.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeNavRail extends StatelessWidget {
   const HomeNavRail({
     Key? key,
     required this.currentSize,
     required this.selectedIndex,
-    required this.onDestinationSelected,
   }) : super(key: key);
 
   final HomeSize currentSize;
   final int selectedIndex;
-  final void Function(int index) onDestinationSelected;
+
+  void _onDestinationSelected(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        context.read<AppBloc>().add(const AppRouteChanged('/home/planner'));
+        context.go('/home/planner');
+        break;
+      case 1:
+        context.read<AppBloc>().add(const AppRouteChanged('/home/schedule'));
+        context.go('/home/schedule');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +35,7 @@ class HomeNavRail extends StatelessWidget {
       labelType: extended
           ? NavigationRailLabelType.none
           : NavigationRailLabelType.selected,
-      onDestinationSelected: onDestinationSelected,
+      onDestinationSelected: (index) => _onDestinationSelected(context, index),
       destinations: const [
         NavigationRailDestination(
           icon: Icon(Icons.calendar_today),
