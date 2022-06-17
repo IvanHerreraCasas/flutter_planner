@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
-import '../../helpers/ignore_errors.dart';
 
 class MockActivityBloc extends MockBloc<ActivityEvent, ActivityState>
     implements ActivityBloc {}
@@ -53,10 +52,6 @@ void main() {
         ),
       );
     }
-
-    group('route', () {
-      //TODO(ivan): add ActivityPage.route() tests
-    });
 
     group('dialog', () {
       testWidgets('renders a Dialog', (tester) async {

@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
@@ -30,7 +29,7 @@ void main() {
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(SignInLayoutBuilder), findsOneWidget);
-      
+
       expect(find.byType(SignInHeader), findsOneWidget);
       expect(find.byType(SignInError), findsOneWidget);
       expect(find.byType(SignInEmailTextField), findsOneWidget);

@@ -12,7 +12,7 @@ class User extends Equatable {
 
   /// The users id
   final String id;
-  
+
   /// The users emails address
   final String? email;
 

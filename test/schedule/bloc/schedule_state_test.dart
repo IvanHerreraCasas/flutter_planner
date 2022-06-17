@@ -31,11 +31,12 @@ void main() {
 
       test('retains the old value for every parameter if null is provided', () {
         expect(
-            createSubject().copyWith(
-              routines: null,
-              selectedRoutine: null,
-            ),
-            equals(createSubject()));
+          createSubject().copyWith(
+            routines: null,
+            selectedRoutine: null,
+          ),
+          equals(createSubject()),
+        );
       });
 
       test('replaces every non-null parameter', () {

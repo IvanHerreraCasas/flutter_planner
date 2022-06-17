@@ -45,14 +45,15 @@ void main() {
 
       test('retains the old value for every parameter if null is provided', () {
         expect(
-            createSubject().copyWith(
-              status: null,
-              email: null,
-              password: null,
-              passwordVisibility: null,
-              errorMessage: null,
-            ),
-            equals(createSubject()));
+          createSubject().copyWith(
+            status: null,
+            email: null,
+            password: null,
+            passwordVisibility: null,
+            errorMessage: null,
+          ),
+          equals(createSubject()),
+        );
       });
 
       test('replaces every non-null parameter', () {

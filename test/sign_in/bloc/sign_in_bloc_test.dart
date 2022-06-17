@@ -127,7 +127,7 @@ void main() {
             status: SignInStatus.failure,
             email: 'email@example.com',
             password: 'password',
-            errorMessage: 'Exception: oops'
+            errorMessage: 'Exception: oops',
           ),
         ],
       );

@@ -21,8 +21,6 @@ void main() {
       );
     }
 
-    
-
     testWidgets('renders correct text', (tester) async {
       await tester.pumpApp(buildSubject());
 

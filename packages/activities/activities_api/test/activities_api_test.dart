@@ -9,6 +9,7 @@ class TestActivitiesApi extends ActivitiesApi {
     return super.noSuchMethod(invocation);
   }
 }
+
 void main() {
   group('ActivitiesApi', () {
     group('Constructor', () {

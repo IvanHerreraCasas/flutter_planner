@@ -38,7 +38,7 @@ void main() {
       when(() => signUpBloc.state).thenReturn(
         const SignUpState(
           status: SignUpStatus.failure,
-          errorMessage: errorMessage
+          errorMessage: errorMessage,
         ),
       );
       await tester.pumpApp(buildSubject());

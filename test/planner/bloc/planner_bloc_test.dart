@@ -181,9 +181,5 @@ void main() {
         ],
       );
     });
-
-    group('PlannerAddRoutines', () {
-      // TODO(ivan): Add PlannerAddRoutines test.
-    });
   });
 }

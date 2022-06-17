@@ -182,8 +182,7 @@ void main() {
           endTime.minute,
         );
 
-        verify(() => routineBloc.add(RoutineEndTimeChanged(newTime)))
-            .called(1);
+        verify(() => routineBloc.add(RoutineEndTimeChanged(newTime))).called(1);
       });
 
       testWidgets(
@@ -225,8 +224,7 @@ void main() {
           newMinute,
         );
 
-        verify(() => routineBloc.add(RoutineEndTimeChanged(newTime)))
-            .called(1);
+        verify(() => routineBloc.add(RoutineEndTimeChanged(newTime))).called(1);
       });
     });
   });

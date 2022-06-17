@@ -67,6 +67,5 @@ void main() {
       expect(find.byType(DynamicTimeline), findsOneWidget);
       expect(find.byType(RoutineCard), findsNWidgets(3));
     });
-
   });
 }

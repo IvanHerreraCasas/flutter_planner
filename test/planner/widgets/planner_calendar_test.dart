@@ -55,9 +55,11 @@ void main() {
 
     group('FormatButton', () {
       testWidgets('is rendered when size is not large', (tester) async {
-        await tester.pumpApp(buildSubject(
-          currentSize: PlannerSize.small,
-        ));
+        await tester.pumpApp(
+          buildSubject(
+            currentSize: PlannerSize.small,
+          ),
+        );
 
         expect(find.text('2 weeks'), findsOneWidget);
       });

@@ -57,7 +57,6 @@ class SupabaseAuthenticationApi extends AuthenticationApi {
       password: password,
     );
 
-
     if (res.error != null) {
       throw AuthenticationFailure(message: res.error!.message);
     } else {

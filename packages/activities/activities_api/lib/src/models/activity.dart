@@ -67,7 +67,7 @@ class Activity extends Equatable {
   final List<String> links;
 
   /// If type is 2: routine, this is their routine id associated
-  /// 
+  ///
   /// Otherwise it will be null
   final int? routineID;
 

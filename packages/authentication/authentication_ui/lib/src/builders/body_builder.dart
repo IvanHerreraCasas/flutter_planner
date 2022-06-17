@@ -130,7 +130,7 @@ class EmailTextField extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        labelText: labelText, 
+        labelText: labelText,
       ),
       onChanged: onChanged,
     );

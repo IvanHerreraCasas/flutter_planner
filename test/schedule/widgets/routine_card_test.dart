@@ -67,9 +67,11 @@ void main() {
           'goes to /home/schedule/routine '
           'and send the routine as extra '
           'when size is small', (tester) async {
-        await tester.pumpApp(buildSubject(
-          currentSize: ScheduleSize.small,
-        ));
+        await tester.pumpApp(
+          buildSubject(
+            currentSize: ScheduleSize.small,
+          ),
+        );
 
         await tester.tap(find.text('name'));
 

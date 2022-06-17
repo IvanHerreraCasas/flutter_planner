@@ -1,10 +1,11 @@
 /// The differents status of the authentication.
-enum AuthenticationStatus { 
+enum AuthenticationStatus {
   /// Unknown status
-  unknown, 
+  unknown,
+
   /// Authenticated status
-  authenticated, 
+  authenticated,
+
   /// Unauthenticated status
   unauthenticated
-  
-  }
+}

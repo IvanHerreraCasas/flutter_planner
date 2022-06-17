@@ -93,11 +93,12 @@ void main() {
           ),
           equals(
             createSubject(
-                status: RoutineStatus.loading,
-                initialRoutine: altInitialRoutine,
-                day: altDay,
-                startTime: altStartTime,
-                endTime: altEndTime),
+              status: RoutineStatus.loading,
+              initialRoutine: altInitialRoutine,
+              day: altDay,
+              startTime: altStartTime,
+              endTime: altEndTime,
+            ),
           ),
         );
       });

@@ -84,13 +84,15 @@ void main() {
           endTime: DateTime(2022, 5, 22, 10, 0),
         );
         expect(
-          createSubject().copyWith(
-            selectedDay: DateTime.utc(2022, 5, 22),
-            focusedDay: DateTime.utc(2022, 5, 22),
-            activities: [activity],
-            calendarFormat: CalendarFormat.week,
-            size: PlannerSize.medium,
-          ).props,
+          createSubject()
+              .copyWith(
+                selectedDay: DateTime.utc(2022, 5, 22),
+                focusedDay: DateTime.utc(2022, 5, 22),
+                activities: [activity],
+                calendarFormat: CalendarFormat.week,
+                size: PlannerSize.medium,
+              )
+              .props,
           equals(<Object?>[
             DateTime.utc(2022, 5, 22),
             DateTime.utc(2022, 5, 22),

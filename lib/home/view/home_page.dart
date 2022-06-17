@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
-import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/routine/routine.dart';
 import 'package:go_router/go_router.dart';
