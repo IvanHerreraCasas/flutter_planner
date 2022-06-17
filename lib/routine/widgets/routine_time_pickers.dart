@@ -19,6 +19,7 @@ class RoutineTimePickers extends StatelessWidget {
     return Column(
       children: [
         DropdownTimePicker(
+          key: const Key('start time picker'),
           time: startTime,
           onChanged: (value) => context.read<RoutineBloc>().add(
                 RoutineStartTimeChanged(value),
@@ -39,6 +40,7 @@ class RoutineTimePickers extends StatelessWidget {
           },
         ),
         DropdownTimePicker(
+          key: const Key('end time picker'),
           time: endTime,
           onChanged: (value) => context.read<RoutineBloc>().add(
                 RoutineEndTimeChanged(value),
