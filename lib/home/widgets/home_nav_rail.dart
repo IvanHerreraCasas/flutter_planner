@@ -45,10 +45,6 @@ class HomeNavRail extends StatelessWidget {
           icon: Icon(Icons.schedule),
           label: Text('Schedule'),
         ),
-        NavigationRailDestination(
-          icon: Icon(Icons.checklist),
-          label: Text('Projects'),
-        ),
       ],
       selectedIndex: selectedIndex,
     );

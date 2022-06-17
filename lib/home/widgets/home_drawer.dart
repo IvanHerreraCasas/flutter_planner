@@ -33,13 +33,6 @@ class HomeDrawer extends StatelessWidget {
               context.go('/home/schedule');
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.checklist),
-            title: const Text('Projects'),
-            onTap: () {
-              context.pop();
-            },
-          ),
         ],
       ),
     );
