@@ -22,7 +22,7 @@ class ActivityCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return GestureDetector(
-      onTap: () => currentSize != PlannerSize.small
+      onTap: () => currentSize == PlannerSize.large
           ? showDialog<Object>(
               context: context,
               builder: (context) => ActivityPage.dialog(activity: activity),

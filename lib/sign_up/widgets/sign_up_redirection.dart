@@ -15,7 +15,7 @@ class SignUpRedirection extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText2,
           ),
           TextSpan(
-            text: 'Register',
+            text: 'Login',
             style: const TextStyle(
               color: Colors.blue,
             ),

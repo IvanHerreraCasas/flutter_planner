@@ -18,9 +18,14 @@ class PlannerHeader extends StatelessWidget {
     required PlannerSize currentSize,
     required BuildContext context,
   }) {
+    final currentDate = DateTime.now();
     final newActivity = Activity(
       userID: context.read<AuthenticationRepository>().user!.id,
-      date: DateTime.now(),
+      date: DateTime(
+        currentDate.year,
+        currentDate.month,
+        currentDate.day,
+      ),
       startTime: DateTime(1970, 1, 1, 7),
       endTime: DateTime(1970, 1, 1, 8),
     );

@@ -58,7 +58,7 @@ class _PlannerActivitiesState extends State<PlannerActivities> {
               resizable: false,
               maxCrossAxisItemExtent: itemWidth,
               intervalExtent: intervalExtent,
-              children: activities
+              items: activities
                   .map(
                     (activity) => TimelineItem(
                       key: ValueKey(activity),

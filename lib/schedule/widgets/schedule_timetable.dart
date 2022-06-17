@@ -40,7 +40,7 @@ class _ScheduleTimetableState extends State<ScheduleTimetable> {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Scrollbar(
-        isAlwaysShown: true,
+        thumbVisibility: true,
         controller: horizontalController,
         child: Scrollbar(
           controller: verticalController,
@@ -73,7 +73,8 @@ class _ScheduleTimetableState extends State<ScheduleTimetable> {
                         intervalDuration: const Duration(hours: 1),
                         crossAxisCount: 7,
                         intervalExtent: 50,
-                        children: routines
+                        minItemDuration: const Duration(minutes: 30),
+                        items: routines
                             .map(
                               (routine) => TimelineItem(
                                 key: ValueKey(routine),

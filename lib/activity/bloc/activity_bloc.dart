@@ -62,8 +62,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     ActivityDeleted event,
     Emitter<ActivityState> emit,
   ) async {
-    emit(state.copyWith(status: ActivityStatus.loading));
     if (state.initialActivity.id != null) {
+      emit(state.copyWith(status: ActivityStatus.loading));
       try {
         await _activitiesRepository.deleteActivity(state.initialActivity.id!);
         emit(state.copyWith(status: ActivityStatus.success));

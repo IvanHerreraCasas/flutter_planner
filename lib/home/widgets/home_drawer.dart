@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({
-    Key? key,
-    required this.onDestinationSelected,
-  }) : super(key: key);
-
-  final void Function(int index) onDestinationSelected;
+  const HomeDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,24 +15,22 @@ class HomeDrawer extends StatelessWidget {
             leading: const Icon(Icons.calendar_today),
             title: const Text('Planner'),
             onTap: () {
-              Navigator.pop(context);
-              onDestinationSelected(0);
+              context.pop();
+              context
+                  .read<AppBloc>()
+                  .add(const AppRouteChanged('/home/planner'));
+              context.go('/home/planner');
             },
           ),
           ListTile(
             leading: const Icon(Icons.schedule),
             title: const Text('Schedule'),
             onTap: () {
-              Navigator.pop(context);
-              onDestinationSelected(1);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.checklist),
-            title: const Text('Projects'),
-            onTap: () {
-              Navigator.pop(context);
-              onDestinationSelected(2);
+              context.pop();
+              context
+                  .read<AppBloc>()
+                  .add(const AppRouteChanged('/home/schedule'));
+              context.go('/home/schedule');
             },
           ),
         ],

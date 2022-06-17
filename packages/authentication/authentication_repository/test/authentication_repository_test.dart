@@ -87,7 +87,6 @@ void main() {
 
     group('signIn', () {
       test('makes correct api request', () {
-
         expect(
           createSubject().signIn(email: fakeEmail, password: fakePassword),
           completes,
