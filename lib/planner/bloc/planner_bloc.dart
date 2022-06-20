@@ -1,6 +1,7 @@
 import 'package:activities_api/activities_api.dart';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:routines_api/routines_api.dart';
@@ -17,7 +18,10 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
   })  : _activitiesRepository = activitiesRepository,
         _routinesRepository = routinesRepository,
         super(PlannerState()) {
-    on<PlannerSubscriptionRequested>(_onSubscriptionRequested);
+    on<PlannerSubscriptionRequested>(
+      _onSubscriptionRequested,
+      transformer: restartable(),
+    );
     on<PlannerActivitiesUpdated>(_onActivitiesUpdated);
     on<PlannerSelectedDayChanged>(_onSelectedDayChanged);
     on<PlannerFocusedDayChanged>(_onFocusedDayChanged);
