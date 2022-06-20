@@ -26,7 +26,7 @@ class PlannerPage extends StatelessWidget {
       create: (context) => PlannerBloc(
         activitiesRepository: context.read<ActivitiesRepository>(),
         routinesRepository: context.read<RoutinesRepository>(),
-      )..add(const PlannerActivitiesUpdated()),
+      )..add(const PlannerSubscriptionRequested()),
       child: BlocListener<PlannerBloc, PlannerState>(
         listenWhen: (previous, current) => previous.size != current.size,
         listener: (context, state) {
