@@ -39,6 +39,9 @@ void main() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
 
+      when(() => activitiesRepository.streamActivities(date: date)).thenAnswer(
+        (_) => const Stream.empty(),
+      );
       when(() => activitiesRepository.dispose())
           .thenAnswer((invocation) async {});
     });
@@ -96,41 +99,6 @@ void main() {
           PlannerState(
             selectedDay: date,
             focusedDay: date,
-            activities: mockActivities,
-          ),
-        ],
-      );
-    });
-
-    group('PlannerActivitiesUpdated', () {
-      blocTest<PlannerBloc, PlannerState>(
-        'fetch activities from repository',
-        setUp: () {
-          when(() => activitiesRepository.fetchActivities(date: date))
-              .thenAnswer((_) => Future.value(mockActivities));
-        },
-        build: buildBloc,
-        seed: () => PlannerState(selectedDay: date),
-        act: (bloc) => bloc.add(const PlannerActivitiesUpdated()),
-        verify: (bloc) {
-          verify(() => activitiesRepository.fetchActivities(date: date))
-              .called(1);
-        },
-      );
-
-      blocTest<PlannerBloc, PlannerState>(
-        'emits state with updated activities '
-        'when repository fetch activities return new activities with success',
-        setUp: () {
-          when(() => activitiesRepository.fetchActivities(date: date))
-              .thenAnswer((_) => Future.value(mockActivities));
-        },
-        build: buildBloc,
-        seed: () => PlannerState(selectedDay: date),
-        act: (bloc) => bloc.add(const PlannerActivitiesUpdated()),
-        expect: () => <PlannerState>[
-          PlannerState(
-            selectedDay: date,
             activities: mockActivities,
           ),
         ],
