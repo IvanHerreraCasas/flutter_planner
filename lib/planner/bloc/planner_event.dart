@@ -11,13 +11,6 @@ class PlannerSubscriptionRequested extends PlannerEvent {
   const PlannerSubscriptionRequested();
 }
 
-/// Used instead of subcription requested.
-///
-/// Issue with the stream: https://github.com/supabase-community/supabase-flutter/issues/99
-class PlannerActivitiesUpdated extends PlannerEvent {
-  const PlannerActivitiesUpdated();
-}
-
 class PlannerSelectedDayChanged extends PlannerEvent {
   const PlannerSelectedDayChanged(this.selectedDay);
 

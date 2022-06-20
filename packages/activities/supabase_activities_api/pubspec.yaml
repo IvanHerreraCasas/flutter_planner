@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
+  rxdart: ^0.27.4
   supabase_flutter: ^0.3.0
 
 dev_dependencies:

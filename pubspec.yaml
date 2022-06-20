@@ -18,6 +18,7 @@ dependencies:
   authentication_ui:
     path: packages/authentication/authentication_ui 
   bloc: ^8.0.3
+  bloc_concurrency: ^0.2.0
   dropdown_button2: ^1.4.0
   dynamic_timeline: ^0.1.1
   equatable: ^2.0.3

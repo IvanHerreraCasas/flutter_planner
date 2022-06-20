@@ -1,6 +1,7 @@
 import 'package:activities_api/activities_api.dart';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:routines_api/routines_api.dart';
@@ -17,8 +18,10 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
   })  : _activitiesRepository = activitiesRepository,
         _routinesRepository = routinesRepository,
         super(PlannerState()) {
-    on<PlannerSubscriptionRequested>(_onSubscriptionRequested);
-    on<PlannerActivitiesUpdated>(_onActivitiesUpdated);
+    on<PlannerSubscriptionRequested>(
+      _onSubscriptionRequested,
+      transformer: restartable(),
+    );
     on<PlannerSelectedDayChanged>(_onSelectedDayChanged);
     on<PlannerFocusedDayChanged>(_onFocusedDayChanged);
     on<PlannerCalendarFormatChanged>(_onCalendarFormatChanged);
@@ -45,27 +48,12 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     );
   }
 
-  Future<void> _onActivitiesUpdated(
-    PlannerActivitiesUpdated event,
-    Emitter<PlannerState> emit,
-  ) async {
-    try {
-      final activities = await _activitiesRepository.fetchActivities(
-        date: state.selectedDay,
-      );
-
-      emit(state.copyWith(activities: activities));
-    } catch (e) {
-      addError(e);
-    }
-  }
-
   void _onSelectedDayChanged(
     PlannerSelectedDayChanged event,
     Emitter<PlannerState> emit,
   ) {
     emit(state.copyWith(selectedDay: event.selectedDay));
-    add(const PlannerActivitiesUpdated());
+    add(const PlannerSubscriptionRequested());
   }
 
   void _onFocusedDayChanged(
@@ -127,7 +115,6 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
 
       try {
         await _activitiesRepository.insertActivities(newActivities);
-        add(const PlannerActivitiesUpdated());
       } catch (e) {
         addError(e);
       }

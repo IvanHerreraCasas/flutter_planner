@@ -20,17 +20,6 @@ void main() {
       });
     });
 
-    group('PlannerActivitiesUpdated', () {
-      final event = PlannerActivitiesUpdated();
-      test('supports value equality', () {
-        expect(event, equals(event));
-      });
-
-      test('supports value equality', () {
-        expect(event.props, equals(<Object?>[]));
-      });
-    });
-
     group('PlannerSelectedDayChanged', () {
       final selectedDay = DateTime.utc(2022, 5, 25);
       final event = PlannerSelectedDayChanged(selectedDay);

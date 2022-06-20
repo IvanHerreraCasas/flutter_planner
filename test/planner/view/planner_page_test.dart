@@ -20,7 +20,18 @@ void main() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
 
+      final currentDateTime = DateTime.now();
+      final utcTodayDate = DateTime.utc(
+        currentDateTime.year,
+        currentDateTime.month,
+        currentDateTime.day,
+      );
+
       when(() => plannerBloc.state).thenReturn(PlannerState());
+      when(() => activitiesRepository.streamActivities(date: utcTodayDate))
+          .thenAnswer(
+        (_) => const Stream.empty(),
+      );
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
     });

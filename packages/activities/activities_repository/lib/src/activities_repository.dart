@@ -17,7 +17,7 @@ class ActivitiesRepository {
 
   /// Provides a [Stream] of activities from a [date]
   Stream<List<Activity>> streamActivities({required DateTime date}) =>
-      _activitiesApi.streamActivities(date: date);
+      _activitiesApi.streamActivities(date: date).asBroadcastStream();
 
   /// Saves an [activity]
   ///
