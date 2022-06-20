@@ -59,6 +59,13 @@ void main() {
       appBloc = MockAppBloc();
       authenticationBloc = MockAuthenticationBloc();
 
+      final currentDateTime = DateTime.now();
+      final utcTodayDate = DateTime.utc(
+        currentDateTime.year,
+        currentDateTime.month,
+        currentDateTime.day,
+      );
+
       when(() => authenticationRepository.status)
           .thenAnswer((_) => const Stream.empty());
 
@@ -67,6 +74,8 @@ void main() {
       when(() => appBloc.state).thenReturn(const AppState());
 
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
+      when(() => activitiesRepository.streamActivities(date: utcTodayDate))
+          .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
