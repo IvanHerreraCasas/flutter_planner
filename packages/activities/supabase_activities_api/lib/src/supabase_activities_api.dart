@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:activities_api/activities_api.dart';
 import 'package:intl/intl.dart';
+import 'package:supabase_activities_api/src/activities_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// {@template supabase_activities_api}
@@ -15,56 +16,77 @@ class SupabaseActivitiesApi extends ActivitiesApi {
 
   final SupabaseClient _supabaseClient;
 
-  @override
-  Future<List<Activity>> fetchActivities({required DateTime date}) async {
+  final _activitiesController = ActivitiesController();
+  DateTime? _date;
+
+  Future<void> _updateData({required DateTime date}) async {
     final res = await _supabaseClient
         .from('activities')
         .select()
         .eq('date', DateFormat('MM/dd/yyyy').format(date))
         .execute();
-    if (res.hasError) {
-      throw Exception(res.error);
-    }
-    return (res.data as List)
+
+    if (res.hasError) throw Exception(res.error);
+
+    final activities = (res.data as List)
         .cast<Map<String, dynamic>>()
         .map(Activity.fromJson)
         .toList();
+
+    _date = date;
+    _activitiesController.update(activities);
   }
 
   @override
-  Stream<List<Activity>> streamActivities({required DateTime date}) {
-    final res = _supabaseClient
-        .from('activities:date=eq.${DateFormat('MM/dd/yyyy').format(date)}')
-        .stream(['id']).execute();
+  Future<List<Activity>> fetchActivities({required DateTime date}) async {
+    if (_date != date) {
+      await _updateData(date: date);
+    }
 
-    return res.map((activities) => activities.map(Activity.fromJson).toList());
+    return _activitiesController.activities;
+  }
+
+  @override
+  Stream<List<Activity>> streamActivities({required DateTime date}) async* {
+    if (_date != date) {
+      await _updateData(date: date);
+    }
+
+    yield* _activitiesController.stream;
   }
 
   @override
   Future<Activity> saveActivity(Activity activity) async {
+    late Activity _activity;
     if (activity.id == null) {
       final res = await _supabaseClient.from('activities').insert(
         [activity.toJson()..remove('id')],
       ).execute();
-      if (res.hasError) {
-        throw Exception(res.error);
-      }
-      return Activity.fromJson(
+
+      if (res.hasError) throw Exception(res.error);
+
+      _activity = Activity.fromJson(
         (res.data as List).cast<Map<String, dynamic>>().first,
       );
+
+      _activitiesController.addActivity(_activity);
     } else {
       final res = await _supabaseClient
           .from('activities')
           .update(activity.toJson())
           .eq('id', activity.id)
           .execute();
-      if (res.hasError) {
-        throw Exception(res.error);
-      }
-      return Activity.fromJson(
+
+      if (res.hasError) throw Exception(res.error);
+
+      _activity = Activity.fromJson(
         (res.data as List).cast<Map<String, dynamic>>().first,
       );
+
+      _activitiesController.updateActivity(_activity);
     }
+
+    return _activity;
   }
 
   @override
@@ -78,9 +100,14 @@ class SupabaseActivitiesApi extends ActivitiesApi {
         )
         .execute();
 
-    if (res.hasError) {
-      throw Exception(res.error);
-    }
+    if (res.hasError) throw Exception(res.error);
+
+    _activitiesController.addActivities(
+      (res.data as List)
+          .cast<Map<String, dynamic>>()
+          .map(Activity.fromJson)
+          .toList(),
+    );
   }
 
   @override
@@ -91,9 +118,9 @@ class SupabaseActivitiesApi extends ActivitiesApi {
         .eq('id', id)
         .execute();
 
-    if (res.hasError) {
-      throw Exception(res.error);
-    }
+    if (res.hasError) throw Exception(res.error);
+
+    _activitiesController.delete(id);
   }
 
   @override
