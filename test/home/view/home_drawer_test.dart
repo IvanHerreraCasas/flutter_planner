@@ -5,6 +5,7 @@ import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockingjay/mockingjay.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
@@ -14,21 +15,26 @@ class MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
 void main() {
   group('HomeDrawer', () {
     late GoRouter goRouter;
+    late MockNavigator navigator;
     late AppBloc appBloc;
 
     setUp(() {
+      navigator = MockNavigator();
       goRouter = MockGoRouter();
       appBloc = MockAppBloc();
     });
 
     Widget buildSubject() {
-      return InheritedGoRouter(
-        goRouter: goRouter,
-        child: BlocProvider.value(
-          value: appBloc,
-          child: Scaffold(
-            appBar: AppBar(),
-            drawer: const HomeDrawer(),
+      return MockNavigatorProvider(
+        navigator: navigator,
+        child: InheritedGoRouter(
+          goRouter: goRouter,
+          child: BlocProvider.value(
+            value: appBloc,
+            child: Scaffold(
+              appBar: AppBar(),
+              drawer: const HomeDrawer(),
+            ),
           ),
         ),
       );
@@ -65,7 +71,7 @@ void main() {
 
       await tester.tap(find.widgetWithText(ListTile, 'Planner'));
 
-      verify(() => goRouter.pop()).called(1);
+      verify(() => navigator.pop()).called(1);
       verify(() => goRouter.go('/home/planner')).called(1);
     });
 
@@ -80,7 +86,7 @@ void main() {
 
       await tester.tap(find.widgetWithText(ListTile, 'Schedule'));
 
-      verify(() => goRouter.pop()).called(1);
+      verify(() => navigator.pop()).called(1);
       verify(() => goRouter.go('/home/schedule')).called(1);
     });
   });

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockingjay/mockingjay.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
@@ -17,6 +18,7 @@ class MockGoRouter extends Mock implements GoRouter {}
 void main() {
   late ActivityBloc activityBloc;
   late GoRouter goRouter;
+  late MockNavigator navigator;
 
   final mockActivity = Activity(
     userID: 'user_id',
@@ -38,17 +40,25 @@ void main() {
   setUp(() {
     activityBloc = MockActivityBloc();
     goRouter = MockGoRouter();
+    navigator = MockNavigator();
 
     when(() => activityBloc.state).thenReturn(mockActivityState);
   });
 
   group('ActivityPage', () {
-    Widget buildSubject() {
-      return InheritedGoRouter(
-        goRouter: goRouter,
-        child: BlocProvider(
-          create: (context) => activityBloc,
-          child: const ActivityPage(),
+    Widget buildSubject({
+      bool isDialog = false,
+    }) {
+      return MockNavigatorProvider(
+        navigator: navigator,
+        child: InheritedGoRouter(
+          goRouter: goRouter,
+          child: BlocProvider(
+            create: (context) => activityBloc,
+            child: ActivityPage(
+              isDialog: isDialog,
+            ),
+          ),
         ),
       );
     }
@@ -91,25 +101,50 @@ void main() {
         expect(find.byType(CircularProgressIndicator), findsOneWidget);
       });
 
-      testWidgets('hide indicator and pop when status change to success',
-          (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
+      group('when status changes to success', () {
+        testWidgets(
+            'hide indicator and pops using goRouter '
+            'when is not a dialog', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
 
-        whenListen(
-          activityBloc,
-          Stream.fromIterable([
-            mockActivityState.copyWith(status: ActivityStatus.loading),
-            mockActivityState.copyWith(status: ActivityStatus.success),
-          ]),
-        );
+          whenListen(
+            activityBloc,
+            Stream.fromIterable([
+              mockActivityState.copyWith(status: ActivityStatus.loading),
+              mockActivityState.copyWith(status: ActivityStatus.success),
+            ]),
+          );
 
-        await tester.pumpApp(buildSubject());
+          await tester.pumpApp(buildSubject());
 
-        await tester.pump();
+          await tester.pump();
 
-        expect(find.byType(CircularProgressIndicator), findsNothing);
+          expect(find.byType(CircularProgressIndicator), findsNothing);
 
-        verify(() => goRouter.pop()).called(1);
+          verify(() => goRouter.pop()).called(1);
+        });
+
+        testWidgets(
+            'hide indicator and pops using navigator '
+            'when is a dialog', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+
+          whenListen(
+            activityBloc,
+            Stream.fromIterable([
+              mockActivityState.copyWith(status: ActivityStatus.loading),
+              mockActivityState.copyWith(status: ActivityStatus.success),
+            ]),
+          );
+
+          await tester.pumpApp(buildSubject(isDialog: true));
+
+          await tester.pump();
+
+          expect(find.byType(CircularProgressIndicator), findsNothing);
+
+          verify(() => navigator.pop()).called(1);
+        });
       });
 
       testWidgets('hide indicator when status change to failure',

@@ -15,7 +15,7 @@ class HomeDrawer extends StatelessWidget {
             leading: const Icon(Icons.calendar_today),
             title: const Text('Planner'),
             onTap: () {
-              context.pop();
+              Navigator.pop(context);
               context
                   .read<AppBloc>()
                   .add(const AppRouteChanged('/home/planner'));
@@ -26,7 +26,7 @@ class HomeDrawer extends StatelessWidget {
             leading: const Icon(Icons.schedule),
             title: const Text('Schedule'),
             onTap: () {
-              context.pop();
+              Navigator.pop(context);
               context
                   .read<AppBloc>()
                   .add(const AppRouteChanged('/home/schedule'));

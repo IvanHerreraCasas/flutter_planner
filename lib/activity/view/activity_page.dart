@@ -62,7 +62,11 @@ class ActivityPage extends StatelessWidget {
               break;
             case ActivityStatus.success:
               context.loaderOverlay.hide();
-              context.pop();
+              if (isDialog) {
+                Navigator.pop(context);
+              } else {
+                context.pop();
+              }
               break;
             case ActivityStatus.failure:
               context.loaderOverlay.hide();

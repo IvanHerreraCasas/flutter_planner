@@ -23,7 +23,9 @@ class RoutinePage extends StatelessWidget {
           routinesRepository: context.read<RoutinesRepository>(),
           initialRoutine: state.extra! as Routine,
         ),
-        child: const RoutinePage(),
+        child: const RoutinePage(
+          isPage: true,
+        ),
       ),
     );
   }
