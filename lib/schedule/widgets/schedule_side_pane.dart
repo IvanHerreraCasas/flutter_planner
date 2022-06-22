@@ -33,13 +33,12 @@ class ScheduleSidePane extends StatelessWidget {
             ),
             Expanded(
               child: BlocProvider(
+                key: ValueKey<Routine?>(selectedRoutine),
                 create: (context) => RoutineBloc(
                   routinesRepository: context.read<RoutinesRepository>(),
                   initialRoutine: selectedRoutine,
                 ),
-                child: RoutinePage(
-                  key: ValueKey<Routine?>(selectedRoutine),
-                ),
+                child: const RoutinePage(),
               ),
             )
           ],

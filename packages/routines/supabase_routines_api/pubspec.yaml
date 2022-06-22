@@ -12,7 +12,7 @@ dependencies:
   intl: ^0.17.0
   routines_api:
     path: ../routines_api
-  supabase_flutter: ^0.3.0
+  supabase_flutter: ^0.3.1+3
 
 dev_dependencies:
   coverage: ^1.1.0

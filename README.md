@@ -66,7 +66,10 @@ A Flutter application to plan personal activities and routines that uses [Supaba
 SUPABASE_URL=<YOUR_URL>
 SUPABASE_ANON_KEY=<YOUR_KEY>
 ```
-3. Run the desired flavor (for the moment all are the same).
+
+### Running the project⚡
+
+Run the desired flavor (for the moment all are the same).
 ```sh
 # Development
 $ flutter run --flavor development --target lib/main_development.dart
@@ -78,7 +81,15 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
-_\*Flutter Planner works on iOS, Android, Web, and Windows._
+### Running Tests 🧑‍🔬
+
+To run all unit and widget tests use the following command:
+
+```sh
+flutter test --coverage --test-randomize-ordering-seed random
+```
+
+_\*Flutter Planner works on iOS, Android, and Windows._
 
 ---
 
@@ -95,7 +106,6 @@ _\*Flutter Planner works on iOS, Android, Web, and Windows._
 
 This application is been developed in my free time for personal use, some future features that will be added are
 
-- 100% test coverage. (See the progress [here](https://github.com/IvanHerreraCasas/flutter_planner/tree/wip/add-tests))
 - Settings page for custom theme and user configuration.
 - Projects or tasks page.
   
