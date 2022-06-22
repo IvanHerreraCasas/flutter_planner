@@ -9,7 +9,7 @@ environment:
 dependencies:
   authentication_api:
     path: ../authentication_api
-  supabase: ^0.3.0
+  supabase_flutter: ^0.3.1+3
 
 dev_dependencies:
   coverage: ^1.1.0

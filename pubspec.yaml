@@ -19,7 +19,7 @@ dependencies:
     path: packages/authentication/authentication_ui 
   bloc: ^8.0.3
   bloc_concurrency: ^0.2.0
-  dropdown_button2: ^1.4.0
+  dropdown_button2: ^1.6.2
   dynamic_timeline: ^0.1.1
   equatable: ^2.0.3
   flex_color_scheme: ^5.0.0
@@ -29,7 +29,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutter_localizations:
     sdk: flutter
-  go_router: ^3.0.7
+  go_router: ^4.0.0
   google_fonts: ^2.3.1
   hydrated_bloc: ^8.1.0
   intl: ^0.17.0   
@@ -44,7 +44,7 @@ dependencies:
     path: packages/activities/supabase_activities_api
   supabase_authentication_api:
     path: packages/authentication/supabase_authentication_api
-  supabase_flutter: ^0.3.0 
+  supabase_flutter: ^0.3.1+3
   supabase_routines_api:
     path: packages/routines/supabase_routines_api
   table_calendar: ^3.0.5

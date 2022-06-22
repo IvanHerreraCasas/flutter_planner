@@ -102,6 +102,7 @@ class AppView extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
+      routeInformationProvider: _router.routeInformationProvider,
       routeInformationParser: _router.routeInformationParser,
       routerDelegate: _router.routerDelegate,
       builder: (context, child) {
