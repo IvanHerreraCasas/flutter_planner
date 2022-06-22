@@ -95,7 +95,6 @@ _\*Flutter Planner works on iOS, Android, Web, and Windows._
 
 This application is been developed in my free time for personal use, some future features that will be added are
 
-- 100% test coverage. (See the progress [here](https://github.com/IvanHerreraCasas/flutter_planner/tree/wip/add-tests))
 - Settings page for custom theme and user configuration.
 - Projects or tasks page.
   
