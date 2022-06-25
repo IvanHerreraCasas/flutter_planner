@@ -12,7 +12,13 @@ class AuthenticationBloc
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
   })  : _authenticationRepository = authenticationRepository,
-        super(const AuthenticationState.unknown()) {
+        super(
+          authenticationRepository.user == null
+              ? const AuthenticationState.unknown()
+              : AuthenticationState.authenticated(
+                  authenticationRepository.user!,
+                ),
+        ) {
     on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationSignoutRequested>(_onAuthenticationSignoutRequested);
 
