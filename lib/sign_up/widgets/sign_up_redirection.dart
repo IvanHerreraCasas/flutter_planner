@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpRedirection extends StatelessWidget {
@@ -20,7 +21,7 @@ class SignUpRedirection extends StatelessWidget {
               color: Colors.blue,
             ),
             recognizer: TapGestureRecognizer()
-              ..onTap = () => context.go('/sign-in'),
+              ..onTap = () => context.goNamed(AppRoutes.signIn.name),
           )
         ],
       ),
