@@ -4,8 +4,6 @@ import 'package:flutter_planner/routine/routine.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:routines_api/routines_api.dart';
-import 'package:routines_repository/routines_repository.dart';
 
 class RoutinePage extends StatelessWidget {
   const RoutinePage({
@@ -14,21 +12,6 @@ class RoutinePage extends StatelessWidget {
   }) : super(key: key);
 
   final bool isPage;
-
-  static GoRoute route() {
-    return GoRoute(
-      path: 'routine',
-      builder: (context, state) => BlocProvider(
-        create: (context) => RoutineBloc(
-          routinesRepository: context.read<RoutinesRepository>(),
-          initialRoutine: state.extra! as Routine,
-        ),
-        child: const RoutinePage(
-          isPage: true,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
