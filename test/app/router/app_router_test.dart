@@ -16,7 +16,7 @@ import '../../helpers/helpers.dart';
 import '../app_mocks.dart';
 
 void main() {
-    group('AppRouter', () {
+  group('AppRouter', () {
     late AuthenticationBloc authenticationBloc;
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
@@ -177,5 +177,4 @@ void main() {
       });
     });
   });
-  
 }

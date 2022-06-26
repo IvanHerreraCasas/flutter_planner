@@ -64,7 +64,8 @@ void main() {
 
         await tester.tap(find.text('Planner'));
 
-        verify(() =>  goRouter.goNamed(
+        verify(
+          () => goRouter.goNamed(
             AppRoutes.home,
             params: {'page': 'planner'},
           ),
@@ -98,7 +99,8 @@ void main() {
 
         await tester.tap(find.text('Schedule'));
 
-        verify(() =>  goRouter.goNamed(
+        verify(
+          () => goRouter.goNamed(
             AppRoutes.home,
             params: {'page': 'schedule'},
           ),

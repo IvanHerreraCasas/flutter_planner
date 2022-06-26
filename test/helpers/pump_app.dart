@@ -79,7 +79,7 @@ extension PumpApp on WidgetTester {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
-          supportedLocales: AppLocalizations.supportedLocales, 
+          supportedLocales: AppLocalizations.supportedLocales,
           routeInformationProvider: router.routeInformationProvider,
           routeInformationParser: router.routeInformationParser,
           routerDelegate: router.routerDelegate,
@@ -87,5 +87,4 @@ extension PumpApp on WidgetTester {
       ),
     );
   }
-
 }
