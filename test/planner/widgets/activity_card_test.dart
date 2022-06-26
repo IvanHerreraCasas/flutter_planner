@@ -1,6 +1,7 @@
 import 'package:activities_api/activities_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_planner/activity/view/activity_page.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -79,7 +80,7 @@ void main() {
         expect(activityPage.isDialog, equals(true));
       });
 
-      testWidgets('goes to /home/planner/activity', (tester) async {
+      testWidgets('goes to activityPage', (tester) async {
         await tester.pumpApp(
           buildSubject(currentSize: PlannerSize.small),
         );
@@ -87,7 +88,11 @@ void main() {
         await tester.tap(find.text('name'));
 
         verify(
-          () => goRouter.go('/home/planner/activity', extra: mockActivity),
+          () => goRouter.goNamed(
+            AppRoutes.activity,
+            params: {'page': 'planner'},
+            extra: mockActivity,
+          ),
         ).called(1);
       });
     });

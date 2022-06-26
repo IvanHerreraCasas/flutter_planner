@@ -1,24 +1,12 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_planner/planner/planner.dart';
-import 'package:go_router/go_router.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class PlannerPage extends StatelessWidget {
   const PlannerPage({Key? key}) : super(key: key);
-
-  static GoRoute route() {
-    return GoRoute(
-      path: '/planner',
-      builder: (context, state) => const PlannerPage(),
-      routes: [
-        ActivityPage.route(),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

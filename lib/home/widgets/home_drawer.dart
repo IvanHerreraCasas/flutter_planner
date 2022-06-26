@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -19,7 +20,10 @@ class HomeDrawer extends StatelessWidget {
               context
                   .read<AppBloc>()
                   .add(const AppRouteChanged('/home/planner'));
-              context.go('/home/planner');
+              context.goNamed(
+                AppRoutes.home,
+                params: {'page': 'planner'},
+              );
             },
           ),
           ListTile(
@@ -30,7 +34,10 @@ class HomeDrawer extends StatelessWidget {
               context
                   .read<AppBloc>()
                   .add(const AppRouteChanged('/home/schedule'));
-              context.go('/home/schedule');
+              context.goNamed(
+                AppRoutes.home,
+                params: {'page': 'schedule'},
+              );
             },
           ),
         ],

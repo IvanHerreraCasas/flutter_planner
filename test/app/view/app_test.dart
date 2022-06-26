@@ -13,12 +13,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
 
 import '../../helpers/helpers.dart';
+import '../app_mocks.dart';
 
 class MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
-
-class MockAuthenticationBloc
-    extends MockBloc<AuthenticationEvent, AuthenticationState>
-    implements AuthenticationBloc {}
 
 void main() {
   late AuthenticationRepository authenticationRepository;
@@ -117,6 +114,9 @@ void main() {
       testWidgets('renders the given route page of AppState', (tester) async {
         when(() => appBloc.state)
             .thenReturn(const AppState(route: '/home/planner'));
+        when(() => authenticationBloc.state).thenReturn(
+          const AuthenticationState.authenticated(User(id: 'id')),
+        );
         await mockHydratedStorage(() => tester.pumpWidget(buildSubject()));
 
         expect(find.byType(PlannerPage), findsOneWidget);

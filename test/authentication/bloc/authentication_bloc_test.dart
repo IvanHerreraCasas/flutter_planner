@@ -11,35 +11,42 @@ class MockAuthenticationRepository extends Mock
 void main() {
   const fakeUser = User(id: 'id');
   group('AuthenticationBloc', () {
-    late AuthenticationBloc authenticationBloc;
     late AuthenticationRepository authenticationRepository;
 
     setUp(() {
       authenticationRepository = MockAuthenticationRepository();
       when(() => authenticationRepository.status)
           .thenAnswer((_) => const Stream.empty());
-      authenticationBloc = AuthenticationBloc(
-        authenticationRepository: authenticationRepository,
-      );
+      when(() => authenticationRepository.signOut()).thenAnswer((_) async {});
     });
 
-    tearDown(() {
-      authenticationBloc.close();
-    });
+    AuthenticationBloc buildBloc() {
+      return AuthenticationBloc(
+        authenticationRepository: authenticationRepository,
+      );
+    }
 
     group('constructor', () {
       test(
           'works normally and '
           'starts listening to authenticationRepository.status', () {
-        expect(() => authenticationBloc, returnsNormally);
+        expect(buildBloc, returnsNormally);
 
         verify(() => authenticationRepository.status.listen((event) {}));
       });
 
-      test('has correct initial state', () {
+      test('has unknown initial state, when user is null', () {
         expect(
-          authenticationBloc.state,
+          buildBloc().state,
           equals(const AuthenticationState.unknown()),
+        );
+      });
+
+      test('has authenticated initial state, when user is not null', () {
+        when(() => authenticationRepository.user).thenReturn(fakeUser);
+        expect(
+          buildBloc().state,
+          equals(const AuthenticationState.authenticated(fakeUser)),
         );
       });
     });
@@ -47,7 +54,7 @@ void main() {
     group('AuthenticationStatusChanged', () {
       blocTest<AuthenticationBloc, AuthenticationState>(
         'emits unauthenticated when status is unauthenticated',
-        build: () => authenticationBloc,
+        build: buildBloc,
         act: (bloc) => bloc.add(
           const AuthenticationStatusChanged(
             AuthenticationStatus.unauthenticated,
@@ -63,7 +70,7 @@ void main() {
         setUp: () {
           when(() => authenticationRepository.user).thenAnswer((_) => fakeUser);
         },
-        build: () => authenticationBloc,
+        build: buildBloc,
         act: (bloc) => bloc.add(
           const AuthenticationStatusChanged(
             AuthenticationStatus.authenticated,
@@ -72,6 +79,35 @@ void main() {
         expect: () => const <AuthenticationState>[
           AuthenticationState.authenticated(fakeUser),
         ],
+      );
+
+      blocTest<AuthenticationBloc, AuthenticationState>(
+        'emits authenticated when status is authenticated',
+        setUp: () {
+          when(() => authenticationRepository.user).thenAnswer((_) => fakeUser);
+        },
+        build: buildBloc,
+        act: (bloc) => bloc.add(
+          const AuthenticationStatusChanged(
+            AuthenticationStatus.authenticated,
+          ),
+        ),
+        expect: () => const <AuthenticationState>[
+          AuthenticationState.authenticated(fakeUser),
+        ],
+      );
+    });
+
+    group('AuthenticationSignOutRequested', () {
+      blocTest<AuthenticationBloc, AuthenticationState>(
+        'attempts to signOut',
+        build: buildBloc,
+        act: (bloc) => bloc.add(
+          AuthenticationSignoutRequested(),
+        ),
+        verify: (bloc) {
+          verify(() => authenticationRepository.signOut()).called(1);
+        },
       );
     });
   });

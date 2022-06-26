@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -60,7 +61,7 @@ void main() {
     });
 
     testWidgets(
-        'pops and goes to /home/planner '
+        'pops and goes to PlannerPage '
         'when planner is selected', (tester) async {
       await tester.pumpApp(buildSubject());
 
@@ -71,11 +72,16 @@ void main() {
       await tester.tap(find.widgetWithText(ListTile, 'Planner'));
 
       verify(() => navigator.pop()).called(1);
-      verify(() => goRouter.go('/home/planner')).called(1);
+      verify(
+        () => goRouter.goNamed(
+          AppRoutes.home,
+          params: {'page': 'planner'},
+        ),
+      ).called(1);
     });
 
     testWidgets(
-        'pops and goes to /home/schedule '
+        'pops and goes to SchedulePage '
         'when planner is selected', (tester) async {
       await tester.pumpApp(buildSubject());
 
@@ -86,7 +92,12 @@ void main() {
       await tester.tap(find.widgetWithText(ListTile, 'Schedule'));
 
       verify(() => navigator.pop()).called(1);
-      verify(() => goRouter.go('/home/schedule')).called(1);
+      verify(
+        () => goRouter.goNamed(
+          AppRoutes.home,
+          params: {'page': 'schedule'},
+        ),
+      ).called(1);
     });
   });
 }

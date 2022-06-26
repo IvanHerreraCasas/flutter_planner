@@ -13,12 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/app/router/app_router.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
-import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/l10n/l10n.dart';
-import 'package:flutter_planner/sign_in/sign_in.dart';
-import 'package:flutter_planner/sign_up/sign_up.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:routines_repository/routines_repository.dart';
 
@@ -70,16 +67,8 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _router = GoRouter(
-      routes: [
-        GoRoute(
-          path: '/',
-          redirect: (state) => '/home/planner',
-        ),
-        HomePage.route(),
-        SignInPage.route(),
-        SignUpPage.route(),
-      ],
+    final router = AppRouter.router(
+      authenticationBloc: context.read<AuthenticationBloc>(),
       initialLocation: context.read<AppBloc>().state.route,
     );
 
@@ -102,9 +91,9 @@ class AppView extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      routeInformationProvider: _router.routeInformationProvider,
-      routeInformationParser: _router.routeInformationParser,
-      routerDelegate: _router.routerDelegate,
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
@@ -112,13 +101,11 @@ class AppView extends StatelessWidget {
               case AuthenticationStatus.unknown:
                 break;
               case AuthenticationStatus.authenticated:
-                _router.go('/home/planner');
                 context
                     .read<AppBloc>()
                     .add(const AppRouteChanged('/home/planner'));
                 break;
               case AuthenticationStatus.unauthenticated:
-                _router.go('/sign-in');
                 context.read<AppBloc>().add(const AppRouteChanged('/sign-in'));
                 break;
             }

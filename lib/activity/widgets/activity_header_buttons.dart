@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:go_router/go_router.dart';
 
 class ActivityHeaderButtons extends StatelessWidget {
@@ -17,8 +18,9 @@ class ActivityHeaderButtons extends StatelessWidget {
   }) {
     if (isDialog) {
       final state = context.read<ActivityBloc>().state;
-      context.go(
-        '/home/planner/activity',
+      context.goNamed(
+        AppRoutes.activity,
+        params: {'page': 'planner'},
         extra: state.initialActivity.copyWith(
           name: state.name,
           date: state.date,

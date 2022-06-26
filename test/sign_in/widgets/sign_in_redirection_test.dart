@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -41,7 +42,7 @@ void main() {
       );
     });
 
-    testWidgets('goes to /sign-up when register is pressed', (tester) async {
+    testWidgets('goes to SignUpPage when register is pressed', (tester) async {
       await tester.pumpApp(buildSubject());
 
       fireOnTap(
@@ -52,7 +53,7 @@ void main() {
         'Register',
       );
 
-      verify(() => goRouter.go('/sign-up')).called(1);
+      verify(() => goRouter.goNamed(AppRoutes.signUp)).called(1);
     });
   });
 }

@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_planner/l10n/l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:routines_repository/routines_repository.dart';
 
 import 'helpers.dart';
@@ -47,6 +48,41 @@ extension PumpApp on WidgetTester {
           home: Scaffold(
             body: widget,
           ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> pumpAppRouter(
+    GoRouter router, {
+    AuthenticationRepository? authenticationRepository,
+    ActivitiesRepository? activitiesRepository,
+    RoutinesRepository? routinesRepository,
+  }) {
+    return pumpWidget(
+      MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(
+            create: (context) =>
+                authenticationRepository ?? MockAuthenticationRepository(),
+          ),
+          RepositoryProvider(
+            create: (context) =>
+                activitiesRepository ?? MockActivitiesRepository(),
+          ),
+          RepositoryProvider(
+            create: (context) => routinesRepository ?? MockRoutinesRepository(),
+          ),
+        ],
+        child: MaterialApp.router(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          routeInformationProvider: router.routeInformationProvider,
+          routeInformationParser: router.routeInformationParser,
+          routerDelegate: router.routerDelegate,
         ),
       ),
     );

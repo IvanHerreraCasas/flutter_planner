@@ -12,19 +12,6 @@ class ActivityPage extends StatelessWidget {
     this.isDialog = false,
   }) : super(key: key);
 
-  static GoRoute route() {
-    return GoRoute(
-      path: 'activity',
-      builder: (context, state) => BlocProvider(
-        create: (context) => ActivityBloc(
-          activitiesRepository: context.read<ActivitiesRepository>(),
-          initialActivity: state.extra! as Activity,
-        ),
-        child: const ActivityPage(),
-      ),
-    );
-  }
-
   static Dialog dialog({required Activity activity}) {
     return Dialog(
       child: Container(

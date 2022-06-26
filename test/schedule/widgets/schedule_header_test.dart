@@ -2,6 +2,7 @@ import 'package:authentication_api/authentication_api.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -76,7 +77,7 @@ void main() {
       });
 
       testWidgets(
-          'goes to /home/schedule/routine '
+          'goes to RoutinePage '
           'with extra newRoutine '
           'when currentSize is not large', (tester) async {
         await tester.pumpApp(
@@ -87,8 +88,9 @@ void main() {
         await tester.tap(find.byType(ElevatedButton));
 
         verify(
-          () => goRouter.go(
-            '/home/schedule/routine',
+          () => goRouter.goNamed(
+            AppRoutes.routine,
+            params: {'page': 'schedule'},
             extra: newRoutine,
           ),
         ).called(1);
