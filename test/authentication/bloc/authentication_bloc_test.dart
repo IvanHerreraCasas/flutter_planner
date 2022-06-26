@@ -21,6 +21,9 @@ void main() {
       authenticationBloc = AuthenticationBloc(
         authenticationRepository: authenticationRepository,
       );
+      when(() => authenticationRepository.user).thenReturn(
+        fakeUser,
+      );
     });
 
     tearDown(() {
