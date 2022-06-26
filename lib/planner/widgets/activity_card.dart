@@ -29,7 +29,7 @@ class ActivityCard extends StatelessWidget {
               builder: (context) => ActivityPage.dialog(activity: activity),
             )
           : context.goNamed(
-              AppRoutes.activity.name,
+              AppRoutes.activity,
               params: {'page': 'planner'},
               extra: activity,
             ),

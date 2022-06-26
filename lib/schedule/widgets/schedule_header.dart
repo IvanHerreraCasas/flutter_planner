@@ -28,8 +28,8 @@ class ScheduleHeader extends StatelessWidget {
           .add(ScheduleSelectedRoutineChanged(newRoutine));
     } else {
       context.goNamed(
-        AppRoutes.routine.name,
-        params: {'page': 'planner'},
+        AppRoutes.routine,
+        params: {'page': 'schedule'},
         extra: newRoutine,
       );
     }

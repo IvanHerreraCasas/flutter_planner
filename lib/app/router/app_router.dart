@@ -29,8 +29,8 @@ abstract class AppRouter {
         ),
         // signUp
         GoRoute(
-          path: AppRoutes.signUp.path,
-          name: AppRoutes.signUp.name,
+          path: '/sign-up',
+          name: AppRoutes.signUp,
           builder: (context, state) => BlocProvider(
             create: (context) => SignUpBloc(
               authenticationRepository:
@@ -41,8 +41,8 @@ abstract class AppRouter {
         ),
         // signIn
         GoRoute(
-          path: AppRoutes.signIn.path,
-          name: AppRoutes.signIn.name,
+          path: '/sign-in',
+          name: AppRoutes.signIn,
           builder: (context, state) => BlocProvider(
             create: (context) => SignInBloc(
               authenticationRepository:
@@ -53,8 +53,8 @@ abstract class AppRouter {
         ),
         // home
         GoRoute(
-          path: AppRoutes.home.path,
-          name: AppRoutes.home.name,
+          path: '/home/:page',
+          name: AppRoutes.home,
           builder: (context, state) {
             var index = 0;
             switch (state.params['page']) {
@@ -70,8 +70,8 @@ abstract class AppRouter {
           routes: [
             // activity
             GoRoute(
-              path: AppRoutes.activity.path,
-              name: AppRoutes.activity.name,
+              path: 'activity',
+              name: AppRoutes.activity,
               builder: (context, state) => BlocProvider(
                 create: (context) => ActivityBloc(
                   activitiesRepository: context.read<ActivitiesRepository>(),
@@ -82,8 +82,8 @@ abstract class AppRouter {
             ),
             // routine
             GoRoute(
-              path: AppRoutes.routine.path,
-              name: AppRoutes.routine.name,
+              path: 'routine',
+              name: AppRoutes.routine,
               builder: (context, state) => BlocProvider(
                 create: (context) => RoutineBloc(
                   routinesRepository: context.read<RoutinesRepository>(),

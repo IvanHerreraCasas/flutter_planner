@@ -39,7 +39,7 @@ class PlannerHeader extends StatelessWidget {
       );
     } else {
       context.goNamed(
-        AppRoutes.activity.name,
+        AppRoutes.activity,
         params: {'page': 'planner'},
         extra: newActivity,
       );

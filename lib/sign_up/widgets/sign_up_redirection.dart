@@ -21,7 +21,7 @@ class SignUpRedirection extends StatelessWidget {
               color: Colors.blue,
             ),
             recognizer: TapGestureRecognizer()
-              ..onTap = () => context.goNamed(AppRoutes.signIn.name),
+              ..onTap = () => context.goNamed(AppRoutes.signIn),
           )
         ],
       ),

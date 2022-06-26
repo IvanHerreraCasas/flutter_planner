@@ -20,7 +20,7 @@ class RoutineCard extends StatelessWidget {
       context.read<ScheduleBloc>().add(ScheduleSelectedRoutineChanged(routine));
     } else {
       context.goNamed(
-        AppRoutes.routine.name,
+        AppRoutes.routine,
         params: {'page': 'schedule'},
         extra: routine,
       );

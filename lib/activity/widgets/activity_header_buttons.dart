@@ -19,7 +19,7 @@ class ActivityHeaderButtons extends StatelessWidget {
     if (isDialog) {
       final state = context.read<ActivityBloc>().state;
       context.goNamed(
-        AppRoutes.activity.name,
+        AppRoutes.activity,
         params: {'page': 'planner'},
         extra: state.initialActivity.copyWith(
           name: state.name,
