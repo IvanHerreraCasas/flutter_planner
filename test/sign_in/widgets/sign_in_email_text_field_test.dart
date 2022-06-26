@@ -29,7 +29,7 @@ void main() {
 
       expect(find.byType(TextField), findsOneWidget);
     });
-
+/*
     testWidgets(
         'add SignInEmailChanged '
         'to SignInBloc '
@@ -44,5 +44,6 @@ void main() {
         () => signInBloc.add(const SignInEmailChanged(newEmail)),
       ).called(1);
     });
+*/
   });
 }

@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -58,12 +59,16 @@ void main() {
         );
       });
 
-      testWidgets('goes to /home/planner when is selected', (tester) async {
+      testWidgets('goes to PlannerPage when is selected', (tester) async {
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.text('Planner'));
 
-        verify(() => goRouter.go('/home/planner')).called(1);
+        verify(() =>  goRouter.goNamed(
+            AppRoutes.home,
+            params: {'page': 'planner'},
+          ),
+        ).called(1);
       });
     });
 
@@ -88,12 +93,16 @@ void main() {
         );
       });
 
-      testWidgets('goes to /home/schedule when is selected', (tester) async {
+      testWidgets('goes to SchedulePage when is selected', (tester) async {
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.text('Schedule'));
 
-        verify(() => goRouter.go('/home/schedule')).called(1);
+        verify(() =>  goRouter.goNamed(
+            AppRoutes.home,
+            params: {'page': 'schedule'},
+          ),
+        ).called(1);
       });
     });
   });

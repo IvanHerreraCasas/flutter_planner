@@ -4,6 +4,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -112,7 +113,7 @@ void main() {
         });
 
         testWidgets(
-            'goes to /home/planner/activity '
+            'goes to activityPage '
             'and send newActivity as extra '
             'when size is not large', (tester) async {
           await tester.pumpApp(
@@ -123,7 +124,11 @@ void main() {
           await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
 
           verify(
-            () => goRouter.go('/home/planner/activity', extra: newActivity),
+            () => goRouter.goNamed(
+              AppRoutes.activity,
+              params: {'page': 'planner'},
+              extra: newActivity,
+            ),
           ).called(1);
         });
       });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
@@ -61,8 +62,9 @@ void main() {
           await tester.tap(find.byIcon(Icons.open_in_full));
 
           verify(
-            () => goRouter.go(
-              '/home/planner/activity',
+            () => goRouter.goNamed(
+              AppRoutes.activity,
+              params: {'page': 'planner'},
               extra: mockActivityState.initialActivity,
             ),
           );

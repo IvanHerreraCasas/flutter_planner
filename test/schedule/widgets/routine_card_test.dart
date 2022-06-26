@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +65,7 @@ void main() {
       });
 
       testWidgets(
-          'goes to /home/schedule/routine '
+          'goes to RoutinePage '
           'and send the routine as extra '
           'when size is small', (tester) async {
         await tester.pumpApp(
@@ -76,7 +77,11 @@ void main() {
         await tester.tap(find.text('name'));
 
         verify(
-          () => goRouter.go('/home/schedule/routine', extra: mockRoutine),
+          () => goRouter.goNamed(
+            AppRoutes.routine,
+            params: {'page': 'schedule'},
+            extra: mockRoutine,
+          ),
         ).called(1);
       });
     });
