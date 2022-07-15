@@ -7,7 +7,7 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "40.0.0"
+    version: "41.0.0"
   activities_api:
     dependency: "direct main"
     description:
@@ -28,7 +28,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.0"
   args:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: back_button_interceptor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.1"
   bloc:
     dependency: "direct main"
     description:
@@ -161,14 +161,14 @@ packages:
       name: dropdown_button2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.2"
+    version: "1.6.3"
   dynamic_timeline:
     dependency: "direct main"
     description:
       name: dynamic_timeline
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1"
+    version: "0.1.2"
   equatable:
     dependency: "direct main"
     description:
@@ -203,7 +203,7 @@ packages:
       name: flex_color_scheme
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.1"
+    version: "5.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -265,7 +265,7 @@ packages:
       name: go_router
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -279,14 +279,14 @@ packages:
       name: gotrue
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.3"
   hive:
     dependency: transitive
     description:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.3"
   hive_flutter:
     dependency: transitive
     description:
@@ -447,7 +447,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.15"
+    version: "2.0.16"
   path_provider_ios:
     dependency: transitive
     description:
@@ -510,7 +510,7 @@ packages:
       name: postgrest
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.10+1"
+    version: "0.1.11"
   process:
     dependency: transitive
     description:
@@ -662,7 +662,7 @@ packages:
       name: supabase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.4+1"
+    version: "0.3.6"
   supabase_activities_api:
     dependency: "direct main"
     description:
@@ -683,7 +683,7 @@ packages:
       name: supabase_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.1+3"
+    version: "0.3.2"
   supabase_routines_api:
     dependency: "direct main"
     description:
@@ -774,7 +774,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.3"
+    version: "6.1.5"
   url_launcher_android:
     dependency: transitive
     description:
