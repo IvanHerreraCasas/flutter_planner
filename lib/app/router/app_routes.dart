@@ -1,6 +1,6 @@
 abstract class AppRoutes {
-  static String signUp = 'signUp';
-  static String signIn = 'signIn';
+  static String signUp = 'sign_up';
+  static String signIn = 'sign_in';
   static String home = 'home';
   static String activity = 'activity';
   static String routine = 'routine';
