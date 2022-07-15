@@ -20,7 +20,7 @@ dependencies:
   bloc: ^8.0.3
   bloc_concurrency: ^0.2.0
   dropdown_button2: ^1.6.2
-  dynamic_timeline: ^0.1.1
+  dynamic_timeline: ^0.1.2
   equatable: ^2.0.3
   flex_color_scheme: ^5.0.0
   flutter:

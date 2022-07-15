@@ -74,6 +74,7 @@ class _ScheduleTimetableState extends State<ScheduleTimetable> {
                         crossAxisCount: 7,
                         intervalExtent: 50,
                         minItemDuration: const Duration(minutes: 30),
+                        maxCrossAxisItemExtent: 100,
                         items: routines
                             .map(
                               (routine) => TimelineItem(
