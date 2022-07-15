@@ -3,10 +3,8 @@ import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_planner/planner/planner.dart';
 import 'package:routines_api/routines_api.dart';
 import 'package:routines_repository/routines_repository.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 part 'planner_event.dart';
 part 'planner_state.dart';
@@ -24,8 +22,6 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     );
     on<PlannerSelectedDayChanged>(_onSelectedDayChanged);
     on<PlannerFocusedDayChanged>(_onFocusedDayChanged);
-    on<PlannerCalendarFormatChanged>(_onCalendarFormatChanged);
-    on<PlannerSizeChanged>(_onLayoutSizeChanged);
     on<PlannerAddRoutines>(_onAddRoutines);
   }
 
@@ -61,20 +57,6 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     Emitter<PlannerState> emit,
   ) {
     emit(state.copyWith(focusedDay: event.focusedDay));
-  }
-
-  void _onCalendarFormatChanged(
-    PlannerCalendarFormatChanged event,
-    Emitter<PlannerState> emit,
-  ) {
-    emit(state.copyWith(calendarFormat: event.format));
-  }
-
-  void _onLayoutSizeChanged(
-    PlannerSizeChanged event,
-    Emitter<PlannerState> emit,
-  ) {
-    emit(state.copyWith(size: event.plannerSize));
   }
 
   Future<void> _onAddRoutines(

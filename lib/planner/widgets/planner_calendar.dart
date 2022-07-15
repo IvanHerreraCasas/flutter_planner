@@ -22,9 +22,9 @@ class PlannerCalendar extends StatelessWidget {
       formatButtonVisible = true;
     }
 
-    final calendarFormat = context.select(
-      (PlannerBloc bloc) => bloc.state.calendarFormat,
-    );
+    final calendarFormat = currentSize == PlannerSize.large
+        ? CalendarFormat.month
+        : CalendarFormat.week;
 
     final selectedDay = context.select(
       (PlannerBloc bloc) => bloc.state.selectedDay,
@@ -79,9 +79,6 @@ class PlannerCalendar extends StatelessWidget {
         onPageChanged: (focusedDay) => context
             .read<PlannerBloc>()
             .add(PlannerFocusedDayChanged(focusedDay)),
-        onFormatChanged: (calendarFormat) => context
-            .read<PlannerBloc>()
-            .add(PlannerCalendarFormatChanged(calendarFormat)),
       ),
     );
   }

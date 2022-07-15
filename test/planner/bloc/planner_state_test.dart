@@ -26,8 +26,6 @@ void main() {
         selectedDay: selectedDay,
         focusedDay: focusedDay,
         activities: activities,
-        calendarFormat: calendarFormat,
-        size: size,
       );
     }
 
@@ -52,8 +50,6 @@ void main() {
           utcTodayDate,
           utcTodayDate,
           <Activity>[],
-          CalendarFormat.month,
-          PlannerSize.large,
         ]),
       );
     });
@@ -69,8 +65,6 @@ void main() {
             selectedDay: null,
             focusedDay: null,
             activities: null,
-            calendarFormat: null,
-            size: null,
           ),
           equals(createSubject()),
         );
@@ -89,8 +83,6 @@ void main() {
                 selectedDay: DateTime.utc(2022, 5, 22),
                 focusedDay: DateTime.utc(2022, 5, 22),
                 activities: [activity],
-                calendarFormat: CalendarFormat.week,
-                size: PlannerSize.medium,
               )
               .props,
           equals(<Object?>[
@@ -104,8 +96,6 @@ void main() {
                 endTime: DateTime(2022, 5, 22, 10, 0),
               )
             ],
-            CalendarFormat.week,
-            PlannerSize.medium,
           ]),
         );
       });

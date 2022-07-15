@@ -5,7 +5,6 @@ import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
 
@@ -122,31 +121,6 @@ void main() {
         build: buildBloc,
         act: (bloc) => bloc.add(PlannerFocusedDayChanged(date)),
         expect: () => <PlannerState>[PlannerState(focusedDay: date)],
-      );
-    });
-
-    group('PlannerCalendarFormatChanged', () {
-      const format = CalendarFormat.week;
-      blocTest<PlannerBloc, PlannerState>(
-        'emits state with updated calendar format.',
-        build: buildBloc,
-        act: (bloc) => bloc.add(const PlannerCalendarFormatChanged(format)),
-        expect: () => <PlannerState>[
-          PlannerState(calendarFormat: format),
-        ],
-      );
-    });
-
-    group('PlannerSizeChanged', () {
-      const plannerSize = PlannerSize.medium;
-
-      blocTest<PlannerBloc, PlannerState>(
-        'emits state with updated size.',
-        build: buildBloc,
-        act: (bloc) => bloc.add(const PlannerSizeChanged(plannerSize)),
-        expect: () => <PlannerState>[
-          PlannerState(size: plannerSize),
-        ],
       );
     });
   });

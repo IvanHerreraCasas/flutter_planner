@@ -29,24 +29,6 @@ class PlannerFocusedDayChanged extends PlannerEvent {
   List<Object?> get props => [focusedDay];
 }
 
-class PlannerCalendarFormatChanged extends PlannerEvent {
-  const PlannerCalendarFormatChanged(this.format);
-
-  final CalendarFormat format;
-
-  @override
-  List<Object?> get props => [format];
-}
-
-class PlannerSizeChanged extends PlannerEvent {
-  const PlannerSizeChanged(this.plannerSize);
-
-  final PlannerSize plannerSize;
-
-  @override
-  List<Object?> get props => [plannerSize];
-}
-
 class PlannerAddRoutines extends PlannerEvent {
   const PlannerAddRoutines();
 }

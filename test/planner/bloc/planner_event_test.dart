@@ -2,7 +2,6 @@
 
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 void main() {
   group('PlannerEvent', () {
@@ -42,32 +41,6 @@ void main() {
 
       test('supports value equality', () {
         expect(event.props, equals(<Object?>[focusedDay]));
-      });
-    });
-
-    group('PlannerCalendarFormatChanged', () {
-      const format = CalendarFormat.week;
-      final event = PlannerCalendarFormatChanged(format);
-
-      test('supports value equality', () {
-        expect(event, equals(event));
-      });
-
-      test('supports value equality', () {
-        expect(event.props, equals(<Object?>[format]));
-      });
-    });
-
-    group('PlannerSizeChanged', () {
-      const plannerSize = PlannerSize.medium;
-      final event = PlannerSizeChanged(plannerSize);
-
-      test('supports value equality', () {
-        expect(event, equals(event));
-      });
-
-      test('supports value equality', () {
-        expect(event.props, equals(<Object?>[plannerSize]));
       });
     });
 

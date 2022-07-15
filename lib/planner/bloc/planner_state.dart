@@ -5,8 +5,6 @@ class PlannerState extends Equatable {
     DateTime? selectedDay,
     DateTime? focusedDay,
     this.activities = const [],
-    this.calendarFormat = CalendarFormat.month,
-    this.size = PlannerSize.large,
   }) {
     final currentDateTime = DateTime.now();
     final utcTodayDate = DateTime.utc(
@@ -23,23 +21,15 @@ class PlannerState extends Equatable {
 
   final List<Activity> activities;
 
-  final CalendarFormat calendarFormat;
-
-  final PlannerSize size;
-
   PlannerState copyWith({
     DateTime? selectedDay,
     DateTime? focusedDay,
     List<Activity>? activities,
-    CalendarFormat? calendarFormat,
-    PlannerSize? size,
   }) {
     return PlannerState(
       selectedDay: selectedDay ?? this.selectedDay,
       focusedDay: focusedDay ?? this.focusedDay,
       activities: activities ?? this.activities,
-      calendarFormat: calendarFormat ?? this.calendarFormat,
-      size: size ?? this.size,
     );
   }
 
@@ -48,7 +38,5 @@ class PlannerState extends Equatable {
         selectedDay,
         focusedDay,
         activities,
-        calendarFormat,
-        size,
       ];
 }

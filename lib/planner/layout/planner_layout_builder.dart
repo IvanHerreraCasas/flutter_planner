@@ -11,14 +11,11 @@ class PlannerLayoutBuilder extends StatelessWidget {
     required this.header,
     required this.calendar,
     required this.activities,
-    required this.onResize,
   }) : super(key: key);
 
   final PlannerWidgetBuilder header;
   final PlannerWidgetBuilder calendar;
   final PlannerWidgetBuilder activities;
-
-  final void Function(PlannerSize currentSize, BuildContext context) onResize;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,6 @@ class PlannerLayoutBuilder extends StatelessWidget {
 
             if (width <= PlannerBreakpoints.small) {
               const currentSize = PlannerSize.small;
-              onResize(currentSize, context);
               return Column(
                 children: [
                   calendar(currentSize),
@@ -46,7 +42,6 @@ class PlannerLayoutBuilder extends StatelessWidget {
               );
             } else if (width <= PlannerBreakpoints.medium) {
               const currentSize = PlannerSize.medium;
-              onResize(currentSize, context);
               return Column(
                 children: [
                   calendar(currentSize),
@@ -58,7 +53,6 @@ class PlannerLayoutBuilder extends StatelessWidget {
               );
             }
             const currentSize = PlannerSize.large;
-            onResize(currentSize, context);
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

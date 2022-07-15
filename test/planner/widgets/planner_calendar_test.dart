@@ -53,24 +53,6 @@ void main() {
       expect(tableCalendar.focusedDay, utcTodayDate);
     });
 
-    group('FormatButton', () {
-      testWidgets('is rendered when size is not large', (tester) async {
-        await tester.pumpApp(
-          buildSubject(
-            currentSize: PlannerSize.small,
-          ),
-        );
-
-        expect(find.text('2 weeks'), findsOneWidget);
-      });
-
-      testWidgets('is not rendered when size is large', (tester) async {
-        await tester.pumpApp(buildSubject());
-
-        expect(find.text('2 weeks'), findsNothing);
-      });
-    });
-
     testWidgets(
         'add PlannerSelectedDayChanged '
         'and PlannerFocusedDayChanged '
@@ -124,24 +106,6 @@ void main() {
               currentDateTime.month + 1,
             ),
           ),
-        ),
-      ).called(1);
-    });
-
-    testWidgets(
-        'add PlannerCalendarFormatChanged '
-        'to PlannerBloc '
-        'when user changes the calendar format', (tester) async {
-      await tester.pumpApp(buildSubject());
-
-      await tester.drag(
-        find.byType(TableCalendar<Object?>),
-        const Offset(0, -500),
-      );
-
-      verify(
-        () => plannerBloc.add(
-          const PlannerCalendarFormatChanged(CalendarFormat.twoWeeks),
         ),
       ).called(1);
     });
