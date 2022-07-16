@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 class PlannerPage extends StatelessWidget {
   const PlannerPage({Key? key}) : super(key: key);
@@ -13,7 +14,10 @@ class PlannerPage extends StatelessWidget {
       create: (context) => PlannerBloc(
         activitiesRepository: context.read<ActivitiesRepository>(),
         routinesRepository: context.read<RoutinesRepository>(),
-      )..add(const PlannerSubscriptionRequested()),
+        tasksRepository: context.read<TasksRepository>(),
+      )
+        ..add(const PlannerSubscriptionRequested())
+        ..add(const PlannerTasksSubRequested()),
       child: PlannerLayoutBuilder(
         header: (currentSize) => PlannerHeader(currentSize: currentSize),
         calendar: (currentSize) => PlannerCalendar(currentSize: currentSize),
