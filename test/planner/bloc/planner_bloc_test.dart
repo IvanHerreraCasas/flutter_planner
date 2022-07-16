@@ -5,6 +5,9 @@ import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
+
+import '../../helpers/helpers.dart';
 
 class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
 
@@ -14,6 +17,7 @@ void main() {
   group('PlannerBloc', () {
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
+    late TasksRepository tasksRepository;
 
     final date = DateTime.utc(2022, 5, 25);
 
@@ -34,11 +38,30 @@ void main() {
       ),
     ];
 
+    final mockTasks = [
+      Task(
+        userID: 'userID',
+        title: 'task 1',
+        date: date,
+        completed: true,
+      ),
+      Task(
+        userID: 'userID',
+        title: 'task 2',
+        date: date,
+        completed: false,
+      ),
+    ];
+
     setUp(() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
+      tasksRepository = MockTasksRepository();
 
       when(() => activitiesRepository.streamActivities(date: date)).thenAnswer(
+        (_) => const Stream.empty(),
+      );
+      when(() => tasksRepository.streamTasks(date: date)).thenAnswer(
         (_) => const Stream.empty(),
       );
       when(() => activitiesRepository.dispose())
@@ -49,6 +72,7 @@ void main() {
       return PlannerBloc(
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
+        tasksRepository: tasksRepository,
       );
     }
 
@@ -64,7 +88,7 @@ void main() {
 
     group('PlannerSubscriptionRequested', () {
       blocTest<PlannerBloc, PlannerState>(
-        'starts listening to repository streamActivities',
+        'starts listening to activitiesRepository streamActivities',
         setUp: () {
           when(() => activitiesRepository.streamActivities(date: date))
               .thenAnswer((_) => Stream.value(mockActivities));
@@ -99,6 +123,48 @@ void main() {
             selectedDay: date,
             focusedDay: date,
             activities: mockActivities,
+          ),
+        ],
+      );
+    });
+
+    group('PlannerTasksSubRequested', () {
+      blocTest<PlannerBloc, PlannerState>(
+        'starts listening to tasksRepository streamTasks',
+        setUp: () {
+          when(() => tasksRepository.streamTasks(date: date))
+              .thenAnswer((_) => Stream.value(mockTasks));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerTasksSubRequested()),
+        verify: (bloc) {
+          verify(() => tasksRepository.streamTasks(date: date))
+              .called(1);
+        },
+      );
+
+      blocTest<PlannerBloc, PlannerState>(
+        'emits state with updated tasks '
+        'when repository stream tasks emits new tasks',
+        setUp: () {
+          when(() => tasksRepository.streamTasks(date: date))
+              .thenAnswer((_) => Stream.value(mockTasks));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerTasksSubRequested()),
+        expect: () => <PlannerState>[
+          PlannerState(
+            selectedDay: date,
+            focusedDay: date,
+            tasks: mockTasks,
           ),
         ],
       );

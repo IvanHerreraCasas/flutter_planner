@@ -6,6 +6,7 @@ import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -13,15 +14,19 @@ void main() {
   group('HomeBody', () {
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
+    late TasksRepository tasksRepository;
 
     setUp(() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
+      tasksRepository = MockTasksRepository();
 
       when(
         () => activitiesRepository.streamActivities(date: any(named: 'date')),
       ).thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.streamRoutines())
+          .thenAnswer((_) => const Stream.empty());
+      when(() => tasksRepository.streamTasks(date: any(named: 'date')))
           .thenAnswer((_) => const Stream.empty());
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
@@ -40,6 +45,7 @@ void main() {
         buildSubject(),
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
+        tasksRepository: tasksRepository,
       );
 
       expect(find.byType(PlannerPage), findsOneWidget);
@@ -51,6 +57,7 @@ void main() {
         buildSubject(index: 1),
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
+        tasksRepository: tasksRepository,
       );
 
       expect(find.byType(SchedulePage), findsOneWidget);

@@ -79,6 +79,8 @@ void main() {
           .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());
+      when(() => tasksRepository.streamTasks(date: utcTodayDate))
+          .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
     });
 
@@ -94,6 +96,9 @@ void main() {
           RepositoryProvider(
             create: (context) => routinesRepository,
           ),
+          RepositoryProvider(
+            create: (context) => tasksRepository,
+          )
         ],
         child: MultiBlocProvider(
           providers: [

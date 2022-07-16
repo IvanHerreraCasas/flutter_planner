@@ -11,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
 import '../app_mocks.dart';
@@ -20,11 +21,13 @@ void main() {
     late AuthenticationBloc authenticationBloc;
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
+    late TasksRepository tasksRepository;
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
+      tasksRepository = MockTasksRepository();
 
       final currentDateTime = DateTime.now();
       final utcTodayDate = DateTime.utc(
@@ -37,6 +40,8 @@ void main() {
           .thenReturn(const AuthenticationState.unknown());
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
       when(() => activitiesRepository.streamActivities(date: utcTodayDate))
+          .thenAnswer((_) => const Stream.empty());
+      when(() => tasksRepository.streamTasks(date: utcTodayDate))
           .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());
@@ -58,6 +63,7 @@ void main() {
           buildSubject(),
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
         );
 
         expect(find.byType(SignInPage), findsOneWidget);
@@ -73,6 +79,7 @@ void main() {
           buildSubject(initialLocation: '/sign-in'),
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
         );
 
         expect(find.byType(HomePage), findsOneWidget);
@@ -111,6 +118,7 @@ void main() {
             buildSubject(initialLocation: '/home/planner'),
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
           );
 
           expect(find.byType(HomePage), findsOneWidget);
@@ -122,6 +130,7 @@ void main() {
             buildSubject(initialLocation: '/home/planner'),
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
@@ -133,6 +142,7 @@ void main() {
             buildSubject(initialLocation: '/home/schedule'),
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
@@ -156,6 +166,7 @@ void main() {
           buildSubject(),
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
         );
 
         expect(find.byType(HomePage), findsOneWidget);
