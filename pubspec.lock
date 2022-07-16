@@ -691,6 +691,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  supabase_tasks_api:
+    dependency: "direct main"
+    description:
+      path: "packages/tasks/supabase_tasks_api"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   synchronized:
     dependency: transitive
     description:
@@ -705,6 +712,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.6"
+  tasks_api:
+    dependency: "direct main"
+    description:
+      path: "packages/tasks/tasks_api"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  tasks_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/tasks/tasks_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   term_glyph:
     dependency: transitive
     description:
