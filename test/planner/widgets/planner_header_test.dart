@@ -35,7 +35,7 @@ void main() {
         goRouter: goRouter,
         child: BlocProvider.value(
           value: plannerBloc,
-          child: PlannerHeader(
+          child: PlannerActivitiesHeader(
             currentSize: currentSize,
           ),
         ),

@@ -8,12 +8,12 @@ typedef PlannerWidgetBuilder = Widget Function(PlannerSize currentSize);
 class PlannerLayoutBuilder extends StatelessWidget {
   const PlannerLayoutBuilder({
     Key? key,
-    required this.header,
+    required this.activitiesHeader,
     required this.calendar,
     required this.activities,
   }) : super(key: key);
 
-  final PlannerWidgetBuilder header;
+  final PlannerWidgetBuilder activitiesHeader;
   final PlannerWidgetBuilder calendar;
   final PlannerWidgetBuilder activities;
 
@@ -35,7 +35,7 @@ class PlannerLayoutBuilder extends StatelessWidget {
                 children: [
                   calendar(currentSize),
                   const SizedBox(height: 20),
-                  header(currentSize),
+                  activitiesHeader(currentSize),
                   const SizedBox(height: 20),
                   Expanded(child: activities(currentSize))
                 ],
@@ -46,7 +46,7 @@ class PlannerLayoutBuilder extends StatelessWidget {
                 children: [
                   calendar(currentSize),
                   const SizedBox(height: 20),
-                  header(currentSize),
+                  activitiesHeader(currentSize),
                   const SizedBox(height: 20),
                   Expanded(child: activities(currentSize))
                 ],
@@ -70,7 +70,7 @@ class PlannerLayoutBuilder extends StatelessWidget {
                   flex: 2,
                   child: Column(
                     children: [
-                      header(currentSize),
+                      activitiesHeader(currentSize),
                       const SizedBox(height: 20),
                       Expanded(child: activities(currentSize))
                     ],

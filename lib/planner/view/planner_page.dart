@@ -19,7 +19,9 @@ class PlannerPage extends StatelessWidget {
         ..add(const PlannerSubscriptionRequested())
         ..add(const PlannerTasksSubRequested()),
       child: PlannerLayoutBuilder(
-        header: (currentSize) => PlannerHeader(currentSize: currentSize),
+        activitiesHeader: (currentSize) => PlannerActivitiesHeader(
+          currentSize: currentSize,
+        ),
         calendar: (currentSize) => PlannerCalendar(currentSize: currentSize),
         activities: (currentSize) => PlannerActivities(
           currentSize: currentSize,
