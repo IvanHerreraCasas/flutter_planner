@@ -16,6 +16,8 @@ import 'package:supabase_activities_api/supabase_activities_api.dart';
 import 'package:supabase_authentication_api/supabase_authentication_api.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_routines_api/supabase_routines_api.dart';
+import 'package:supabase_tasks_api/supabase_tasks_api.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +41,10 @@ Future<void> main() async {
     supabaseClient: supabaseClient,
   );
 
+  final tasksApi = SupabaseTasksApi(
+    supabaseClient: supabaseClient,
+  );
+
   await bootstrap(
     () => App(
       authenticationRepository: AuthenticationRepository(
@@ -49,6 +55,9 @@ Future<void> main() async {
       ),
       routinesRepository: RoutinesRepository(
         routinesApi: routinesApi,
+      ),
+      tasksRepository: TasksRepository(
+        tasksApi: tasksApi,
       ),
     ),
   );
