@@ -19,6 +19,20 @@ void main() {
       });
     });
 
+    group('PlannerTaskSubRequested', () {
+      final event = PlannerTasksSubRequested();
+      test('supports value equality', () {
+        expect(
+          event,
+          equals(event),
+        );
+      });
+
+      test('props are correct', () {
+        expect(event.props, equals(<Object?>[]));
+      });
+    });
+
     group('PlannerSelectedDayChanged', () {
       final selectedDay = DateTime.utc(2022, 5, 25);
       final event = PlannerSelectedDayChanged(selectedDay);

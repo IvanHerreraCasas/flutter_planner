@@ -3,7 +3,7 @@
 import 'package:activities_api/activities_api.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 void main() {
   group('PlannerState', () {
@@ -19,8 +19,7 @@ void main() {
       DateTime? selectedDay,
       DateTime? focusedDay,
       List<Activity> activities = const [],
-      CalendarFormat calendarFormat = CalendarFormat.month,
-      PlannerSize size = PlannerSize.large,
+      List<Task> tasks = const [],
     }) {
       return PlannerState(
         selectedDay: selectedDay,
@@ -50,6 +49,7 @@ void main() {
           utcTodayDate,
           utcTodayDate,
           <Activity>[],
+          <Task>[],
         ]),
       );
     });
@@ -65,6 +65,7 @@ void main() {
             selectedDay: null,
             focusedDay: null,
             activities: null,
+            tasks: null,
           ),
           equals(createSubject()),
         );
@@ -77,14 +78,14 @@ void main() {
           startTime: DateTime(2022, 5, 22, 7, 0),
           endTime: DateTime(2022, 5, 22, 10, 0),
         );
+        final task = Task.empty(userID: 'userID');
         expect(
-          createSubject()
-              .copyWith(
-                selectedDay: DateTime.utc(2022, 5, 22),
-                focusedDay: DateTime.utc(2022, 5, 22),
-                activities: [activity],
-              )
-              .props,
+          createSubject().copyWith(
+            selectedDay: DateTime.utc(2022, 5, 22),
+            focusedDay: DateTime.utc(2022, 5, 22),
+            activities: [activity],
+            tasks: [task],
+          ).props,
           equals(<Object?>[
             DateTime.utc(2022, 5, 22),
             DateTime.utc(2022, 5, 22),
@@ -96,6 +97,7 @@ void main() {
                 endTime: DateTime(2022, 5, 22, 10, 0),
               )
             ],
+            [Task.empty(userID: 'userID')],
           ]),
         );
       });
