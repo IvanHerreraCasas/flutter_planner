@@ -11,6 +11,7 @@ import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
 import '../app_mocks.dart';
@@ -21,11 +22,13 @@ void main() {
   late AuthenticationRepository authenticationRepository;
   late ActivitiesRepository activitiesRepository;
   late RoutinesRepository routinesRepository;
+  late TasksRepository tasksRepository;
 
   setUp(() {
     authenticationRepository = MockAuthenticationRepository();
     activitiesRepository = MockActivitiesRepository();
     routinesRepository = MockRoutinesRepository();
+    tasksRepository = MockTasksRepository();
   });
 
   group('App', () {
@@ -40,6 +43,7 @@ void main() {
             authenticationRepository: authenticationRepository,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
           ),
         ),
       );

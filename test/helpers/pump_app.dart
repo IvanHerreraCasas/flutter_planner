@@ -14,6 +14,7 @@ import 'package:flutter_planner/l10n/l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 import 'helpers.dart';
 
@@ -23,6 +24,7 @@ extension PumpApp on WidgetTester {
     AuthenticationRepository? authenticationRepository,
     ActivitiesRepository? activitiesRepository,
     RoutinesRepository? routinesRepository,
+    TasksRepository? tasksRepository,
   }) {
     return pumpWidget(
       MultiRepositoryProvider(
@@ -37,6 +39,9 @@ extension PumpApp on WidgetTester {
           ),
           RepositoryProvider(
             create: (context) => routinesRepository ?? MockRoutinesRepository(),
+          ),
+          RepositoryProvider(
+            create: (context) => tasksRepository ?? MockTasksRepository(),
           ),
         ],
         child: MaterialApp(
@@ -58,6 +63,7 @@ extension PumpApp on WidgetTester {
     AuthenticationRepository? authenticationRepository,
     ActivitiesRepository? activitiesRepository,
     RoutinesRepository? routinesRepository,
+    TasksRepository? tasksRepository,
   }) {
     return pumpWidget(
       MultiRepositoryProvider(
@@ -72,6 +78,9 @@ extension PumpApp on WidgetTester {
           ),
           RepositoryProvider(
             create: (context) => routinesRepository ?? MockRoutinesRepository(),
+          ),
+          RepositoryProvider(
+            create: (context) => tasksRepository ?? MockTasksRepository(),
           ),
         ],
         child: MaterialApp.router(
