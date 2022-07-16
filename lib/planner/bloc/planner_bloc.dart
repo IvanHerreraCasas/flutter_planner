@@ -5,6 +5,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:routines_api/routines_api.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 part 'planner_event.dart';
 part 'planner_state.dart';
@@ -13,11 +14,17 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
   PlannerBloc({
     required ActivitiesRepository activitiesRepository,
     required RoutinesRepository routinesRepository,
+    required TasksRepository tasksRepository,
   })  : _activitiesRepository = activitiesRepository,
         _routinesRepository = routinesRepository,
+        _tasksRepository = tasksRepository,
         super(PlannerState()) {
     on<PlannerSubscriptionRequested>(
       _onSubscriptionRequested,
+      transformer: restartable(),
+    );
+    on<PlannerTasksSubRequested>(
+      _onTasksSubRequested,
       transformer: restartable(),
     );
     on<PlannerSelectedDayChanged>(_onSelectedDayChanged);
@@ -27,6 +34,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
 
   final ActivitiesRepository _activitiesRepository;
   final RoutinesRepository _routinesRepository;
+  final TasksRepository _tasksRepository;
 
   Future<void> _onSubscriptionRequested(
     PlannerSubscriptionRequested event,
@@ -37,6 +45,20 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
         date: state.selectedDay,
       ),
       onData: (activities) => state.copyWith(activities: activities),
+      onError: (error, stack) {
+        addError(error);
+        return state;
+      },
+    );
+  }
+
+  Future<void> _onTasksSubRequested(
+    PlannerTasksSubRequested event,
+    Emitter<PlannerState> emit,
+  ) async {
+    await emit.forEach<List<Task>>(
+      _tasksRepository.streamTasks(date: state.selectedDay),
+      onData: (tasks) => state.copyWith(tasks: tasks),
       onError: (error, stack) {
         addError(error);
         return state;
