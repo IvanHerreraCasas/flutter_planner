@@ -14,11 +14,12 @@ class TaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => TaskBloc(
-              initialTask: task,
-              tasksRepository: context.read<TasksRepository>(),
-            ),
-        child: const TaskView());
+      create: (context) => TaskBloc(
+        initialTask: task,
+        tasksRepository: context.read<TasksRepository>(),
+      ),
+      child: const TaskView(),
+    );
   }
 }
 
@@ -28,9 +29,13 @@ class TaskView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: const [
-        TaskCheckBox(),
-        Expanded(child: TaskTextField()),
+      children: [
+        const TaskCheckBox(),
+        Expanded(
+          child: TaskTextField(
+            initialTitle: context.read<TaskBloc>().state.initialTask.title,
+          ),
+        ),
       ],
     );
   }
