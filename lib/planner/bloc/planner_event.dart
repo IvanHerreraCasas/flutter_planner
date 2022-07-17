@@ -40,3 +40,12 @@ class PlannerAddRoutines extends PlannerEvent {
 class PlannerNewTaskAdded extends PlannerEvent {
   const PlannerNewTaskAdded();
 }
+
+class PlannerSelectedTabChanged extends PlannerEvent {
+  const PlannerSelectedTabChanged(this.selectedTab);
+
+  final int selectedTab;
+
+  @override
+  List<Object?> get props => [selectedTab];
+}

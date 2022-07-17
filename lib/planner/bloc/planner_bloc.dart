@@ -33,6 +33,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     on<PlannerFocusedDayChanged>(_onFocusedDayChanged);
     on<PlannerAddRoutines>(_onAddRoutines);
     on<PlannerNewTaskAdded>(_onNewTaskAdded);
+    on<PlannerSelectedTabChanged>(_onSelectedTabChanged);
   }
 
   final ActivitiesRepository _activitiesRepository;
@@ -142,6 +143,13 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     } catch (e) {
       addError(e);
     }
+  }
+
+  void _onSelectedTabChanged(
+    PlannerSelectedTabChanged event,
+    Emitter<PlannerState> emit,
+  ) {
+    emit(state.copyWith(selectedTab: event.selectedTab));
   }
 
   @override

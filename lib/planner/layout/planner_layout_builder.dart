@@ -13,6 +13,7 @@ class PlannerLayoutBuilder extends StatelessWidget {
     required this.calendar,
     required this.activities,
     required this.tasks,
+    required this.tabs,
   }) : super(key: key);
 
   final PlannerWidgetBuilder activitiesHeader;
@@ -20,6 +21,7 @@ class PlannerLayoutBuilder extends StatelessWidget {
   final PlannerWidgetBuilder calendar;
   final PlannerWidgetBuilder activities;
   final PlannerWidgetBuilder tasks;
+  final PlannerWidgetBuilder tabs;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,16 @@ class PlannerLayoutBuilder extends StatelessWidget {
                 children: [
                   calendar(currentSize),
                   const SizedBox(height: 20),
-                  activitiesHeader(currentSize),
-                  const SizedBox(height: 20),
-                  Expanded(child: activities(currentSize))
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: tabs(currentSize),
+                    ),
+                  ),
                 ],
               );
             } else if (width <= PlannerBreakpoints.medium) {
@@ -50,9 +59,16 @@ class PlannerLayoutBuilder extends StatelessWidget {
                 children: [
                   calendar(currentSize),
                   const SizedBox(height: 20),
-                  activitiesHeader(currentSize),
-                  const SizedBox(height: 20),
-                  Expanded(child: activities(currentSize))
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: tabs(currentSize),
+                    ),
+                  ),
                 ],
               );
             }
@@ -75,7 +91,6 @@ class PlannerLayoutBuilder extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.surface,
                               borderRadius: BorderRadius.circular(15),
-                              
                             ),
                             child: Column(
                               children: [

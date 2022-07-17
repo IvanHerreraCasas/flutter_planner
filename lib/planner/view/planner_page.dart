@@ -30,6 +30,7 @@ class PlannerPage extends StatelessWidget {
           currentSize: currentSize,
         ),
         tasks: (_) => const PlannerTasks(),
+        tabs: (currentSize) => PlannerTabs(currentSize: currentSize),
       ),
     );
   }

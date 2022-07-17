@@ -6,6 +6,7 @@ class PlannerState extends Equatable {
     DateTime? focusedDay,
     this.activities = const [],
     this.tasks = const [],
+    this.selectedTab = 0,
   }) {
     final currentDateTime = DateTime.now();
     final utcTodayDate = DateTime.utc(
@@ -23,17 +24,21 @@ class PlannerState extends Equatable {
   final List<Activity> activities;
   final List<Task> tasks;
 
+  final int selectedTab;
+
   PlannerState copyWith({
     DateTime? selectedDay,
     DateTime? focusedDay,
     List<Activity>? activities,
     List<Task>? tasks,
+    int? selectedTab,
   }) {
     return PlannerState(
       selectedDay: selectedDay ?? this.selectedDay,
       focusedDay: focusedDay ?? this.focusedDay,
       activities: activities ?? this.activities,
       tasks: tasks ?? this.tasks,
+      selectedTab: selectedTab ?? this.selectedTab,
     );
   }
 
@@ -43,5 +48,6 @@ class PlannerState extends Equatable {
         focusedDay,
         activities,
         tasks,
+        selectedTab,
       ];
 }
