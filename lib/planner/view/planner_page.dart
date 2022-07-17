@@ -22,10 +22,12 @@ class PlannerPage extends StatelessWidget {
         activitiesHeader: (currentSize) => PlannerActivitiesHeader(
           currentSize: currentSize,
         ),
+        tasksHeader: (_) => const PlannerTasksHeader(),
         calendar: (currentSize) => PlannerCalendar(currentSize: currentSize),
         activities: (currentSize) => PlannerActivities(
           currentSize: currentSize,
         ),
+        tasks: (_) => const PlannerTasks(),
       ),
     );
   }

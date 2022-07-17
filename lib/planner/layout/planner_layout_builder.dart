@@ -9,13 +9,17 @@ class PlannerLayoutBuilder extends StatelessWidget {
   const PlannerLayoutBuilder({
     Key? key,
     required this.activitiesHeader,
+    required this.tasksHeader,
     required this.calendar,
     required this.activities,
+    required this.tasks,
   }) : super(key: key);
 
   final PlannerWidgetBuilder activitiesHeader;
+  final PlannerWidgetBuilder tasksHeader;
   final PlannerWidgetBuilder calendar;
   final PlannerWidgetBuilder activities;
+  final PlannerWidgetBuilder tasks;
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +64,30 @@ class PlannerLayoutBuilder extends StatelessWidget {
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(
                       maxWidth: 400,
-                      maxHeight: 350,
                     ),
-                    child: calendar(currentSize),
+                    child: Column(
+                      children: [
+                        calendar(currentSize),
+                        const SizedBox(height: 30),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: BorderRadius.circular(15),
+                              
+                            ),
+                            child: Column(
+                              children: [
+                                tasksHeader(currentSize),
+                                const SizedBox(height: 10),
+                                Expanded(child: tasks(currentSize)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(width: 30),
