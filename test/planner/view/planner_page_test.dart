@@ -65,6 +65,8 @@ void main() {
       expect(find.byType(PlannerActivitiesHeader), findsOneWidget);
       expect(find.byType(PlannerCalendar), findsOneWidget);
       expect(find.byType(PlannerActivities), findsOneWidget);
+      expect(find.byType(PlannerTasksHeader), findsOneWidget);
+      expect(find.byType(PlannerTasks), findsOneWidget);
     });
   });
 }
