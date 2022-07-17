@@ -16,9 +16,7 @@ class TaskPage extends StatelessWidget {
         initialTask: task,
         tasksRepository: context.read<TasksRepository>(),
       ),
-      child: const Scaffold(
-        body: TaskView(),
-      ),
+      child: const TaskView()
     );
   }    
 }
