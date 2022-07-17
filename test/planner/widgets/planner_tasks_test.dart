@@ -34,7 +34,7 @@ void main() {
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(ListView), findsOneWidget);
-      expect(find.byType(TaskPage), findsNWidgets(mockTasks.length));
+      expect(find.byType(TaskWidget), findsNWidgets(mockTasks.length));
     });
   });
 }

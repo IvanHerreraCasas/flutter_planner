@@ -11,7 +11,7 @@ class PlannerTasks extends StatelessWidget {
 
     return ListView.builder(
       itemCount: tasks.length,
-      itemBuilder: (context, index) => TaskPage(
+      itemBuilder: (context, index) => TaskWidget(
         key: ValueKey(tasks[index]),
         task: tasks[index],
       ),
