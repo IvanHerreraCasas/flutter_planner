@@ -72,6 +72,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
   ) {
     emit(state.copyWith(selectedDay: event.selectedDay));
     add(const PlannerSubscriptionRequested());
+    add(const PlannerTasksSubRequested());
   }
 
   void _onFocusedDayChanged(
