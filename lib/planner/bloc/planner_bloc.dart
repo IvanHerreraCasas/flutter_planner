@@ -15,9 +15,11 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     required ActivitiesRepository activitiesRepository,
     required RoutinesRepository routinesRepository,
     required TasksRepository tasksRepository,
+    required String userID,
   })  : _activitiesRepository = activitiesRepository,
         _routinesRepository = routinesRepository,
         _tasksRepository = tasksRepository,
+        _userID = userID,
         super(PlannerState()) {
     on<PlannerSubscriptionRequested>(
       _onSubscriptionRequested,
@@ -30,11 +32,13 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     on<PlannerSelectedDayChanged>(_onSelectedDayChanged);
     on<PlannerFocusedDayChanged>(_onFocusedDayChanged);
     on<PlannerAddRoutines>(_onAddRoutines);
+    on<PlannerNewTaskAdded>(_onNewTaskAdded);
   }
 
   final ActivitiesRepository _activitiesRepository;
   final RoutinesRepository _routinesRepository;
   final TasksRepository _tasksRepository;
+  final String _userID;
 
   Future<void> _onSubscriptionRequested(
     PlannerSubscriptionRequested event,
@@ -123,6 +127,18 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
       } catch (e) {
         addError(e);
       }
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  Future<void> _onNewTaskAdded(
+    PlannerNewTaskAdded event,
+    Emitter<PlannerState> emit,
+  ) async {
+    try {
+      final newTask = Task.empty(userID: _userID);
+      await _tasksRepository.saveTask(newTask);
     } catch (e) {
       addError(e);
     }

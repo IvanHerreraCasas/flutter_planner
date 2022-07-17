@@ -1,6 +1,7 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
@@ -15,6 +16,7 @@ class PlannerPage extends StatelessWidget {
         activitiesRepository: context.read<ActivitiesRepository>(),
         routinesRepository: context.read<RoutinesRepository>(),
         tasksRepository: context.read<TasksRepository>(),
+        userID: context.read<AuthenticationBloc>().state.user!.id,
       )
         ..add(const PlannerSubscriptionRequested())
         ..add(const PlannerTasksSubRequested()),

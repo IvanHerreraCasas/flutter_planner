@@ -36,3 +36,7 @@ class PlannerFocusedDayChanged extends PlannerEvent {
 class PlannerAddRoutines extends PlannerEvent {
   const PlannerAddRoutines();
 }
+
+class PlannerNewTaskAdded extends PlannerEvent {
+  const PlannerNewTaskAdded();
+}
