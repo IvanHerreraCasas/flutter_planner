@@ -81,5 +81,18 @@ void main() {
         expect(event.props, equals(<Object?>[]));
       });
     });
+
+    group('PlannerSelectedTabChanged', () {
+      const selectedTab = 1;
+      final event = PlannerSelectedTabChanged(selectedTab);
+
+      test('supports value equality', () {
+        expect(event, equals(event));
+      });
+
+      test('props are correct', () {
+        expect(event.props, equals(<Object?>[selectedTab]));
+      });
+    });
   });
 }

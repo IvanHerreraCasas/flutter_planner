@@ -204,5 +204,16 @@ void main() {
         },
       );
     });
+
+    group('PlanerSelectedTabChanged', () {
+      blocTest<PlannerBloc, PlannerState>(
+        'emits new state with updated selectedTab',
+        build: buildBloc,
+        act: (bloc) => bloc.add(const PlannerSelectedTabChanged(1)),
+        expect: () => <PlannerState>[
+          PlannerState(selectedTab: 1),
+        ],
+      );
+    });
   });
 }

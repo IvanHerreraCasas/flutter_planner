@@ -20,11 +20,13 @@ void main() {
       DateTime? focusedDay,
       List<Activity> activities = const [],
       List<Task> tasks = const [],
+      int selectedTab = 0,
     }) {
       return PlannerState(
         selectedDay: selectedDay,
         focusedDay: focusedDay,
         activities: activities,
+        selectedTab: 0,
       );
     }
 
@@ -50,6 +52,7 @@ void main() {
           utcTodayDate,
           <Activity>[],
           <Task>[],
+          0,
         ]),
       );
     });
@@ -66,6 +69,7 @@ void main() {
             focusedDay: null,
             activities: null,
             tasks: null,
+            selectedTab: null,
           ),
           equals(createSubject()),
         );
@@ -85,6 +89,7 @@ void main() {
             focusedDay: DateTime.utc(2022, 5, 22),
             activities: [activity],
             tasks: [task],
+            selectedTab: 1
           ).props,
           equals(<Object?>[
             DateTime.utc(2022, 5, 22),
@@ -98,6 +103,7 @@ void main() {
               )
             ],
             [Task.empty(userID: 'userID')],
+            1,
           ]),
         );
       });
