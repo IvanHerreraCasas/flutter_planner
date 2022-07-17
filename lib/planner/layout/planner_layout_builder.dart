@@ -14,6 +14,7 @@ class PlannerLayoutBuilder extends StatelessWidget {
     required this.activities,
     required this.tasks,
     required this.tabs,
+    required this.fab,
   }) : super(key: key);
 
   final PlannerWidgetBuilder activitiesHeader;
@@ -22,22 +23,23 @@ class PlannerLayoutBuilder extends StatelessWidget {
   final PlannerWidgetBuilder activities;
   final PlannerWidgetBuilder tasks;
   final PlannerWidgetBuilder tabs;
+  final PlannerWidgetBuilder fab;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 20,
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final width = constraints.maxWidth;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
 
-            if (width <= PlannerBreakpoints.small) {
-              const currentSize = PlannerSize.small;
-              return Column(
+        if (width <= PlannerBreakpoints.small) {
+          const currentSize = PlannerSize.small;
+          return Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 20,
+              ),
+              child: Column(
                 children: [
                   calendar(currentSize),
                   const SizedBox(height: 20),
@@ -52,10 +54,19 @@ class PlannerLayoutBuilder extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            } else if (width <= PlannerBreakpoints.medium) {
-              const currentSize = PlannerSize.medium;
-              return Column(
+              ),
+            ),
+            floatingActionButton: fab(currentSize),
+          );
+        } else if (width <= PlannerBreakpoints.medium) {
+          const currentSize = PlannerSize.medium;
+          return Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 20,
+              ),
+              child: Column(
                 children: [
                   calendar(currentSize),
                   const SizedBox(height: 20),
@@ -70,10 +81,19 @@ class PlannerLayoutBuilder extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            }
-            const currentSize = PlannerSize.large;
-            return Row(
+              ),
+            ),
+            floatingActionButton: fab(currentSize),
+          );
+        }
+        const currentSize = PlannerSize.large;
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 20,
+            ),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
@@ -117,10 +137,10 @@ class PlannerLayoutBuilder extends StatelessWidget {
                   ),
                 )
               ],
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
