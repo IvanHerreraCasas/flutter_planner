@@ -39,6 +39,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     Emitter<TaskState> emit,
   ) {
     emit(state.copyWith(isCompleted: !state.isCompleted));
+    add(const TaskSaved());
   }
 
   Future<void> _onTaskSaved(

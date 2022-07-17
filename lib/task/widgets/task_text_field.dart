@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/task/task.dart';
 
 class TaskTextField extends StatefulWidget {
@@ -25,6 +26,18 @@ class _TaskTextFieldState extends State<TaskTextField> {
     if (widget.initialTitle.isEmpty) {
       focusNode.requestFocus();
     }
+
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus) {
+        final title = context.read<TaskBloc>().state.title;
+
+        if (title.isNotEmpty) {
+          context.read<TaskBloc>().add(const TaskSaved());
+        } else {
+          context.read<TaskBloc>().add(const TaskDeleted());
+        }
+      }
+    });
   }
 
   @override
@@ -42,6 +55,15 @@ class _TaskTextFieldState extends State<TaskTextField> {
       onChanged: (value) => context.read<TaskBloc>().add(
             TaskTitleChanged(value),
           ),
+      onEditingComplete: () {
+        if (controller.text.isNotEmpty) {
+          context.read<PlannerBloc>().add(
+                const PlannerNewTaskAdded(),
+              );
+        } else {
+          focusNode.nextFocus();
+        }
+      },
     );
   }
 }
