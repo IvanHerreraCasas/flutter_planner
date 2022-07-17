@@ -17,7 +17,11 @@ class Task extends Equatable {
   Task.empty({required this.userID})
       : id = null,
         title = '',
-        date = DateTime.now(),
+        date = DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+        ),
         completed = false;
 
   /// Deserializes the given json map into a [Task].
