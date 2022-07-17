@@ -49,9 +49,28 @@ class _TaskTextFieldState extends State<TaskTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final isCompleted = context.select(
+      (TaskBloc bloc) => bloc.state.isCompleted,
+    );
+
+    final theme = Theme.of(context);
     return TextField(
       controller: controller,
       focusNode: focusNode,
+      decoration: InputDecoration(
+        hintText: 'Task ...',
+        border: InputBorder.none,
+        hoverColor: theme.colorScheme.surface,
+        fillColor: theme.colorScheme.surface,
+      ),
+      keyboardType: TextInputType.text,
+      textCapitalization: TextCapitalization.sentences,
+      style: theme.textTheme.bodyLarge?.copyWith(
+        color: isCompleted
+            ? theme.colorScheme.outline
+            : theme.colorScheme.onBackground,
+        decoration: isCompleted ? TextDecoration.lineThrough : null,
+      ),
       onChanged: (value) => context.read<TaskBloc>().add(
             TaskTitleChanged(value),
           ),
