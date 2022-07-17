@@ -138,7 +138,12 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     Emitter<PlannerState> emit,
   ) async {
     try {
-      final newTask = Task.empty(userID: _userID);
+      final newTask = Task(
+        userID: _userID,
+        date: state.selectedDay,
+        completed: false,
+      );
+      
       await _tasksRepository.saveTask(newTask);
     } catch (e) {
       addError(e);
