@@ -21,9 +21,11 @@ class TasksController {
   }
 
   void updateTask(Task newTask) {
-    final tasks = List.of(_streamController.value)
-      ..removeWhere((task) => task.id == newTask.id)
-      ..add(newTask);
+    final tasks = List.of(_streamController.value);
+
+    final taskIndex = tasks.indexWhere((task) => task.id == newTask.id);
+
+    tasks.replaceRange(taskIndex, taskIndex + 1, [newTask]);
 
     _streamController.add(tasks);
   }
