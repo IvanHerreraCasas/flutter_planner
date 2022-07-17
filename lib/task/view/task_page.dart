@@ -30,7 +30,7 @@ class TaskView extends StatelessWidget {
     return Row(
       children: const [
         TaskCheckBox(),
-        TaskTextField(),
+        Expanded(child: TaskTextField()),
       ],
     );
   }
