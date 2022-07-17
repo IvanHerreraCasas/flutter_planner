@@ -40,7 +40,7 @@ void main() {
         expect(event, equals(event));
       });
 
-      test('supports value equality', () {
+      test('props are correct', () {
         expect(event.props, equals(<Object?>[selectedDay]));
       });
     });
@@ -53,7 +53,7 @@ void main() {
         expect(event, equals(event));
       });
 
-      test('supports value equality', () {
+      test('props are correct', () {
         expect(event.props, equals(<Object?>[focusedDay]));
       });
     });
@@ -65,7 +65,19 @@ void main() {
         expect(event, equals(event));
       });
 
+      test('props are correct', () {
+        expect(event.props, equals(<Object?>[]));
+      });
+    });
+
+    group('PlannerNewTaskAdded', () {
+      final event = PlannerNewTaskAdded();
+
       test('supports value equality', () {
+        expect(event, equals(event));
+      });
+
+      test('props are correct', () {
         expect(event.props, equals(<Object?>[]));
       });
     });
