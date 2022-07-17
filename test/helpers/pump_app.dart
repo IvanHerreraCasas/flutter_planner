@@ -10,6 +10,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/l10n/l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -60,6 +61,7 @@ extension PumpApp on WidgetTester {
 
   Future<void> pumpAppRouter(
     GoRouter router, {
+    required AuthenticationBloc authenticationBloc,
     AuthenticationRepository? authenticationRepository,
     ActivitiesRepository? activitiesRepository,
     RoutinesRepository? routinesRepository,
@@ -83,15 +85,18 @@ extension PumpApp on WidgetTester {
             create: (context) => tasksRepository ?? MockTasksRepository(),
           ),
         ],
-        child: MaterialApp.router(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          routeInformationProvider: router.routeInformationProvider,
-          routeInformationParser: router.routeInformationParser,
-          routerDelegate: router.routerDelegate,
+        child: BlocProvider.value(
+          value: authenticationBloc,
+          child: MaterialApp.router(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            routeInformationProvider: router.routeInformationProvider,
+            routeInformationParser: router.routeInformationParser,
+            routerDelegate: router.routerDelegate,
+          ),
         ),
       ),
     );

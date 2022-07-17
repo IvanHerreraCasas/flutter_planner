@@ -1,8 +1,10 @@
 import 'package:activities_repository/activities_repository.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +23,7 @@ void main() {
     late RoutinesRepository routinesRepository;
     late TasksRepository tasksRepository;
     late AppBloc appBloc;
+    late AuthenticationBloc authenticationBloc;
 
     setUp(() {
       goRouter = MockGoRouter();
@@ -28,6 +31,11 @@ void main() {
       routinesRepository = MockRoutinesRepository();
       tasksRepository = MockTasksRepository();
       appBloc = MockAppBloc();
+      authenticationBloc = MockAuthenticationBloc();
+
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.authenticated(User(id: 'userID')),
+      );
 
       when(
         () => activitiesRepository.streamActivities(date: any(named: 'date')),
@@ -46,8 +54,11 @@ void main() {
     }) {
       return InheritedGoRouter(
         goRouter: goRouter,
-        child: BlocProvider.value(
-          value: appBloc,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: appBloc),
+            BlocProvider.value(value: authenticationBloc),
+          ],
           child: HomePage(
             index: index,
             homeViewKey: homeViewKey,

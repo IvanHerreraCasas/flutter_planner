@@ -14,7 +14,6 @@ import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
-import '../app_mocks.dart';
 
 void main() {
   group('AppRouter', () {
@@ -61,6 +60,7 @@ void main() {
           'when user is not authenticated', (tester) async {
         await tester.pumpAppRouter(
           buildSubject(),
+          authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
@@ -77,6 +77,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(initialLocation: '/sign-in'),
+          authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
@@ -91,6 +92,7 @@ void main() {
         testWidgets('renders SignUpPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-up'),
+            authenticationBloc: authenticationBloc,
           );
 
           expect(find.byType(SignUpPage), findsOneWidget);
@@ -101,6 +103,7 @@ void main() {
         testWidgets('renders SignInPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-in'),
+            authenticationBloc: authenticationBloc,
           );
 
           expect(find.byType(SignInPage), findsOneWidget);
@@ -116,6 +119,7 @@ void main() {
         testWidgets('renders HomePage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
@@ -128,6 +132,7 @@ void main() {
             'when page param is planner', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
@@ -140,6 +145,7 @@ void main() {
             'when page param is schedule', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/schedule'),
+            authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
@@ -164,6 +170,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(),
+          authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
@@ -182,7 +189,10 @@ void main() {
             AuthenticationState.unauthenticated(),
           ]),
         );
-        await tester.pumpAppRouter(buildSubject());
+        await tester.pumpAppRouter(
+          buildSubject(),
+          authenticationBloc: authenticationBloc,
+        );
 
         expect(find.byType(SignInPage), findsOneWidget);
       });

@@ -21,6 +21,8 @@ void main() {
 
     final date = DateTime.utc(2022, 5, 25);
 
+    const mockUserID = 'userID';
+
     final mockActivities = [
       Activity(
         userID: 'userID',
@@ -73,6 +75,7 @@ void main() {
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
         tasksRepository: tasksRepository,
+        userID: mockUserID,
       );
     }
 
@@ -142,8 +145,7 @@ void main() {
         ),
         act: (bloc) => bloc.add(const PlannerTasksSubRequested()),
         verify: (bloc) {
-          verify(() => tasksRepository.streamTasks(date: date))
-              .called(1);
+          verify(() => tasksRepository.streamTasks(date: date)).called(1);
         },
       );
 

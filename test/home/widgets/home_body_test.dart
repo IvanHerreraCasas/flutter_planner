@@ -1,8 +1,11 @@
 import 'package:activities_repository/activities_repository.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
+import 'package:flutter_planner/task/bloc/bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
@@ -16,10 +19,17 @@ void main() {
     late RoutinesRepository routinesRepository;
     late TasksRepository tasksRepository;
 
+    late AuthenticationBloc authenticationBloc;
+
     setUp(() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
       tasksRepository = MockTasksRepository();
+      authenticationBloc = MockAuthenticationBloc();
+
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.authenticated(User(id: 'userID')),
+      );
 
       when(
         () => activitiesRepository.streamActivities(date: any(named: 'date')),
@@ -35,7 +45,10 @@ void main() {
     Widget buildSubject({
       int index = 0,
     }) {
-      return HomeBody(index: index);
+      return BlocProvider.value(
+        value: authenticationBloc,
+        child: HomeBody(index: index),
+      );
     }
 
     testWidgets('renders and show PlannerPager when index is 0',
