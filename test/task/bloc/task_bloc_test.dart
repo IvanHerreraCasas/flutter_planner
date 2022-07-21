@@ -55,23 +55,62 @@ void main() {
     group('TaskCompletetionToggled', () {
       blocTest<TaskBloc, TaskState>(
         'emits completed task state '
-        'when tasks is not completed',
+        'when tasks is not completed '
+        'and attempts to save Task',
+        setUp: () {
+          when(
+            () => tasksRepository.saveTask(
+              mockInitialTask.copyWith(completed: true),
+            ),
+          ).thenAnswer((_) => Future.value(mockInitialTask));
+        },
         build: buildBloc,
         seed: () => mockInitialState.copyWith(isCompleted: false),
         act: (bloc) => bloc.add(const TaskCompletetionToggled()),
         expect: () => <TaskState>[
           mockInitialState.copyWith(isCompleted: true),
+          mockInitialState.copyWith(
+            status: TaskStatus.loading,
+            isCompleted: true,
+          ),
+          mockInitialState.copyWith(
+            status: TaskStatus.success,
+            isCompleted: true,
+          ),
         ],
+        verify: (bloc) {
+          verify(
+            () => tasksRepository.saveTask(
+              mockInitialTask.copyWith(completed: true),
+            ),
+          );
+        },
       );
 
       blocTest<TaskBloc, TaskState>(
         'emits not completed task state '
-        'when tasks is completed',
+        'when tasks is completed '
+        'and attempts to save Task',
+        setUp: () {
+          when(
+            () => tasksRepository.saveTask(
+              mockInitialTask.copyWith(completed: false),
+            ),
+          ).thenAnswer((_) => Future.value(mockInitialTask));
+        },
         build: buildBloc,
         seed: () => mockInitialState.copyWith(isCompleted: true),
         act: (bloc) => bloc.add(const TaskCompletetionToggled()),
         expect: () => <TaskState>[
           mockInitialState.copyWith(isCompleted: false),
+          mockInitialState.copyWith(
+            status: TaskStatus.loading,
+            isCompleted: false,
+          ),
+          mockInitialState.copyWith(
+            status: TaskStatus.success,
+            isCompleted: false,
+          ),
         ],
       );
     });
