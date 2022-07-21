@@ -86,11 +86,12 @@ void main() {
         expect(
           createSubject()
               .copyWith(
-                  selectedDay: DateTime.utc(2022, 5, 22),
-                  focusedDay: DateTime.utc(2022, 5, 22),
-                  activities: [activity],
-                  tasks: [task],
-                  selectedTab: 1)
+                selectedDay: DateTime.utc(2022, 5, 22),
+                focusedDay: DateTime.utc(2022, 5, 22),
+                activities: [activity],
+                tasks: [task],
+                selectedTab: 1,
+              )
               .props,
           equals(<Object?>[
             DateTime.utc(2022, 5, 22),
