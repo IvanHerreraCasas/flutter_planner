@@ -193,10 +193,23 @@ void main() {
     });
 
     group('PlannerNewTaskAdded', () {
-      final newTask = Task.empty(userID: mockUserID);
+      final newTask = Task(
+        userID: mockUserID,
+        date: date,
+        completed: false,
+      );
       blocTest<PlannerBloc, PlannerState>(
         'attempts to save a new task',
+        setUp: () {
+          when(
+            () => tasksRepository.saveTask(newTask),
+          ).thenAnswer((_) => Future.value(newTask));
+        },
         build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
         act: (bloc) => bloc.add(const PlannerNewTaskAdded()),
         expect: () => const <PlannerState>[],
         verify: (bloc) {
