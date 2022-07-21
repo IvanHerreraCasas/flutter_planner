@@ -80,7 +80,7 @@ class _TaskTextFieldState extends State<TaskTextField> {
                 const PlannerNewTaskAdded(),
               );
         } else {
-          focusNode.nextFocus();
+          focusNode.unfocus();
         }
       },
     );
