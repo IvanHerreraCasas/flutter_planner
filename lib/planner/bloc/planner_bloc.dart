@@ -143,7 +143,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
         date: state.selectedDay,
         completed: false,
       );
-      
+
       await _tasksRepository.saveTask(newTask);
     } catch (e) {
       addError(e);
