@@ -45,36 +45,26 @@ class _PlannerActivitiesState extends State<PlannerActivities> {
     return SingleChildScrollView(
       controller: controller,
       padding: const EdgeInsets.all(20),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final itemWidth = constraints.maxWidth - 80;
-            return DynamicTimeline(
-              firstDateTime: DateTime(1970, 01, 01, 7),
-              lastDateTime: DateTime(1970, 01, 01, 22),
-              labelBuilder: DateFormat('HH:mm').format,
-              intervalDuration: const Duration(hours: 1),
-              resizable: false,
-              maxCrossAxisItemExtent: itemWidth,
-              intervalExtent: intervalExtent,
-              items: activities
-                  .map(
-                    (activity) => TimelineItem(
-                      key: ValueKey(activity),
-                      startDateTime: activity.startTime,
-                      endDateTime: activity.endTime,
-                      child: ActivityCard(
-                        activity: activity,
-                        currentSize: widget.currentSize,
-                        width: itemWidth,
-                      ),
-                    ),
-                  )
-                  .toList(),
-            );
-          },
-        ),
+      child: DynamicTimeline(
+        firstDateTime: DateTime(1970, 01, 01, 7),
+        lastDateTime: DateTime(1970, 01, 01, 22),
+        labelBuilder: DateFormat('HH:mm').format,
+        intervalDuration: const Duration(hours: 1),
+        resizable: false,
+        intervalExtent: intervalExtent,
+        items: activities
+            .map(
+              (activity) => TimelineItem(
+                key: ValueKey(activity),
+                startDateTime: activity.startTime,
+                endDateTime: activity.endTime,
+                child: ActivityCard(
+                  activity: activity,
+                  currentSize: widget.currentSize,
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

@@ -18,6 +18,7 @@ import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/l10n/l10n.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -25,11 +26,13 @@ class App extends StatelessWidget {
     required this.authenticationRepository,
     required this.activitiesRepository,
     required this.routinesRepository,
+    required this.tasksRepository,
   }) : super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final ActivitiesRepository activitiesRepository;
   final RoutinesRepository routinesRepository;
+  final TasksRepository tasksRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => routinesRepository,
+        ),
+        RepositoryProvider(
+          create: (context) => tasksRepository,
         ),
       ],
       child: MultiBlocProvider(

@@ -7,8 +7,8 @@ import 'package:flutter_planner/app/router/router.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:go_router/go_router.dart';
 
-class PlannerHeader extends StatelessWidget {
-  const PlannerHeader({
+class PlannerActivitiesHeader extends StatelessWidget {
+  const PlannerActivitiesHeader({
     Key? key,
     required this.currentSize,
   }) : super(key: key);

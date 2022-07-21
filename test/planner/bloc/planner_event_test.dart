@@ -2,12 +2,25 @@
 
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 void main() {
   group('PlannerEvent', () {
     group('PlannerSubscriptionRequested', () {
       final event = PlannerSubscriptionRequested();
+      test('supports value equality', () {
+        expect(
+          event,
+          equals(event),
+        );
+      });
+
+      test('props are correct', () {
+        expect(event.props, equals(<Object?>[]));
+      });
+    });
+
+    group('PlannerTaskSubRequested', () {
+      final event = PlannerTasksSubRequested();
       test('supports value equality', () {
         expect(
           event,
@@ -27,7 +40,7 @@ void main() {
         expect(event, equals(event));
       });
 
-      test('supports value equality', () {
+      test('props are correct', () {
         expect(event.props, equals(<Object?>[selectedDay]));
       });
     });
@@ -40,34 +53,8 @@ void main() {
         expect(event, equals(event));
       });
 
-      test('supports value equality', () {
+      test('props are correct', () {
         expect(event.props, equals(<Object?>[focusedDay]));
-      });
-    });
-
-    group('PlannerCalendarFormatChanged', () {
-      const format = CalendarFormat.week;
-      final event = PlannerCalendarFormatChanged(format);
-
-      test('supports value equality', () {
-        expect(event, equals(event));
-      });
-
-      test('supports value equality', () {
-        expect(event.props, equals(<Object?>[format]));
-      });
-    });
-
-    group('PlannerSizeChanged', () {
-      const plannerSize = PlannerSize.medium;
-      final event = PlannerSizeChanged(plannerSize);
-
-      test('supports value equality', () {
-        expect(event, equals(event));
-      });
-
-      test('supports value equality', () {
-        expect(event.props, equals(<Object?>[plannerSize]));
       });
     });
 
@@ -78,8 +65,33 @@ void main() {
         expect(event, equals(event));
       });
 
-      test('supports value equality', () {
+      test('props are correct', () {
         expect(event.props, equals(<Object?>[]));
+      });
+    });
+
+    group('PlannerNewTaskAdded', () {
+      final event = PlannerNewTaskAdded();
+
+      test('supports value equality', () {
+        expect(event, equals(event));
+      });
+
+      test('props are correct', () {
+        expect(event.props, equals(<Object?>[]));
+      });
+    });
+
+    group('PlannerSelectedTabChanged', () {
+      const selectedTab = 1;
+      final event = PlannerSelectedTabChanged(selectedTab);
+
+      test('supports value equality', () {
+        expect(event, equals(event));
+      });
+
+      test('props are correct', () {
+        expect(event.props, equals(<Object?>[selectedTab]));
       });
     });
   });

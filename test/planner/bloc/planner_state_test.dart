@@ -3,7 +3,7 @@
 import 'package:activities_api/activities_api.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 void main() {
   group('PlannerState', () {
@@ -19,15 +19,14 @@ void main() {
       DateTime? selectedDay,
       DateTime? focusedDay,
       List<Activity> activities = const [],
-      CalendarFormat calendarFormat = CalendarFormat.month,
-      PlannerSize size = PlannerSize.large,
+      List<Task> tasks = const [],
+      int selectedTab = 0,
     }) {
       return PlannerState(
         selectedDay: selectedDay,
         focusedDay: focusedDay,
         activities: activities,
-        calendarFormat: calendarFormat,
-        size: size,
+        selectedTab: 0,
       );
     }
 
@@ -52,8 +51,8 @@ void main() {
           utcTodayDate,
           utcTodayDate,
           <Activity>[],
-          CalendarFormat.month,
-          PlannerSize.large,
+          <Task>[],
+          0,
         ]),
       );
     });
@@ -69,8 +68,8 @@ void main() {
             selectedDay: null,
             focusedDay: null,
             activities: null,
-            calendarFormat: null,
-            size: null,
+            tasks: null,
+            selectedTab: null,
           ),
           equals(createSubject()),
         );
@@ -83,14 +82,15 @@ void main() {
           startTime: DateTime(2022, 5, 22, 7, 0),
           endTime: DateTime(2022, 5, 22, 10, 0),
         );
+        final task = Task.empty(userID: 'userID');
         expect(
           createSubject()
               .copyWith(
                 selectedDay: DateTime.utc(2022, 5, 22),
                 focusedDay: DateTime.utc(2022, 5, 22),
                 activities: [activity],
-                calendarFormat: CalendarFormat.week,
-                size: PlannerSize.medium,
+                tasks: [task],
+                selectedTab: 1,
               )
               .props,
           equals(<Object?>[
@@ -104,8 +104,8 @@ void main() {
                 endTime: DateTime(2022, 5, 22, 10, 0),
               )
             ],
-            CalendarFormat.week,
-            PlannerSize.medium,
+            [Task.empty(userID: 'userID')],
+            1,
           ]),
         );
       });

@@ -11,12 +11,10 @@ class ActivityCard extends StatelessWidget {
     Key? key,
     required this.activity,
     required this.currentSize,
-    required this.width,
   }) : super(key: key);
 
   final Activity activity;
   final PlannerSize currentSize;
-  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,6 @@ class ActivityCard extends StatelessWidget {
         builder: (context, constraints) {
           if (constraints.maxHeight > 50) {
             return Container(
-              width: width,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer,
@@ -84,7 +81,6 @@ class ActivityCard extends StatelessWidget {
             );
           }
           return Container(
-            width: width,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: theme.colorScheme.primaryContainer,

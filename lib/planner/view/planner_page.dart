@@ -1,9 +1,10 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:routines_repository/routines_repository.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 class PlannerPage extends StatelessWidget {
   const PlannerPage({Key? key}) : super(key: key);
@@ -14,30 +15,23 @@ class PlannerPage extends StatelessWidget {
       create: (context) => PlannerBloc(
         activitiesRepository: context.read<ActivitiesRepository>(),
         routinesRepository: context.read<RoutinesRepository>(),
-      )..add(const PlannerSubscriptionRequested()),
-      child: BlocListener<PlannerBloc, PlannerState>(
-        listenWhen: (previous, current) => previous.size != current.size,
-        listener: (context, state) {
-          if (state.size == PlannerSize.large) {
-            context
-                .read<PlannerBloc>()
-                .add(const PlannerCalendarFormatChanged(CalendarFormat.month));
-          } else {
-            context
-                .read<PlannerBloc>()
-                .add(const PlannerCalendarFormatChanged(CalendarFormat.week));
-          }
-        },
-        child: PlannerLayoutBuilder(
-          onResize: (currentSize, context) => context.read<PlannerBloc>().add(
-                PlannerSizeChanged(currentSize),
-              ),
-          header: (currentSize) => PlannerHeader(currentSize: currentSize),
-          calendar: (currentSize) => PlannerCalendar(currentSize: currentSize),
-          activities: (currentSize) => PlannerActivities(
-            currentSize: currentSize,
-          ),
+        tasksRepository: context.read<TasksRepository>(),
+        userID: context.read<AuthenticationBloc>().state.user!.id,
+      )
+        ..add(const PlannerSubscriptionRequested())
+        ..add(const PlannerTasksSubRequested()),
+      child: PlannerLayoutBuilder(
+        activitiesHeader: (currentSize) => PlannerActivitiesHeader(
+          currentSize: currentSize,
         ),
+        tasksHeader: (_) => const PlannerTasksHeader(),
+        calendar: (currentSize) => PlannerCalendar(currentSize: currentSize),
+        activities: (currentSize) => PlannerActivities(
+          currentSize: currentSize,
+        ),
+        tasks: (_) => const PlannerTasks(),
+        tabs: (currentSize) => PlannerTabs(currentSize: currentSize),
+        fab: (_) => const PlannerFab(),
       ),
     );
   }

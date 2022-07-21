@@ -34,7 +34,6 @@ void main() {
         goRouter: goRouter,
         child: ActivityCard(
           currentSize: currentSize,
-          width: width,
           activity: activity ?? mockActivity,
         ),
       );

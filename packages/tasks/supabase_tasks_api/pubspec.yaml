@@ -1,0 +1,21 @@
+name: supabase_tasks_api
+description: A Very Good Project created by Very Good CLI.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.17.0
+  rxdart: ^0.27.4
+  supabase_flutter: ^0.3.2
+  tasks_api:
+    path: ../tasks_api
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^3.0.1

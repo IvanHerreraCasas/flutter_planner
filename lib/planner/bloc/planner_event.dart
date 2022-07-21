@@ -11,6 +11,10 @@ class PlannerSubscriptionRequested extends PlannerEvent {
   const PlannerSubscriptionRequested();
 }
 
+class PlannerTasksSubRequested extends PlannerEvent {
+  const PlannerTasksSubRequested();
+}
+
 class PlannerSelectedDayChanged extends PlannerEvent {
   const PlannerSelectedDayChanged(this.selectedDay);
 
@@ -29,24 +33,19 @@ class PlannerFocusedDayChanged extends PlannerEvent {
   List<Object?> get props => [focusedDay];
 }
 
-class PlannerCalendarFormatChanged extends PlannerEvent {
-  const PlannerCalendarFormatChanged(this.format);
-
-  final CalendarFormat format;
-
-  @override
-  List<Object?> get props => [format];
-}
-
-class PlannerSizeChanged extends PlannerEvent {
-  const PlannerSizeChanged(this.plannerSize);
-
-  final PlannerSize plannerSize;
-
-  @override
-  List<Object?> get props => [plannerSize];
-}
-
 class PlannerAddRoutines extends PlannerEvent {
   const PlannerAddRoutines();
+}
+
+class PlannerNewTaskAdded extends PlannerEvent {
+  const PlannerNewTaskAdded();
+}
+
+class PlannerSelectedTabChanged extends PlannerEvent {
+  const PlannerSelectedTabChanged(this.selectedTab);
+
+  final int selectedTab;
+
+  @override
+  List<Object?> get props => [selectedTab];
 }

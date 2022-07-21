@@ -11,20 +11,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
-import '../app_mocks.dart';
 
 void main() {
   group('AppRouter', () {
     late AuthenticationBloc authenticationBloc;
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
+    late TasksRepository tasksRepository;
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
+      tasksRepository = MockTasksRepository();
 
       final currentDateTime = DateTime.now();
       final utcTodayDate = DateTime.utc(
@@ -37,6 +39,8 @@ void main() {
           .thenReturn(const AuthenticationState.unknown());
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
       when(() => activitiesRepository.streamActivities(date: utcTodayDate))
+          .thenAnswer((_) => const Stream.empty());
+      when(() => tasksRepository.streamTasks(date: utcTodayDate))
           .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());
@@ -56,8 +60,10 @@ void main() {
           'when user is not authenticated', (tester) async {
         await tester.pumpAppRouter(
           buildSubject(),
+          authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
         );
 
         expect(find.byType(SignInPage), findsOneWidget);
@@ -71,8 +77,10 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(initialLocation: '/sign-in'),
+          authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
         );
 
         expect(find.byType(HomePage), findsOneWidget);
@@ -84,6 +92,7 @@ void main() {
         testWidgets('renders SignUpPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-up'),
+            authenticationBloc: authenticationBloc,
           );
 
           expect(find.byType(SignUpPage), findsOneWidget);
@@ -94,6 +103,7 @@ void main() {
         testWidgets('renders SignInPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-in'),
+            authenticationBloc: authenticationBloc,
           );
 
           expect(find.byType(SignInPage), findsOneWidget);
@@ -109,8 +119,10 @@ void main() {
         testWidgets('renders HomePage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
           );
 
           expect(find.byType(HomePage), findsOneWidget);
@@ -120,8 +132,10 @@ void main() {
             'when page param is planner', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
@@ -131,8 +145,10 @@ void main() {
             'when page param is schedule', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/schedule'),
+            authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
@@ -154,8 +170,10 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(),
+          authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
         );
 
         expect(find.byType(HomePage), findsOneWidget);
@@ -171,7 +189,10 @@ void main() {
             AuthenticationState.unauthenticated(),
           ]),
         );
-        await tester.pumpAppRouter(buildSubject());
+        await tester.pumpAppRouter(
+          buildSubject(),
+          authenticationBloc: authenticationBloc,
+        );
 
         expect(find.byType(SignInPage), findsOneWidget);
       });

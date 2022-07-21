@@ -5,7 +5,9 @@ import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:tasks_repository/tasks_repository.dart';
+
+import '../../helpers/helpers.dart';
 
 class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
 
@@ -15,8 +17,11 @@ void main() {
   group('PlannerBloc', () {
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
+    late TasksRepository tasksRepository;
 
     final date = DateTime.utc(2022, 5, 25);
+
+    const mockUserID = 'userID';
 
     final mockActivities = [
       Activity(
@@ -35,11 +40,30 @@ void main() {
       ),
     ];
 
+    final mockTasks = [
+      Task(
+        userID: 'userID',
+        title: 'task 1',
+        date: date,
+        completed: true,
+      ),
+      Task(
+        userID: 'userID',
+        title: 'task 2',
+        date: date,
+        completed: false,
+      ),
+    ];
+
     setUp(() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
+      tasksRepository = MockTasksRepository();
 
       when(() => activitiesRepository.streamActivities(date: date)).thenAnswer(
+        (_) => const Stream.empty(),
+      );
+      when(() => tasksRepository.streamTasks(date: date)).thenAnswer(
         (_) => const Stream.empty(),
       );
       when(() => activitiesRepository.dispose())
@@ -50,6 +74,8 @@ void main() {
       return PlannerBloc(
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
+        tasksRepository: tasksRepository,
+        userID: mockUserID,
       );
     }
 
@@ -65,7 +91,7 @@ void main() {
 
     group('PlannerSubscriptionRequested', () {
       blocTest<PlannerBloc, PlannerState>(
-        'starts listening to repository streamActivities',
+        'starts listening to activitiesRepository streamActivities',
         setUp: () {
           when(() => activitiesRepository.streamActivities(date: date))
               .thenAnswer((_) => Stream.value(mockActivities));
@@ -105,6 +131,47 @@ void main() {
       );
     });
 
+    group('PlannerTasksSubRequested', () {
+      blocTest<PlannerBloc, PlannerState>(
+        'starts listening to tasksRepository streamTasks',
+        setUp: () {
+          when(() => tasksRepository.streamTasks(date: date))
+              .thenAnswer((_) => Stream.value(mockTasks));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerTasksSubRequested()),
+        verify: (bloc) {
+          verify(() => tasksRepository.streamTasks(date: date)).called(1);
+        },
+      );
+
+      blocTest<PlannerBloc, PlannerState>(
+        'emits state with updated tasks '
+        'when repository stream tasks emits new tasks',
+        setUp: () {
+          when(() => tasksRepository.streamTasks(date: date))
+              .thenAnswer((_) => Stream.value(mockTasks));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerTasksSubRequested()),
+        expect: () => <PlannerState>[
+          PlannerState(
+            selectedDay: date,
+            focusedDay: date,
+            tasks: mockTasks,
+          ),
+        ],
+      );
+    });
+
     group('PlannerSelectedDayChanged', () {
       blocTest<PlannerBloc, PlannerState>(
         'emits state with updated selectedDay',
@@ -125,27 +192,39 @@ void main() {
       );
     });
 
-    group('PlannerCalendarFormatChanged', () {
-      const format = CalendarFormat.week;
+    group('PlannerNewTaskAdded', () {
+      final newTask = Task(
+        userID: mockUserID,
+        date: date,
+        completed: false,
+      );
       blocTest<PlannerBloc, PlannerState>(
-        'emits state with updated calendar format.',
+        'attempts to save a new task',
+        setUp: () {
+          when(
+            () => tasksRepository.saveTask(newTask),
+          ).thenAnswer((_) => Future.value(newTask));
+        },
         build: buildBloc,
-        act: (bloc) => bloc.add(const PlannerCalendarFormatChanged(format)),
-        expect: () => <PlannerState>[
-          PlannerState(calendarFormat: format),
-        ],
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerNewTaskAdded()),
+        expect: () => const <PlannerState>[],
+        verify: (bloc) {
+          verify(() => tasksRepository.saveTask(newTask)).called(1);
+        },
       );
     });
 
-    group('PlannerSizeChanged', () {
-      const plannerSize = PlannerSize.medium;
-
+    group('PlanerSelectedTabChanged', () {
       blocTest<PlannerBloc, PlannerState>(
-        'emits state with updated size.',
+        'emits new state with updated selectedTab',
         build: buildBloc,
-        act: (bloc) => bloc.add(const PlannerSizeChanged(plannerSize)),
+        act: (bloc) => bloc.add(const PlannerSelectedTabChanged(1)),
         expect: () => <PlannerState>[
-          PlannerState(size: plannerSize),
+          PlannerState(selectedTab: 1),
         ],
       );
     });

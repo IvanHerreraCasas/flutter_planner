@@ -3,10 +3,9 @@ import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_planner/planner/planner.dart';
 import 'package:routines_api/routines_api.dart';
 import 'package:routines_repository/routines_repository.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 
 part 'planner_event.dart';
 part 'planner_state.dart';
@@ -15,22 +14,32 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
   PlannerBloc({
     required ActivitiesRepository activitiesRepository,
     required RoutinesRepository routinesRepository,
+    required TasksRepository tasksRepository,
+    required String userID,
   })  : _activitiesRepository = activitiesRepository,
         _routinesRepository = routinesRepository,
+        _tasksRepository = tasksRepository,
+        _userID = userID,
         super(PlannerState()) {
     on<PlannerSubscriptionRequested>(
       _onSubscriptionRequested,
       transformer: restartable(),
     );
+    on<PlannerTasksSubRequested>(
+      _onTasksSubRequested,
+      transformer: restartable(),
+    );
     on<PlannerSelectedDayChanged>(_onSelectedDayChanged);
     on<PlannerFocusedDayChanged>(_onFocusedDayChanged);
-    on<PlannerCalendarFormatChanged>(_onCalendarFormatChanged);
-    on<PlannerSizeChanged>(_onLayoutSizeChanged);
     on<PlannerAddRoutines>(_onAddRoutines);
+    on<PlannerNewTaskAdded>(_onNewTaskAdded);
+    on<PlannerSelectedTabChanged>(_onSelectedTabChanged);
   }
 
   final ActivitiesRepository _activitiesRepository;
   final RoutinesRepository _routinesRepository;
+  final TasksRepository _tasksRepository;
+  final String _userID;
 
   Future<void> _onSubscriptionRequested(
     PlannerSubscriptionRequested event,
@@ -48,12 +57,27 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     );
   }
 
+  Future<void> _onTasksSubRequested(
+    PlannerTasksSubRequested event,
+    Emitter<PlannerState> emit,
+  ) async {
+    await emit.forEach<List<Task>>(
+      _tasksRepository.streamTasks(date: state.selectedDay),
+      onData: (tasks) => state.copyWith(tasks: tasks),
+      onError: (error, stack) {
+        addError(error);
+        return state;
+      },
+    );
+  }
+
   void _onSelectedDayChanged(
     PlannerSelectedDayChanged event,
     Emitter<PlannerState> emit,
   ) {
     emit(state.copyWith(selectedDay: event.selectedDay));
     add(const PlannerSubscriptionRequested());
+    add(const PlannerTasksSubRequested());
   }
 
   void _onFocusedDayChanged(
@@ -61,20 +85,6 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     Emitter<PlannerState> emit,
   ) {
     emit(state.copyWith(focusedDay: event.focusedDay));
-  }
-
-  void _onCalendarFormatChanged(
-    PlannerCalendarFormatChanged event,
-    Emitter<PlannerState> emit,
-  ) {
-    emit(state.copyWith(calendarFormat: event.format));
-  }
-
-  void _onLayoutSizeChanged(
-    PlannerSizeChanged event,
-    Emitter<PlannerState> emit,
-  ) {
-    emit(state.copyWith(size: event.plannerSize));
   }
 
   Future<void> _onAddRoutines(
@@ -121,6 +131,30 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     } catch (e) {
       addError(e);
     }
+  }
+
+  Future<void> _onNewTaskAdded(
+    PlannerNewTaskAdded event,
+    Emitter<PlannerState> emit,
+  ) async {
+    try {
+      final newTask = Task(
+        userID: _userID,
+        date: state.selectedDay,
+        completed: false,
+      );
+
+      await _tasksRepository.saveTask(newTask);
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  void _onSelectedTabChanged(
+    PlannerSelectedTabChanged event,
+    Emitter<PlannerState> emit,
+  ) {
+    emit(state.copyWith(selectedTab: event.selectedTab));
   }
 
   @override
