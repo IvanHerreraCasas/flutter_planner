@@ -10,6 +10,7 @@ class RoutineState extends Equatable {
     this.day = 1,
     required this.startTime,
     required this.endTime,
+    this.errorMessage = '',
   });
 
   final RoutineStatus status;
@@ -18,6 +19,7 @@ class RoutineState extends Equatable {
   final int day;
   final DateTime startTime;
   final DateTime endTime;
+  final String errorMessage;
 
   RoutineState copyWith({
     RoutineStatus? status,
@@ -26,6 +28,7 @@ class RoutineState extends Equatable {
     int? day,
     DateTime? startTime,
     DateTime? endTime,
+    String? errorMessage,
   }) {
     return RoutineState(
       status: status ?? this.status,
@@ -34,6 +37,7 @@ class RoutineState extends Equatable {
       day: day ?? this.day,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -45,5 +49,6 @@ class RoutineState extends Equatable {
         day,
         startTime,
         endTime,
+        errorMessage,
       ];
 }

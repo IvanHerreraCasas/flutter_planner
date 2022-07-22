@@ -137,7 +137,10 @@ void main() {
         act: (bloc) => bloc.add(const RoutineSaved()),
         expect: () => <RoutineState>[
           fakeState.copyWith(status: RoutineStatus.loading),
-          fakeState.copyWith(status: RoutineStatus.failure),
+          fakeState.copyWith(
+            status: RoutineStatus.failure,
+            errorMessage: 'error: activity could not be saved',
+          ),
         ],
       );
     });
@@ -185,7 +188,10 @@ void main() {
         act: (bloc) => bloc.add(const RoutineDeleted()),
         expect: () => <RoutineState>[
           fakeState.copyWith(status: RoutineStatus.loading),
-          fakeState.copyWith(status: RoutineStatus.failure),
+          fakeState.copyWith(
+            status: RoutineStatus.failure,
+            errorMessage: 'error: activity could not be deleted',
+          ),
         ],
       );
     });

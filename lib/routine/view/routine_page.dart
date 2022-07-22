@@ -15,37 +15,48 @@ class RoutinePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoaderOverlay(
-      child: BlocListener<RoutineBloc, RoutineState>(
-        listenWhen: (previous, current) => previous.status != current.status,
-        listener: (context, state) {
-          switch (state.status) {
-            case RoutineStatus.initial:
-              break;
-            case RoutineStatus.loading:
-              context.loaderOverlay.show();
-              break;
-            case RoutineStatus.success:
-              context.loaderOverlay.hide();
-              if (isPage) {
-                context.pop();
-              } else {
-                context
-                    .read<ScheduleBloc>()
-                    .add(const ScheduleSelectedRoutineChanged(null));
-              }
-              break;
-            case RoutineStatus.failure:
-              context.loaderOverlay.hide();
-              // TODO(ivan): Handle RoutineStatus.failure
-              break;
-          }
-        },
-        child: RoutineLayoutBuilder(
-          headerButtons: () => RoutineHeaderButtons(isPage: isPage),
-          nameTextField: () => const RoutineNameTextField(),
-          dayPicker: () => const RoutineDayPicker(),
-          timePickers: () => const RoutineTimePickers(),
+    return Scaffold(
+      body: LoaderOverlay(
+        child: BlocListener<RoutineBloc, RoutineState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: (context, state) {
+            switch (state.status) {
+              case RoutineStatus.initial:
+                break;
+              case RoutineStatus.loading:
+                context.loaderOverlay.show();
+                break;
+              case RoutineStatus.success:
+                context.loaderOverlay.hide();
+                if (isPage) {
+                  context.pop();
+                } else {
+                  context
+                      .read<ScheduleBloc>()
+                      .add(const ScheduleSelectedRoutineChanged(null));
+                }
+                break;
+              case RoutineStatus.failure:
+                context.loaderOverlay.hide();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.errorMessage),
+                    behavior: SnackBarBehavior.floating,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                  ),
+                );
+                break;
+            }
+          },
+          child: RoutineLayoutBuilder(
+            headerButtons: () => RoutineHeaderButtons(isPage: isPage),
+            nameTextField: () => const RoutineNameTextField(),
+            dayPicker: () => const RoutineDayPicker(),
+            timePickers: () => const RoutineTimePickers(),
+          ),
         ),
       ),
     );

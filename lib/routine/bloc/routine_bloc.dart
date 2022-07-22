@@ -53,8 +53,13 @@ class RoutineBloc extends Bloc<RoutineEvent, RoutineState> {
         ),
       );
     } catch (e) {
-      log(e.toString());
-      emit(state.copyWith(status: RoutineStatus.failure));
+      log('RoutineBloc(56) --- error: ${e.toString()}');
+      emit(
+        state.copyWith(
+          status: RoutineStatus.failure,
+          errorMessage: 'error: activity could not be saved',
+        ),
+      );
     }
   }
 
@@ -68,8 +73,13 @@ class RoutineBloc extends Bloc<RoutineEvent, RoutineState> {
         await _routinesRepository.deleteRoutine(state.initialRoutine.id!);
         emit(state.copyWith(status: RoutineStatus.success));
       } catch (e) {
-        log(e.toString());
-        emit(state.copyWith(status: RoutineStatus.failure));
+        log('RoutineBloc(76) --- error: ${e.toString()}');
+        emit(
+          state.copyWith(
+            status: RoutineStatus.failure,
+            errorMessage: 'error: activity could not be deleted',
+          ),
+        );
       }
     }
   }
@@ -79,7 +89,6 @@ class RoutineBloc extends Bloc<RoutineEvent, RoutineState> {
     Emitter<RoutineState> emit,
   ) {
     emit(state.copyWith(name: event.name));
-    log('RoutineBloc(83)-- stateName: ${state.name}, eventName: ${event.name}');
   }
 
   void _onDayChanged(
