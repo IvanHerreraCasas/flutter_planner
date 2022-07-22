@@ -49,7 +49,9 @@ class IsarActivitiesApi extends ActivitiesApi {
   @override
   Future<void> insertActivities(List<Activity> activities) {
     final isarActivities = activities.map((e) => e.toIsarModel()).toList();
-    return _isar.writeTxn<void>(() => _activitiesCollection.putAll(isarActivities));
+    return _isar.writeTxn<void>(
+      () => _activitiesCollection.putAll(isarActivities),
+    );
   }
 
   @override
