@@ -33,11 +33,7 @@ class IsarTask {
       id: id,
       userID: userID,
       title: title,
-      date: DateTime.utc(
-        date.year,
-        date.month,
-        date.day,
-      ),
+      date: date.toUtc(),
       completed: completed,
     );
   }
