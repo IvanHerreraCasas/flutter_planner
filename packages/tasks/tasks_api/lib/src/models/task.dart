@@ -54,12 +54,13 @@ class Task extends Equatable {
   ///
   /// {@macro activity}
   Task copyWith({
+    int? id,
     String? title,
     DateTime? date,
     bool? completed,
   }) {
     return Task(
-      id: id,
+      id: id ?? this.id,
       userID: userID,
       title: title ?? this.title,
       date: date ?? this.date,
