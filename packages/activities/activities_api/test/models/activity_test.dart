@@ -35,6 +35,21 @@ void main() {
       test('works properly', () {
         expect(createSubject, returnsNormally);
       });
+
+      test('throws assertion error if date is not utc', () {
+        expect(
+          () => createSubject(date: DateTime(2022, 04, 19)),
+          throwsA(isA<AssertionError>()),
+        );
+      });
+
+      test('throws assertion error if date has time', () {
+        expect(
+          () => createSubject(date: DateTime(2022, 04, 19, 1)),
+          throwsA(isA<AssertionError>()),
+        );
+      });
+
     });
 
     test('supports value equality', () {
@@ -67,6 +82,7 @@ void main() {
       test('retains the old value for every parameter if null is provided', () {
         expect(
           createSubject().copyWith(
+            id: null,
             name: null,
             type: null,
             date: null,
@@ -82,6 +98,7 @@ void main() {
       test('replaces every non-null parameter, except for id and userID', () {
         expect(
           createSubject().copyWith(
+            id: 2,
             name: 'check about layered architecture',
             type: 1,
             date: DateTime(2022, 4, 20),
@@ -95,7 +112,7 @@ void main() {
           ),
           equals(
             Activity(
-              id: 1,
+              id: 2,
               userID: 'user_id',
               name: 'check about layered architecture',
               type: 1,
@@ -113,19 +130,6 @@ void main() {
       });
     });
 
-/*
-{
-      int id = 1,
-      String userID = 'user_id',
-      String name = 'name',
-      int type = 0,
-      DateTime? date,
-      DateTime? startTime,
-      DateTime? endTime,
-      String description = 'description',
-      List<String> links = const [],
-    }
-*/
     test('fromJson works properly', () {
       expect(
         Activity.fromJson(

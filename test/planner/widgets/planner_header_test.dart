@@ -84,7 +84,7 @@ void main() {
         final currentDate = DateTime.now();
         final newActivity = Activity(
           userID: 'id',
-          date: DateTime(
+          date: DateTime.utc(
             currentDate.year,
             currentDate.month,
             currentDate.day,

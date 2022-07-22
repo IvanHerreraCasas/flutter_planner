@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ActivityState', () {
-    final fakeDate = DateTime(1970);
+    final fakeDate = DateTime.utc(1970);
     final fakeStartTime = DateTime(1970, 1, 1, 7);
     final fakeEndTime = DateTime(1970, 1, 1, 8);
 
@@ -40,6 +40,18 @@ void main() {
         links: links,
       );
     }
+
+    group('constructor', () {
+      test('throws assertion error if date is not utc', () {
+        expect(() => createSubject(date: DateTime(2022)), throwsAssertionError);
+      });
+      test('throws assertion error if date has time', () {
+        expect(
+          () => createSubject(date: DateTime(2022, 04, 19, 1)),
+          throwsA(isA<AssertionError>()),
+        );
+      });
+    });
 
     test('supports value equality', () {
       expect(createSubject(), equals(createSubject()));
@@ -85,12 +97,12 @@ void main() {
       test('replaces every non-null value', () {
         final altInitialActivity = Activity(
           userID: 'userID',
-          date: DateTime(2022),
+          date: DateTime.utc(2022),
           startTime: DateTime(2022, 1, 1, 10),
           endTime: DateTime(2022, 1, 1, 12),
         );
 
-        final altDate = DateTime(2022);
+        final altDate = DateTime.utc(2022);
         final altStartTime = DateTime(2022, 1, 1, 10);
         final altEndTime = DateTime(2022, 1, 1, 12);
 

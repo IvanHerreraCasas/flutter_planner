@@ -3,7 +3,7 @@ part of 'activity_bloc.dart';
 enum ActivityStatus { initial, loading, success, failure }
 
 class ActivityState extends Equatable {
-  const ActivityState({
+  ActivityState({
     this.status = ActivityStatus.initial,
     required this.initialActivity,
     this.name = '',
@@ -12,7 +12,15 @@ class ActivityState extends Equatable {
     required this.startTime,
     required this.endTime,
     this.links = const [],
-  });
+  }) : assert(
+          date.isUtc &&
+              date.hour == 0 &&
+              date.minute == 0 &&
+              date.second == 0 &&
+              date.millisecond == 0 &&
+              date.microsecond == 0,
+          'date must be utc and cannot have time',
+        );
 
   final ActivityStatus status;
 

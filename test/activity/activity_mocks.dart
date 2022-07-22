@@ -9,7 +9,7 @@ final mockActivity = Activity(
   userID: 'user_id',
   name: 'name',
   description: 'description',
-  date: DateTime(2022),
+  date: DateTime.utc(2022),
   startTime: DateTime(1970, 1, 1, 7),
   endTime: DateTime(1970, 1, 1, 8),
 );

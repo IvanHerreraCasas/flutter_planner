@@ -67,7 +67,7 @@ class IsarActivity {
       id: id,
       userID: userID,
       name: name,
-      date: date,
+      date: date.toUtc(),
       type: type,
       startTime: startTime,
       endTime: endTime,

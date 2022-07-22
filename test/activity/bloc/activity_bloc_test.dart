@@ -7,8 +7,6 @@ import 'package:mocktail/mocktail.dart';
 
 class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
 
-class FakeActivity extends Fake implements Activity {}
-
 void main() {
   group('ActivityBloc', () {
     late ActivitiesRepository activitiesRepository;
@@ -17,7 +15,7 @@ void main() {
       userID: 'user_id',
       name: 'initial-name',
       description: 'initial-description',
-      date: DateTime(1970),
+      date: DateTime.utc(2022),
       startTime: DateTime(1970, 1, 1, 7),
       endTime: DateTime(1970, 1, 1, 7),
     );
@@ -30,10 +28,6 @@ void main() {
       startTime: fakeInitialActivity.startTime,
       endTime: fakeInitialActivity.endTime,
     );
-
-    setUpAll(() {
-      registerFallbackValue(FakeActivity());
-    });
 
     setUp(() {
       activitiesRepository = MockActivitiesRepository();
@@ -80,7 +74,7 @@ void main() {
     });
 
     group('DateChanged', () {
-      final fakeDate = DateTime(1970);
+      final fakeDate = DateTime.utc(1970);
       blocTest<ActivityBloc, ActivityState>(
         'emits new state with updated date',
         build: buildBloc,
@@ -133,7 +127,7 @@ void main() {
       final fakeState = fakeInitialState.copyWith(
         name: 'name',
         description: 'description',
-        date: DateTime(2022),
+        date: DateTime.utc(2022),
         startTime: DateTime(2022, 1, 1, 8),
         endTime: DateTime(2022, 1, 1, 10),
         links: ['links'],
@@ -196,7 +190,7 @@ void main() {
       final fakeActivity = Activity(
         id: 1,
         userID: 'user_id',
-        date: DateTime(2022),
+        date: DateTime.utc(2022),
         startTime: DateTime(2022, 1, 1, 10),
         endTime: DateTime(2022, 1, 1, 12),
       );

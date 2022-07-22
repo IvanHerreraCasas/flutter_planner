@@ -16,7 +16,7 @@ void main() {
       userID: 'userID',
       name: 'name',
       description: 'description',
-      date: DateTime(2022, 6, 16),
+      date: DateTime.utc(2022, 6, 16),
       startTime: DateTime(1970, 1, 1, 7),
       endTime: DateTime(1970, 1, 1, 9),
     );

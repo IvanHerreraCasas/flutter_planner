@@ -92,7 +92,15 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     ActivityDateChanged event,
     Emitter<ActivityState> emit,
   ) {
-    emit(state.copyWith(date: event.date));
+    emit(
+      state.copyWith(
+        date: DateTime.utc(
+          event.date.year,
+          event.date.month,
+          event.date.day,
+        ),
+      ),
+    );
   }
 
   void _onStartTimeChanged(

@@ -13,7 +13,7 @@ void main() {
   group('PlannerTabs', () {
     late PlannerBloc plannerBloc;
 
-    final mockDate = DateTime(2022);
+    final mockDate = DateTime.utc(2022);
 
     final mockTasks = [
       Task(
