@@ -8,50 +8,46 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/bootstrap.dart';
+import 'package:isar/isar.dart';
+import 'package:isar_activities_api/isar_activities_api.dart';
+import 'package:isar_authentication_api/isar_authentication_api.dart';
+import 'package:isar_routines_api/isar_routines_api.dart';
+import 'package:isar_tasks_api/isar_tasks_api.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:routines_repository/routines_repository.dart';
-import 'package:supabase_activities_api/supabase_activities_api.dart';
-import 'package:supabase_authentication_api/supabase_authentication_api.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_routines_api/supabase_routines_api.dart';
-import 'package:supabase_tasks_api/supabase_tasks_api.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
 
-  final supabase = await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL'],
-    anonKey: dotenv.env['SUPABASE_ANON_KEY'],
-  );
-  final supabaseClient = supabase.client;
+  final dir = await getApplicationSupportDirectory();
 
-  final supabaseAuthApi = SupabaseAuthenticationApi(
-    supabaseClient: supabaseClient,
-  );
-
-  final supabaseActivitiesApi = SupabaseActivitiesApi(
-    supabaseClient: supabaseClient,
+  final isar = await Isar.open(
+    [
+      IsarActivitySchema,
+      IsarRoutineSchema,
+      IsarTaskSchema,
+    ],
+    directory: dir.path,
   );
 
-  final routinesApi = SupabaseRoutinesApi(
-    supabaseClient: supabaseClient,
-  );
+  const authenticationApi = IsarAuthenticationApi();
 
-  final tasksApi = SupabaseTasksApi(
-    supabaseClient: supabaseClient,
-  );
+  final activitiesApi = IsarActivitiesApi(isar: isar);
+
+  final routinesApi = IsarRoutinesApi(isar: isar);
+
+  final tasksApi = IsarTasksApi(isar: isar);
 
   await bootstrap(
     () => App(
-      authenticationRepository: AuthenticationRepository(
-        authenticationApi: supabaseAuthApi,
+      authenticationRepository: const AuthenticationRepository(
+        authenticationApi: authenticationApi,
       ),
       activitiesRepository: ActivitiesRepository(
-        activitiesApi: supabaseActivitiesApi,
+        activitiesApi: activitiesApi,
       ),
       routinesRepository: RoutinesRepository(
         routinesApi: routinesApi,
