@@ -7,6 +7,6 @@ class MockTaskBloc extends MockBloc<TaskEvent, TaskState> implements TaskBloc {}
 final mockTask = Task(
   userID: 'userID',
   title: 'title',
-  date: DateTime(2022),
+  date: DateTime.utc(2022),
   completed: true,
 );

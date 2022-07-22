@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('Task', () {
-    final mockDate = DateTime(2022, 07, 15);
+    final mockDate = DateTime.utc(2022, 07, 15);
 
     Task createSubject({
       int id = 1,
@@ -26,6 +26,20 @@ void main() {
     group('constructor', () {
       test('works properly', () {
         expect(createSubject, returnsNormally);
+      });
+
+      test('throws assertion error if date is not utc', () {
+        expect(
+          () => createSubject(date: DateTime(2022, 04, 19)),
+          throwsA(isA<AssertionError>()),
+        );
+      });
+
+      test('throws assertion error if date has time', () {
+        expect(
+          () => createSubject(date: DateTime(2022, 04, 19, 1)),
+          throwsA(isA<AssertionError>()),
+        );
       });
     });
 
@@ -66,13 +80,13 @@ void main() {
         expect(
           createSubject().copyWith(
             title: 'new title',
-            date: DateTime(2023),
+            date: DateTime.utc(2023),
             completed: true,
           ),
           equals(
             createSubject(
               title: 'new title',
-              date: DateTime(2023),
+              date: DateTime.utc(2023),
               completed: true,
             ),
           ),
