@@ -12,6 +12,7 @@ class ActivityState extends Equatable {
     required this.startTime,
     required this.endTime,
     this.links = const [],
+    this.errorMessage = '',
   }) : assert(
           date.isUtc &&
               date.hour == 0 &&
@@ -38,6 +39,8 @@ class ActivityState extends Equatable {
 
   final List<String> links;
 
+  final String errorMessage;
+
   ActivityState copyWith({
     ActivityStatus? status,
     Activity? initialActivity,
@@ -47,6 +50,7 @@ class ActivityState extends Equatable {
     DateTime? startTime,
     DateTime? endTime,
     List<String>? links,
+    String? errorMessage,
   }) {
     return ActivityState(
       status: status ?? this.status,
@@ -57,6 +61,7 @@ class ActivityState extends Equatable {
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       links: links ?? this.links,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -70,5 +75,6 @@ class ActivityState extends Equatable {
         startTime,
         endTime,
         links,
+        errorMessage,
       ];
 }

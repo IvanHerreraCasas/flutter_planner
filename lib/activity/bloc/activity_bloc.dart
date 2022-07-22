@@ -54,7 +54,12 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       emit(state.copyWith(status: ActivityStatus.success));
     } catch (e) {
       log('ActivityBloc(56) --- error: ${e.toString()}');
-      emit(state.copyWith(status: ActivityStatus.failure));
+      emit(
+        state.copyWith(
+          status: ActivityStatus.failure,
+          errorMessage: 'error: activity could not be saved',
+        ),
+      );
     }
   }
 
@@ -69,7 +74,12 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         emit(state.copyWith(status: ActivityStatus.success));
       } catch (e) {
         log('ActivityBloc(71) --- error: ${e.toString()}');
-        emit(state.copyWith(status: ActivityStatus.failure));
+        emit(
+          state.copyWith(
+            status: ActivityStatus.failure,
+            errorMessage: 'error: activity could not be deleted',
+          ),
+        );
       }
     }
   }

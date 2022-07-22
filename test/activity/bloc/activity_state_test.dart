@@ -28,6 +28,7 @@ void main() {
       DateTime? startTime,
       DateTime? endTime,
       List<String> links = const <String>[],
+      String errorMessage = '',
     }) {
       return ActivityState(
         status: status,
@@ -38,6 +39,7 @@ void main() {
         startTime: startTime ?? fakeStartTime,
         endTime: endTime ?? fakeEndTime,
         links: links,
+        errorMessage: errorMessage,
       );
     }
 
@@ -69,6 +71,7 @@ void main() {
           fakeStartTime,
           fakeEndTime,
           <String>[],
+          '',
         ]),
       );
     });
@@ -89,6 +92,7 @@ void main() {
             startTime: null,
             endTime: null,
             links: null,
+            errorMessage: null,
           ),
           equals(createSubject()),
         );
@@ -116,6 +120,7 @@ void main() {
             startTime: altStartTime,
             endTime: altEndTime,
             links: ['https://api.flutter.dev/'],
+            errorMessage: 'error',
           ),
           equals(
             createSubject(
@@ -127,6 +132,7 @@ void main() {
               startTime: altStartTime,
               endTime: altEndTime,
               links: ['https://api.flutter.dev/'],
+              errorMessage: 'error',
             ),
           ),
         );
