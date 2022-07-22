@@ -9,7 +9,7 @@ class MockTaskApi extends Mock implements TasksApi {}
 void main() {
   group('TasksRepository', () {
     late TasksApi tasksApi;
-    final mockDate = DateTime(2022, 7, 15);
+    final mockDate = DateTime.utc(2022, 7, 15);
 
     final mockTask = Task.empty(userID: 'userID');
 

@@ -59,7 +59,7 @@ void main() {
         final task = Task(
           id: 1,
           userID: 'userID',
-          date: DateTime(2022, 7, 16),
+          date: DateTime.utc(2022, 7, 16),
           title: 'task 1',
           completed: false,
         );

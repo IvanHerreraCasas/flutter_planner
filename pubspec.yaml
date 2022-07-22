@@ -33,7 +33,17 @@ dependencies:
   go_router: ^4.0.0
   google_fonts: ^2.3.1
   hydrated_bloc: ^8.1.0
-  intl: ^0.17.0   
+  intl: ^0.17.0
+  isar: 3.0.0-dev.8
+  isar_activities_api:
+    path: packages/activities/isar_activities_api
+  isar_authentication_api:
+    path: packages/authentication/isar_authentication_api
+  isar_flutter_libs: 3.0.0-dev.8   
+  isar_routines_api:
+    path: packages/routines/isar_routines_api
+  isar_tasks_api:
+    path: packages/tasks/isar_tasks_api
   loader_overlay: ^2.0.6
   path_provider: ^2.0.9
   routines_api:

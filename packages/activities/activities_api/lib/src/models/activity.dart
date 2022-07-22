@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 /// {@endtemplate}
 class Activity extends Equatable {
   /// {@macro activity}
-  const Activity({
+  Activity({
     this.id,
     required this.userID,
     this.name = '',
@@ -17,16 +17,25 @@ class Activity extends Equatable {
     this.description = '',
     this.links = const [],
     this.routineID,
-  });
+  }) : assert(
+          date.isUtc &&
+              date.hour == 0 &&
+              date.minute == 0 &&
+              date.second == 0 &&
+              date.millisecond == 0 &&
+              date.microsecond == 0,
+          'date must be utc and cannot have time',
+        );
 
   /// Deserializes the given json map into an [Activity].
   factory Activity.fromJson(Map<String, dynamic> jsonMap) {
+    final date = DateTime.parse(jsonMap['date'] as String);
     return Activity(
       id: jsonMap['id'] as int?,
       userID: jsonMap['user_id'] as String,
       name: jsonMap['name'] as String? ?? '',
       type: jsonMap['type'] as int,
-      date: DateTime.parse(jsonMap['date'] as String),
+      date: DateTime.utc(date.year, date.month, date.day),
       startTime: DateFormat.Hms().parse(jsonMap['start_time'] as String),
       endTime: DateFormat.Hms().parse(jsonMap['end_time'] as String),
       description: jsonMap['description'] as String? ?? '',
@@ -75,6 +84,7 @@ class Activity extends Equatable {
   ///
   /// {@macro activity}
   Activity copyWith({
+    int? id,
     String? name,
     int? type,
     DateTime? date,
@@ -85,7 +95,7 @@ class Activity extends Equatable {
     int? Function()? routineID,
   }) {
     return Activity(
-      id: id,
+      id: id ?? this.id,
       userID: userID,
       name: name ?? this.name,
       type: type ?? this.type,

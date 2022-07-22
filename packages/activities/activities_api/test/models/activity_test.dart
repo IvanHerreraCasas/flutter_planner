@@ -22,7 +22,7 @@ void main() {
         userID: userID,
         name: name,
         type: type,
-        date: date ?? DateTime(2022, 04, 19),
+        date: date ?? DateTime.utc(2022, 04, 19),
         startTime: startTime ?? DateTime(1970, 01, 01, 17),
         endTime: endTime ?? DateTime(1970, 01, 01, 18),
         description: description,
@@ -35,6 +35,21 @@ void main() {
       test('works properly', () {
         expect(createSubject, returnsNormally);
       });
+
+      test('throws assertion error if date is not utc', () {
+        expect(
+          () => createSubject(date: DateTime(2022, 04, 19)),
+          throwsA(isA<AssertionError>()),
+        );
+      });
+
+      test('throws assertion error if date has time', () {
+        expect(
+          () => createSubject(date: DateTime(2022, 04, 19, 1)),
+          throwsA(isA<AssertionError>()),
+        );
+      });
+
     });
 
     test('supports value equality', () {
@@ -49,7 +64,7 @@ void main() {
           'user_id',
           'name',
           0,
-          DateTime(2022, 04, 19),
+          DateTime.utc(2022, 04, 19),
           DateTime(1970, 01, 01, 17),
           DateTime(1970, 01, 01, 18),
           'description',
@@ -67,6 +82,7 @@ void main() {
       test('retains the old value for every parameter if null is provided', () {
         expect(
           createSubject().copyWith(
+            id: null,
             name: null,
             type: null,
             date: null,
@@ -82,9 +98,10 @@ void main() {
       test('replaces every non-null parameter, except for id and userID', () {
         expect(
           createSubject().copyWith(
+            id: 2,
             name: 'check about layered architecture',
             type: 1,
-            date: DateTime(2022, 4, 20),
+            date: DateTime.utc(2022, 4, 20),
             startTime: DateTime(2022, 4, 20, 10),
             endTime: DateTime(2022, 4, 20, 12),
             description: '---',
@@ -95,11 +112,11 @@ void main() {
           ),
           equals(
             Activity(
-              id: 1,
+              id: 2,
               userID: 'user_id',
               name: 'check about layered architecture',
               type: 1,
-              date: DateTime(2022, 4, 20),
+              date: DateTime.utc(2022, 4, 20),
               startTime: DateTime(2022, 4, 20, 10),
               endTime: DateTime(2022, 4, 20, 12),
               description: '---',
@@ -113,19 +130,6 @@ void main() {
       });
     });
 
-/*
-{
-      int id = 1,
-      String userID = 'user_id',
-      String name = 'name',
-      int type = 0,
-      DateTime? date,
-      DateTime? startTime,
-      DateTime? endTime,
-      String description = 'description',
-      List<String> links = const [],
-    }
-*/
     test('fromJson works properly', () {
       expect(
         Activity.fromJson(
@@ -154,7 +158,7 @@ void main() {
           'user_id': 'user_id',
           'name': 'name',
           'type': 0,
-          'date': DateTime(2022, 04, 19).toString(),
+          'date': DateTime.utc(2022, 04, 19).toString(),
           'start_time': DateTime(1970, 01, 01, 17).toString(),
           'end_time': DateTime(1970, 01, 01, 18).toString(),
           'description': 'description',

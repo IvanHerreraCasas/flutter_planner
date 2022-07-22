@@ -23,7 +23,7 @@ void main() {
     userID: 'user_id',
     name: 'name',
     description: 'description',
-    date: DateTime(1970),
+    date: DateTime.utc(1970),
     startTime: DateTime(1970, 1, 1, 7),
     endTime: DateTime(1970, 1, 1, 8),
   );

@@ -78,7 +78,7 @@ void main() {
       test('replaces every non-null parameter', () {
         final activity = Activity(
           userID: 'userID',
-          date: DateTime(2022, 5, 22),
+          date: DateTime.utc(2022, 5, 22),
           startTime: DateTime(2022, 5, 22, 7, 0),
           endTime: DateTime(2022, 5, 22, 10, 0),
         );
@@ -99,7 +99,7 @@ void main() {
             [
               Activity(
                 userID: 'userID',
-                date: DateTime(2022, 5, 22),
+                date: DateTime.utc(2022, 5, 22),
                 startTime: DateTime(2022, 5, 22, 7, 0),
                 endTime: DateTime(2022, 5, 22, 10, 0),
               )
