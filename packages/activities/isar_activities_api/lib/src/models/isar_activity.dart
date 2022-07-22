@@ -22,6 +22,7 @@ extension Converting on Activity {
 }
 
 @Collection()
+
 /// {@template isar_activity}
 /// A model for the user's activities to be displayed in a day timeline.
 /// {@endtemplate}
@@ -67,7 +68,11 @@ class IsarActivity {
       id: id,
       userID: userID,
       name: name,
-      date: date.toUtc(),
+      date: DateTime.utc(
+        date.year,
+        date.month,
+        date.day,
+      ),
       type: type,
       startTime: startTime,
       endTime: endTime,

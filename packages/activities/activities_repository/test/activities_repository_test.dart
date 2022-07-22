@@ -11,7 +11,7 @@ void main() {
   group('ActivitiesRepository', () {
     late ActivitiesApi activitiesApi;
 
-    final fakeDate = DateTime(2022, 04, 19);
+    final fakeDate = DateTime.utc(2022, 04, 19);
 
     final fakeNewActivity = Activity(
       id: 4,
@@ -28,7 +28,7 @@ void main() {
         userID: 'user_id',
         name: 'activity 1',
         date: fakeDate,
-        startTime: DateTime(2022, 04, 19, 8),
+        startTime: DateTime.utc(2022, 04, 19, 8),
         endTime: DateTime(2022, 04, 19, 10),
       ),
       Activity(
@@ -36,14 +36,14 @@ void main() {
         userID: 'user_id',
         name: 'activity 2',
         date: fakeDate,
-        startTime: DateTime(2022, 04, 19, 10),
+        startTime: DateTime.utc(2022, 04, 19, 10),
         endTime: DateTime(2022, 04, 19, 11),
       ),
       Activity(
         id: 3,
         userID: 'user_id',
         name: 'activity 3',
-        date: DateTime(2022, 04, 20),
+        date: DateTime.utc(2022, 04, 20),
         startTime: DateTime(2022, 04, 20, 16),
         endTime: DateTime(2022, 04, 20, 18),
       ),

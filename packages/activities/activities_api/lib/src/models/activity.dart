@@ -29,12 +29,13 @@ class Activity extends Equatable {
 
   /// Deserializes the given json map into an [Activity].
   factory Activity.fromJson(Map<String, dynamic> jsonMap) {
+    final date = DateTime.parse(jsonMap['date'] as String);
     return Activity(
       id: jsonMap['id'] as int?,
       userID: jsonMap['user_id'] as String,
       name: jsonMap['name'] as String? ?? '',
       type: jsonMap['type'] as int,
-      date: DateTime.parse('${jsonMap['date'] as String}Z'),
+      date: DateTime.utc(date.year, date.month, date.day),
       startTime: DateFormat.Hms().parse(jsonMap['start_time'] as String),
       endTime: DateFormat.Hms().parse(jsonMap['end_time'] as String),
       description: jsonMap['description'] as String? ?? '',
