@@ -75,6 +75,7 @@ class Activity extends Equatable {
   ///
   /// {@macro activity}
   Activity copyWith({
+    int? id,
     String? name,
     int? type,
     DateTime? date,
@@ -85,7 +86,7 @@ class Activity extends Equatable {
     int? Function()? routineID,
   }) {
     return Activity(
-      id: id,
+      id: id ?? this.id,
       userID: userID,
       name: name ?? this.name,
       type: type ?? this.type,
