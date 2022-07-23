@@ -1,4 +1,4 @@
-import 'package:authentication_api/authentication_api.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:routines_api/routines_api.dart';
+import 'package:routines_repository/routines_repository.dart';
 
 import '../../helpers/helpers.dart';
 import '../schedule_mocks.dart';

@@ -1,4 +1,4 @@
-import 'package:activities_api/activities_api.dart';
+import 'package:activities_repository/activities_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_planner/app/app.dart';

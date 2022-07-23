@@ -6,7 +6,6 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:activities_repository/activities_repository.dart';
-import 'package:authentication_api/authentication_api.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';

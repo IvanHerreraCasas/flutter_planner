@@ -1,4 +1,4 @@
-import 'package:activities_api/activities_api.dart';
+import 'package:activities_repository/activities_repository.dart';
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

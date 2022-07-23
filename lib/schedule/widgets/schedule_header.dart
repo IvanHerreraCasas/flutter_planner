@@ -4,7 +4,7 @@ import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:go_router/go_router.dart';
-import 'package:routines_api/routines_api.dart';
+import 'package:routines_repository/routines_repository.dart';
 
 class ScheduleHeader extends StatelessWidget {
   const ScheduleHeader({
