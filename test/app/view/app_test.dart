@@ -14,8 +14,6 @@ import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
-
 void main() {
   late AuthenticationRepository authenticationRepository;
   late ActivitiesRepository activitiesRepository;

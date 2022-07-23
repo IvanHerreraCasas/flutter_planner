@@ -11,7 +11,6 @@ import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
-import '../planner_mocks.dart';
 
 void main() {
   group('PlannerPage', () {

@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
-import '../planner_mocks.dart';
 
 void main() {
   group('PlannerActivities', () {

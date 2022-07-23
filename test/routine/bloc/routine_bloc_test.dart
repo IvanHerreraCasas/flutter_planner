@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
 
-class MockRoutinesRepository extends Mock implements RoutinesRepository {}
+import '../../helpers/helpers.dart';
 
 void main() {
   group('RoutineBloc', () {

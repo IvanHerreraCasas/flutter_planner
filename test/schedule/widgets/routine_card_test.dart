@@ -8,7 +8,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
 
 import '../../helpers/helpers.dart';
-import '../schedule_mocks.dart';
 
 void main() {
   group('RoutineCard', () {

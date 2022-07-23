@@ -4,7 +4,7 @@ import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
+import '../../helpers/helpers.dart';
 
 void main() {
   group('ActivityBloc', () {

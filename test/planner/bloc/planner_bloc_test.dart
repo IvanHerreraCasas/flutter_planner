@@ -8,10 +8,6 @@ import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
-
-class MockRoutinesRepository extends Mock implements RoutinesRepository {}
-
 void main() {
   group('PlannerBloc', () {
     late ActivitiesRepository activitiesRepository;

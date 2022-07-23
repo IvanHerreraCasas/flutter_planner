@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
-import '../../schedule/schedule_mocks.dart';
 import '../routine_mocks.dart';
 
 void main() {
