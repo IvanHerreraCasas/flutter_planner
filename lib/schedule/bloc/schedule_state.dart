@@ -26,7 +26,7 @@ class ScheduleState extends Equatable {
       routines: routines ?? this.routines,
       selectedRoutine:
           (selectedRoutine != null) ? selectedRoutine() : this.selectedRoutine,
-          errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
