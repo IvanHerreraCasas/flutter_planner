@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_planner/task/bloc/bloc.dart';
-import 'package:flutter_planner/task/widgets/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/task/task.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
