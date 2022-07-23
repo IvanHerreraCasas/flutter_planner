@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_planner/planner/view/planner_page.dart';
+import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 
 class HomeBody extends StatefulWidget {

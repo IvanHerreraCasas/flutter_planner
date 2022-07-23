@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_planner/home/layout/layout.dart';
+import 'package:flutter_planner/home/home.dart';
 
 enum HomeSize { small, medium, large }
 

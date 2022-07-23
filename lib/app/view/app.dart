@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_planner/app/app.dart';
-import 'package:flutter_planner/app/router/app_router.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/l10n/l10n.dart';
 import 'package:google_fonts/google_fonts.dart';

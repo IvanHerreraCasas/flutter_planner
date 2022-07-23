@@ -1,7 +1,7 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_api/authentication_api.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_planner/app/router/app_router.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/planner/planner.dart';

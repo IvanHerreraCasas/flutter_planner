@@ -1,7 +1,7 @@
 import 'package:activities_api/activities_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_planner/activity/activity.dart';
-import 'package:flutter_planner/app/router/router.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';

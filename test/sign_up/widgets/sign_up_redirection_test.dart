@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_planner/app/router/router.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
