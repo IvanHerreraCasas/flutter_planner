@@ -64,7 +64,33 @@ void main() {
         build: buildBloc,
         act: (bloc) => bloc.add(const ScheduleSubscriptionRequested()),
         expect: () => <ScheduleState>[
-          ScheduleState(routines: [fakeRoutine]),
+          const ScheduleState(
+            status: ScheduleStatus.loading,
+          ),
+          ScheduleState(
+            status: ScheduleStatus.success,
+            routines: [fakeRoutine],
+          ),
+        ],
+      );
+
+      blocTest<ScheduleBloc, ScheduleState>(
+        'emits state with failure status and errorMessage '
+        'when repository strem routines emits error',
+        setUp: () {
+          when(() => routinesRepository.streamRoutines())
+              .thenAnswer((_) => Stream.error('error'));
+        },
+        build: buildBloc,
+        act: (bloc) => bloc.add(const ScheduleSubscriptionRequested()),
+        expect: () => const <ScheduleState>[
+          ScheduleState(
+            status: ScheduleStatus.loading,
+          ),
+          ScheduleState(
+            status: ScheduleStatus.failure,
+            errorMessage: 'error: routines could not be loaded',
+          ),
         ],
       );
     });
@@ -100,7 +126,42 @@ void main() {
           ScheduleRoutineChanged(fakeRoutine),
         ),
         expect: () => <ScheduleState>[
-          ScheduleState(selectedRoutine: fakeRoutine),
+          ScheduleState(
+            status: ScheduleStatus.loading,
+            selectedRoutine: fakeRoutine.copyWith(
+              startTime: DateTime(1970, 1, 1, 8),
+            ),
+          ),
+          ScheduleState(
+            status: ScheduleStatus.success,
+            selectedRoutine: fakeRoutine.copyWith(
+              startTime: DateTime(1970, 1, 1, 8),
+            ),
+          ),
+          ScheduleState(
+            status: ScheduleStatus.success,
+            selectedRoutine: fakeRoutine,
+          ),
+        ],
+      );
+
+      blocTest<ScheduleBloc, ScheduleState>(
+        'emit state with failure status and error message '
+        'when routines repository save Routine throws an error',
+        setUp: () {
+          when(() => routinesRepository.saveRoutine(fakeRoutine))
+              .thenAnswer((_) => Future.error('error'));
+        },
+        build: buildBloc,
+        act: (bloc) => bloc.add(ScheduleRoutineChanged(fakeRoutine)),
+        expect: () => const <ScheduleState>[
+          ScheduleState(
+            status: ScheduleStatus.loading,
+          ),
+          ScheduleState(
+            status: ScheduleStatus.failure,
+            errorMessage: 'error: routines could not be saved',
+          ),
         ],
       );
     });

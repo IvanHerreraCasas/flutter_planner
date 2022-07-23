@@ -23,12 +23,19 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     ScheduleSubscriptionRequested event,
     Emitter<ScheduleState> emit,
   ) async {
+    emit(state.copyWith(status: ScheduleStatus.loading));
     await emit.forEach<List<Routine>>(
       _routinesRepository.streamRoutines(),
-      onData: (routines) => state.copyWith(routines: routines),
+      onData: (routines) => state.copyWith(
+        status: ScheduleStatus.success,
+        routines: routines,
+      ),
       onError: (error, stack) {
-        log(error.toString());
-        return state;
+        log('ScheduleBloc(31) --- error: ${error.toString()}');
+        return state.copyWith(
+          status: ScheduleStatus.failure,
+          errorMessage: 'error: routines could not be loaded',
+        );
       },
     );
   }
@@ -37,14 +44,22 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     ScheduleRoutineChanged event,
     Emitter<ScheduleState> emit,
   ) async {
+    emit(state.copyWith(status: ScheduleStatus.loading));
     final routine = event.routine;
     try {
       await _routinesRepository.saveRoutine(routine);
+      emit(state.copyWith(status: ScheduleStatus.success));
       if (routine.id == state.selectedRoutine?.id) {
         add(ScheduleSelectedRoutineChanged(routine));
       }
     } catch (e) {
-      log(e.toString());
+      log('ScheduleBloc(56) --- error: ${e.toString()}');
+      emit(
+        state.copyWith(
+          status: ScheduleStatus.failure,
+          errorMessage: 'error: routines could not be saved',
+        ),
+      );
     }
   }
 
