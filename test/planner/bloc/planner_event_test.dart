@@ -6,92 +6,100 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('PlannerEvent', () {
     group('PlannerSubscriptionRequested', () {
-      final event = PlannerSubscriptionRequested();
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          PlannerSubscriptionRequested(),
+          equals(PlannerSubscriptionRequested()),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(PlannerSubscriptionRequested().props, equals(<Object?>[]));
       });
     });
 
     group('PlannerTaskSubRequested', () {
-      final event = PlannerTasksSubRequested();
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          PlannerTasksSubRequested(),
+          equals(PlannerTasksSubRequested()),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(PlannerTasksSubRequested().props, equals(<Object?>[]));
       });
     });
 
     group('PlannerSelectedDayChanged', () {
       final selectedDay = DateTime.utc(2022, 5, 25);
-      final event = PlannerSelectedDayChanged(selectedDay);
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(
+          PlannerSelectedDayChanged(selectedDay),
+          equals(PlannerSelectedDayChanged(selectedDay)),
+        );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[selectedDay]));
+        expect(
+          PlannerSelectedDayChanged(selectedDay).props,
+          equals(<Object?>[selectedDay]),
+        );
       });
     });
 
     group('PlannerFocusedDayChanged', () {
       final focusedDay = DateTime.utc(2022, 5, 25);
-      final event = PlannerFocusedDayChanged(focusedDay);
 
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(
+          PlannerFocusedDayChanged(focusedDay),
+          equals(PlannerFocusedDayChanged(focusedDay)),
+        );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[focusedDay]));
+        expect(
+          PlannerFocusedDayChanged(focusedDay).props,
+          equals(<Object?>[focusedDay]),
+        );
       });
     });
 
     group('PlannerAddRoutines', () {
-      final event = PlannerAddRoutines();
-
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(PlannerAddRoutines(), equals(PlannerAddRoutines()));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(PlannerAddRoutines().props, equals(<Object?>[]));
       });
     });
 
     group('PlannerNewTaskAdded', () {
-      final event = PlannerNewTaskAdded();
-
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(PlannerNewTaskAdded(), equals(PlannerNewTaskAdded()));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(PlannerNewTaskAdded().props, equals(<Object?>[]));
       });
     });
 
     group('PlannerSelectedTabChanged', () {
       const selectedTab = 1;
-      final event = PlannerSelectedTabChanged(selectedTab);
-
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(
+          PlannerSelectedTabChanged(selectedTab),
+          equals(PlannerSelectedTabChanged(selectedTab)),
+        );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[selectedTab]));
+        expect(
+          PlannerSelectedTabChanged(selectedTab).props,
+          equals(<Object?>[selectedTab]),
+        );
       });
     });
   });

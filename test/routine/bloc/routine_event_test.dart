@@ -7,95 +7,93 @@ void main() {
   group('RoutineEvent', () {
     group('RoutineNameChanged', () {
       const name = 'name';
-      final event = RoutineNameChanged(name);
 
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          RoutineNameChanged(name),
+          equals(RoutineNameChanged(name)),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[name]));
+        expect(RoutineNameChanged(name).props, equals(<Object?>[name]));
       });
     });
 
     group('RoutineDayChanged', () {
       const day = 2;
-      final event = RoutineDayChanged(day);
 
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          RoutineDayChanged(day),
+          equals(RoutineDayChanged(day)),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[day]));
+        expect(RoutineDayChanged(day).props, equals(<Object?>[day]));
       });
     });
 
     group('RoutineStartTimeChanged', () {
       final startTime = DateTime(1970, 1, 1, 7);
-      final event = RoutineStartTimeChanged(startTime);
 
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          RoutineStartTimeChanged(startTime),
+          equals(RoutineStartTimeChanged(startTime)),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[startTime]));
+        expect(
+          RoutineStartTimeChanged(startTime).props,
+          equals(<Object?>[startTime]),
+        );
       });
     });
 
     group('RoutineEndTimeChanged', () {
       final endTime = DateTime(1970, 1, 1, 8);
-      final event = RoutineEndTimeChanged(endTime);
 
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          RoutineEndTimeChanged(endTime),
+          equals(RoutineEndTimeChanged(endTime)),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[endTime]));
+        expect(
+          RoutineEndTimeChanged(endTime).props,
+          equals(<Object?>[endTime]),
+        );
       });
     });
 
     group('RoutineSaved', () {
-      final event = RoutineSaved();
-
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          RoutineSaved(),
+          equals(RoutineSaved()),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(RoutineSaved().props, equals(<Object?>[]));
       });
     });
 
     group('RoutineDeleted', () {
-      final event = RoutineDeleted();
-
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          RoutineDeleted(),
+          equals(RoutineDeleted()),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(RoutineDeleted().props, equals(<Object?>[]));
       });
     });
   });

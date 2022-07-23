@@ -8,24 +8,31 @@ void main() {
   group('AuthenticationEvent', () {
     group('AuthenticationStatusChanged', () {
       const status = AuthenticationStatus.authenticated;
-      final event = AuthenticationStatusChanged(status);
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(
+          AuthenticationStatusChanged(status),
+          equals(AuthenticationStatusChanged(status)),
+        );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[status]));
+        expect(
+          AuthenticationStatusChanged(status).props,
+          equals(<Object?>[status]),
+        );
       });
     });
 
     group('AuthenticationStatusChanged', () {
-      final event = AuthenticationSignoutRequested();
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(
+          AuthenticationSignoutRequested(),
+          equals(AuthenticationSignoutRequested()),
+        );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(AuthenticationSignoutRequested().props, equals(<Object?>[]));
       });
     });
   });

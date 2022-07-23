@@ -7,16 +7,15 @@ import 'package:routines_api/routines_api.dart';
 void main() {
   group('ScheduleEvent', () {
     group('ScheduleSubscriptionRequested', () {
-      final event = ScheduleSubscriptionRequested();
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          ScheduleSubscriptionRequested(),
+          equals(ScheduleSubscriptionRequested()),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(ScheduleSubscriptionRequested().props, equals(<Object?>[]));
       });
     });
 
@@ -28,17 +27,19 @@ void main() {
         startTime: DateTime(1970, 1, 1, 7),
         endTime: DateTime(1970, 1, 1, 10),
       );
-      final event = ScheduleRoutineChanged(routine);
 
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          ScheduleRoutineChanged(routine),
+          equals(ScheduleRoutineChanged(routine)),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[routine]));
+        expect(
+          ScheduleRoutineChanged(routine).props,
+          equals(<Object?>[routine]),
+        );
       });
     });
 
@@ -50,17 +51,19 @@ void main() {
         startTime: DateTime(1970, 1, 1, 7),
         endTime: DateTime(1970, 1, 1, 10),
       );
-      final event = ScheduleSelectedRoutineChanged(routine);
 
       test('supports value equality', () {
         expect(
-          event,
-          equals(event),
+          ScheduleSelectedRoutineChanged(routine),
+          equals(ScheduleSelectedRoutineChanged(routine)),
         );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[routine]));
+        expect(
+          ScheduleSelectedRoutineChanged(routine).props,
+          equals(<Object?>[routine]),
+        );
       });
     });
   });

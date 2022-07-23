@@ -1,54 +1,49 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter_planner/task/task.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('TaskEvent', () {
     group('TaskSaved', () {
-      const event = TaskSaved();
-
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(TaskSaved(), equals(TaskSaved()));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(TaskSaved().props, equals(<Object?>[]));
       });
     });
 
     group('TaskDeleted', () {
-      const event = TaskDeleted();
-
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(TaskDeleted(), equals(TaskDeleted()));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(TaskDeleted().props, equals(<Object?>[]));
       });
     });
 
     group('TaskTitleChanged', () {
       const title = 'title';
-      const event = TaskTitleChanged(title);
 
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(TaskTitleChanged(title), equals(TaskTitleChanged(title)));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[title]));
+        expect(TaskTitleChanged(title).props, equals(<Object?>[title]));
       });
     });
 
     group('TaskCompletetionToggled', () {
-      const event = TaskCompletetionToggled();
-
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(TaskCompletetionToggled(), equals(TaskCompletetionToggled()));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(TaskCompletetionToggled().props, equals(<Object?>[]));
       });
     });
   });
