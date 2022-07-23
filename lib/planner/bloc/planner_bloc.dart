@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:activities_api/activities_api.dart';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -45,14 +47,21 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     PlannerSubscriptionRequested event,
     Emitter<PlannerState> emit,
   ) async {
+    emit(state.copyWith(status: PlannerStatus.loading));
     await emit.forEach<List<Activity>>(
       _activitiesRepository.streamActivities(
         date: state.selectedDay,
       ),
-      onData: (activities) => state.copyWith(activities: activities),
+      onData: (activities) => state.copyWith(
+        status: PlannerStatus.success,
+        activities: activities,
+      ),
       onError: (error, stack) {
-        addError(error);
-        return state;
+        log('PlannerBloc(56) --- error: ${error.toString()}');
+        return state.copyWith(
+          status: PlannerStatus.failure,
+          errorMessage: 'error: activities could not be loaded',
+        );
       },
     );
   }
@@ -61,12 +70,19 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     PlannerTasksSubRequested event,
     Emitter<PlannerState> emit,
   ) async {
+    emit(state.copyWith(status: PlannerStatus.loading));
     await emit.forEach<List<Task>>(
       _tasksRepository.streamTasks(date: state.selectedDay),
-      onData: (tasks) => state.copyWith(tasks: tasks),
+      onData: (tasks) => state.copyWith(
+        status: PlannerStatus.success,
+        tasks: tasks,
+      ),
       onError: (error, stack) {
-        addError(error);
-        return state;
+        log('PlannerBloc(73) --- error: ${error.toString()}');
+        return state.copyWith(
+          status: PlannerStatus.failure,
+          errorMessage: 'error: tasks could not be loaded',
+        );
       },
     );
   }
@@ -91,6 +107,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     PlannerAddRoutines event,
     Emitter<PlannerState> emit,
   ) async {
+    emit(state.copyWith(status: PlannerStatus.loading));
     final day = state.selectedDay.weekday;
     try {
       final routines = (await _routinesRepository.fetchRoutines())
@@ -123,13 +140,16 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
           )
           .toList();
 
-      try {
-        await _activitiesRepository.insertActivities(newActivities);
-      } catch (e) {
-        addError(e);
-      }
+      await _activitiesRepository.insertActivities(newActivities);
+      emit(state.copyWith(status: PlannerStatus.success));
     } catch (e) {
-      addError(e);
+      log('PlannerBloc(136) --- error: ${e.toString()}');
+      emit(
+        state.copyWith(
+          status: PlannerStatus.failure,
+          errorMessage: 'error: routines could not be added',
+        ),
+      );
     }
   }
 
@@ -137,6 +157,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     PlannerNewTaskAdded event,
     Emitter<PlannerState> emit,
   ) async {
+    emit(state.copyWith(status: PlannerStatus.loading));
     try {
       final newTask = Task(
         userID: _userID,
@@ -145,8 +166,15 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
       );
 
       await _tasksRepository.saveTask(newTask);
+      emit(state.copyWith(status: PlannerStatus.success));
     } catch (e) {
-      addError(e);
+      log('PlannerBloc(159) --- error: ${e.toString()}');
+      emit(
+        state.copyWith(
+          status: PlannerStatus.failure,
+          errorMessage: 'error: task could not be added',
+        ),
+      );
     }
   }
 

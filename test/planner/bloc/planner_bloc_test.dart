@@ -123,9 +123,43 @@ void main() {
         act: (bloc) => bloc.add(const PlannerSubscriptionRequested()),
         expect: () => <PlannerState>[
           PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.success,
             selectedDay: date,
             focusedDay: date,
             activities: mockActivities,
+          ),
+        ],
+      );
+
+      blocTest<PlannerBloc, PlannerState>(
+        'emits state with failure status and errorMessage '
+        'when repository strem activities emits an error',
+        setUp: () {
+          when(() => activitiesRepository.streamActivities(date: date))
+              .thenAnswer((_) => Stream.error('error'));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerSubscriptionRequested()),
+        expect: () => <PlannerState>[
+          PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.failure,
+            selectedDay: date,
+            focusedDay: date,
+            errorMessage: 'error: activities could not be loaded',
           ),
         ],
       );
@@ -164,9 +198,43 @@ void main() {
         act: (bloc) => bloc.add(const PlannerTasksSubRequested()),
         expect: () => <PlannerState>[
           PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.success,
             selectedDay: date,
             focusedDay: date,
             tasks: mockTasks,
+          ),
+        ],
+      );
+
+      blocTest<PlannerBloc, PlannerState>(
+        'emits state with failure status and errorMessage '
+        'when repository stream tasks emits error',
+        setUp: () {
+          when(() => tasksRepository.streamTasks(date: date))
+              .thenAnswer((_) => Stream.error('error'));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerTasksSubRequested()),
+        expect: () => <PlannerState>[
+          PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.failure,
+            selectedDay: date,
+            focusedDay: date,
+            errorMessage: 'error: tasks could not be loaded',
           ),
         ],
       );
@@ -174,11 +242,18 @@ void main() {
 
     group('PlannerSelectedDayChanged', () {
       blocTest<PlannerBloc, PlannerState>(
-        'emits state with updated selectedDay',
+        'emits state with updated selectedDay '
+        'and add tasks and activities subscription',
         build: buildBloc,
         act: (bloc) => bloc.add(PlannerSelectedDayChanged(date)),
         expect: () => <PlannerState>[
-          PlannerState(selectedDay: date),
+          PlannerState(
+            selectedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+          ),
         ],
       );
     });
@@ -211,7 +286,50 @@ void main() {
           focusedDay: date,
         ),
         act: (bloc) => bloc.add(const PlannerNewTaskAdded()),
-        expect: () => const <PlannerState>[],
+        expect: () => <PlannerState>[
+          PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.success,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+        ],
+        verify: (bloc) {
+          verify(() => tasksRepository.saveTask(newTask)).called(1);
+        },
+      );
+
+      blocTest<PlannerBloc, PlannerState>(
+        'emits state with failure status and errorMessage '
+        'when taskRepository save task throws a exception',
+        setUp: () {
+          when(
+            () => tasksRepository.saveTask(newTask),
+          ).thenThrow(Exception('error'));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerNewTaskAdded()),
+        expect: () => <PlannerState>[
+          PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.failure,
+            selectedDay: date,
+            focusedDay: date,
+            errorMessage: 'error: task could not be added',
+          ),
+        ],
         verify: (bloc) {
           verify(() => tasksRepository.saveTask(newTask)).called(1);
         },
