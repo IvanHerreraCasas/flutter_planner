@@ -1,9 +1,9 @@
 import 'package:activities_api/activities_api.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_planner/app/router/router.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,7 +21,7 @@ class PlannerActivitiesHeader extends StatelessWidget {
   }) {
     final currentDate = DateTime.now();
     final newActivity = Activity(
-      userID: context.read<AuthenticationRepository>().user!.id,
+      userID: context.read<AuthenticationBloc>().state.user!.id,
       date: DateTime.utc(
         currentDate.year,
         currentDate.month,

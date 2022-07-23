@@ -1,8 +1,8 @@
 import 'package:authentication_api/authentication_api.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/router/router.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +16,7 @@ void main() {
   group('ScheduleHeader', () {
     late GoRouter goRouter;
     late ScheduleBloc scheduleBloc;
-    late AuthenticationRepository authenticationRepository;
+    late AuthenticationBloc authenticationBloc;
 
     const user = User(id: 'userID');
     final newRoutine = Routine(
@@ -30,10 +30,12 @@ void main() {
     setUp(() {
       goRouter = MockGoRouter();
       scheduleBloc = MockScheduleBloc();
-      authenticationRepository = MockAuthenticationRepository();
+      authenticationBloc = MockAuthenticationBloc();
 
       when(() => scheduleBloc.state).thenReturn(const ScheduleState());
-      when(() => authenticationRepository.user).thenReturn(user);
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.authenticated(user),
+      );
     });
 
     Widget buildSubject({
@@ -41,8 +43,11 @@ void main() {
     }) {
       return InheritedGoRouter(
         goRouter: goRouter,
-        child: BlocProvider.value(
-          value: scheduleBloc,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: scheduleBloc),
+            BlocProvider.value(value: authenticationBloc),
+          ],
           child: ScheduleHeader(
             currentSize: currentSize,
           ),
@@ -51,10 +56,7 @@ void main() {
     }
 
     testWidgets('renders a ElevatedButton with correct text', (tester) async {
-      await tester.pumpApp(
-        buildSubject(),
-        authenticationRepository: authenticationRepository,
-      );
+      await tester.pumpApp(buildSubject());
 
       expect(find.widgetWithText(ElevatedButton, 'Add'), findsOneWidget);
     });
@@ -64,10 +66,7 @@ void main() {
           'add ScheduleSelectedRoutineChanged '
           'to ScheduleBloc '
           'when currentSize is large', (tester) async {
-        await tester.pumpApp(
-          buildSubject(currentSize: ScheduleSize.large),
-          authenticationRepository: authenticationRepository,
-        );
+        await tester.pumpApp(buildSubject(currentSize: ScheduleSize.large));
 
         await tester.tap(find.byType(ElevatedButton));
 
@@ -80,10 +79,7 @@ void main() {
           'goes to RoutinePage '
           'with extra newRoutine '
           'when currentSize is not large', (tester) async {
-        await tester.pumpApp(
-          buildSubject(),
-          authenticationRepository: authenticationRepository,
-        );
+        await tester.pumpApp(buildSubject());
 
         await tester.tap(find.byType(ElevatedButton));
 

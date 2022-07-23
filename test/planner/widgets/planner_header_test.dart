@@ -1,10 +1,10 @@
 import 'package:activities_api/activities_api.dart';
 import 'package:authentication_api/authentication_api.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_planner/app/router/router.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -17,15 +17,16 @@ void main() {
   group('PlannerHeader', () {
     late GoRouter goRouter;
     late PlannerBloc plannerBloc;
-    late AuthenticationRepository authenticationRepository;
+    late AuthenticationBloc authenticationBloc;
 
     setUp(() {
       goRouter = MockGoRouter();
       plannerBloc = MockPlannerBloc();
-      authenticationRepository = MockAuthenticationRepository();
+      authenticationBloc = MockAuthenticationBloc();
 
-      when(() => authenticationRepository.user)
-          .thenReturn(const User(id: 'id'));
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.authenticated(User(id: 'id')),
+      );
     });
 
     Widget buildSubject({
@@ -33,8 +34,11 @@ void main() {
     }) {
       return InheritedGoRouter(
         goRouter: goRouter,
-        child: BlocProvider.value(
-          value: plannerBloc,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: plannerBloc),
+            BlocProvider.value(value: authenticationBloc),
+          ],
           child: PlannerActivitiesHeader(
             currentSize: currentSize,
           ),
@@ -96,10 +100,7 @@ void main() {
         testWidgets(
             'shows ActivityPage dialog '
             'when size is large', (tester) async {
-          await tester.pumpApp(
-            buildSubject(),
-            authenticationRepository: authenticationRepository,
-          );
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
 
@@ -116,10 +117,7 @@ void main() {
             'goes to activityPage '
             'and send newActivity as extra '
             'when size is not large', (tester) async {
-          await tester.pumpApp(
-            buildSubject(currentSize: PlannerSize.small),
-            authenticationRepository: authenticationRepository,
-          );
+          await tester.pumpApp(buildSubject(currentSize: PlannerSize.small));
 
           await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
 
