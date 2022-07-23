@@ -14,7 +14,7 @@ import '../../helpers/helpers.dart';
 import '../planner_mocks.dart';
 
 void main() {
-  group('PlannerHeader', () {
+  group('PlannerActivitiesHeader', () {
     late GoRouter goRouter;
     late PlannerBloc plannerBloc;
     late AuthenticationBloc authenticationBloc;
