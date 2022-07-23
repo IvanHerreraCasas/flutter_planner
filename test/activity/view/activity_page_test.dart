@@ -146,8 +146,9 @@ void main() {
         });
       });
 
-      testWidgets('hide indicator when status change to failure',
-          (tester) async {
+      testWidgets(
+          'hide indicator and shows a snackbar '
+          'when status change to failure ', (tester) async {
         FlutterError.onError = ignoreOverflowErrors;
 
         whenListen(
@@ -162,6 +163,7 @@ void main() {
 
         await tester.pump();
 
+        expect(find.byType(SnackBar), findsOneWidget);
         expect(find.byType(CircularProgressIndicator), findsNothing);
       });
     });

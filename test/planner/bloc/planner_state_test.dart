@@ -16,17 +16,21 @@ void main() {
     );
 
     PlannerState createSubject({
+      PlannerStatus status = PlannerStatus.initial,
       DateTime? selectedDay,
       DateTime? focusedDay,
       List<Activity> activities = const [],
       List<Task> tasks = const [],
       int selectedTab = 0,
+      String errorMessage = '',
     }) {
       return PlannerState(
+        status: status,
         selectedDay: selectedDay,
         focusedDay: focusedDay,
         activities: activities,
         selectedTab: 0,
+        errorMessage: errorMessage,
       );
     }
 
@@ -48,11 +52,13 @@ void main() {
       expect(
         createSubject().props,
         equals(<Object?>[
+          PlannerStatus.initial,
           utcTodayDate,
           utcTodayDate,
           <Activity>[],
           <Task>[],
           0,
+          '',
         ]),
       );
     });
@@ -65,11 +71,13 @@ void main() {
       test('retains the old value for every parameter if null is provided', () {
         expect(
           createSubject().copyWith(
+            status: null,
             selectedDay: null,
             focusedDay: null,
             activities: null,
             tasks: null,
             selectedTab: null,
+            errorMessage: null,
           ),
           equals(createSubject()),
         );
@@ -86,14 +94,17 @@ void main() {
         expect(
           createSubject()
               .copyWith(
+                status: PlannerStatus.failure,
                 selectedDay: DateTime.utc(2022, 5, 22),
                 focusedDay: DateTime.utc(2022, 5, 22),
                 activities: [activity],
                 tasks: [task],
                 selectedTab: 1,
+                errorMessage: 'error',
               )
               .props,
           equals(<Object?>[
+            PlannerStatus.failure,
             DateTime.utc(2022, 5, 22),
             DateTime.utc(2022, 5, 22),
             [
@@ -106,6 +117,7 @@ void main() {
             ],
             [Task.empty(userID: 'userID')],
             1,
+            'error',
           ]),
         );
       });

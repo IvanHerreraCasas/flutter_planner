@@ -20,6 +20,42 @@ class PlannerPage extends StatelessWidget {
       )
         ..add(const PlannerSubscriptionRequested())
         ..add(const PlannerTasksSubRequested()),
+      child: const PlannerView(),
+    );
+  }
+}
+
+class PlannerView extends StatelessWidget {
+  const PlannerView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<PlannerBloc, PlannerState>(
+      listenWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.errorMessage != current.errorMessage,
+      listener: (context, state) {
+        switch (state.status) {
+          case PlannerStatus.initial:
+            break;
+          case PlannerStatus.loading:
+            break;
+          case PlannerStatus.success:
+            break;
+          case PlannerStatus.failure:
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage),
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+              ),
+            );
+            break;
+        }
+      },
       child: PlannerLayoutBuilder(
         activitiesHeader: (currentSize) => PlannerActivitiesHeader(
           currentSize: currentSize,

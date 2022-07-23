@@ -5,14 +5,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:routines_api/routines_api.dart';
 
 void main() {
-  group('PlannerState', () {
+  group('ScheduleState', () {
     ScheduleState createSubject({
+      ScheduleStatus status = ScheduleStatus.initial,
       List<Routine> routines = const [],
       Routine? selectedRoutine,
+      String errorMessage = '',
     }) {
       return ScheduleState(
+        status: status,
         routines: routines,
         selectedRoutine: selectedRoutine,
+        errorMessage: errorMessage,
       );
     }
 
@@ -21,7 +25,17 @@ void main() {
     });
 
     test('props are correct', () {
-      expect(createSubject().props, equals(<Object?>[const <Routine>[], null]));
+      expect(
+        createSubject().props,
+        equals(
+          <Object?>[
+            ScheduleStatus.initial,
+            const <Routine>[],
+            null,
+            '',
+          ],
+        ),
+      );
     });
 
     group('copyWith', () {
@@ -32,8 +46,10 @@ void main() {
       test('retains the old value for every parameter if null is provided', () {
         expect(
           createSubject().copyWith(
+            status: null,
             routines: null,
             selectedRoutine: null,
+            errorMessage: null,
           ),
           equals(createSubject()),
         );
@@ -49,11 +65,18 @@ void main() {
         );
         expect(
           createSubject().copyWith(
+            status: ScheduleStatus.failure,
             routines: [routine],
             selectedRoutine: () => routine,
+            errorMessage: 'error',
           ),
           equals(
-            createSubject(routines: [routine], selectedRoutine: routine),
+            createSubject(
+              status: ScheduleStatus.failure,
+              routines: [routine],
+              selectedRoutine: routine,
+              errorMessage: 'error',
+            ),
           ),
         );
       });

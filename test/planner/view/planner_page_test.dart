@@ -1,5 +1,6 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_api/authentication_api.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
@@ -10,6 +11,7 @@ import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
+import '../planner_mocks.dart';
 
 void main() {
   group('PlannerPage', () {
@@ -45,31 +47,91 @@ void main() {
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
     });
 
-    Widget buildSubject() {
-      return BlocProvider.value(
-        value: authenticationBloc,
-        child: const PlannerPage(),
-      );
-    }
+    group('PlannerPage', () {
+      Widget buildSubject() {
+        return BlocProvider.value(
+          value: authenticationBloc,
+          child: const PlannerPage(),
+        );
+      }
 
-    testWidgets(
-        'renders PlannerLayoutBuilder '
-        'with correct widgets', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
-      await tester.pumpApp(
-        buildSubject(),
-        activitiesRepository: activitiesRepository,
-        routinesRepository: routinesRepository,
-        tasksRepository: tasksRepository,
-      );
+      testWidgets('renders PlannerView', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
 
-      expect(find.byType(PlannerLayoutBuilder), findsOneWidget);
+        await tester.pumpApp(
+          buildSubject(),
+          activitiesRepository: activitiesRepository,
+          routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
+        );
 
-      expect(find.byType(PlannerActivitiesHeader), findsOneWidget);
-      expect(find.byType(PlannerCalendar), findsOneWidget);
-      expect(find.byType(PlannerActivities), findsOneWidget);
-      expect(find.byType(PlannerTasksHeader), findsOneWidget);
-      expect(find.byType(PlannerTasks), findsOneWidget);
+        expect(find.byType(PlannerView), findsOneWidget);
+      });
+    });
+
+    group('PlannerView', () {
+      late PlannerBloc plannerBloc;
+
+      setUp(() {
+        plannerBloc = MockPlannerBloc();
+
+        when(() => plannerBloc.state).thenReturn(PlannerState());
+      });
+      Widget buildSubject() {
+        return BlocProvider.value(
+          value: authenticationBloc,
+          child: BlocProvider.value(
+            value: plannerBloc,
+            child: const PlannerView(),
+          ),
+        );
+      }
+
+      testWidgets(
+          'renders PlannerLayoutBuilder '
+          'with correct widgets', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
+
+        await tester.pumpApp(
+          buildSubject(),
+          activitiesRepository: activitiesRepository,
+          routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
+        );
+
+        expect(find.byType(PlannerLayoutBuilder), findsOneWidget);
+
+        expect(find.byType(PlannerActivitiesHeader), findsOneWidget);
+        expect(find.byType(PlannerCalendar), findsOneWidget);
+        expect(find.byType(PlannerActivities), findsOneWidget);
+        expect(find.byType(PlannerTasksHeader), findsOneWidget);
+        expect(find.byType(PlannerTasks), findsOneWidget);
+      });
+
+      group('BlocListener', () {
+        testWidgets('show SnackBar when status changes to failure',
+            (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+          whenListen(
+            plannerBloc,
+            Stream.fromIterable([
+              PlannerState(),
+              PlannerState(status: PlannerStatus.failure, errorMessage: 'error')
+            ]),
+          );
+
+          await tester.pumpApp(
+            buildSubject(),
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          await tester.pump();
+
+          expect(find.byType(SnackBar), findsOneWidget);
+        });
+      });
     });
   });
 }

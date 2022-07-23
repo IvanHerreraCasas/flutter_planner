@@ -23,6 +23,7 @@ void main() {
       int day = 1,
       DateTime? startTime,
       DateTime? endTime,
+      String errorMessage = '',
     }) {
       return RoutineState(
         status: status,
@@ -31,6 +32,7 @@ void main() {
         day: day,
         startTime: startTime ?? fakeStartTime,
         endTime: endTime ?? fakeEndTime,
+        errorMessage: errorMessage,
       );
     }
 
@@ -48,6 +50,7 @@ void main() {
           1,
           fakeStartTime,
           fakeEndTime,
+          '',
         ]),
       );
     });
@@ -66,6 +69,7 @@ void main() {
             day: null,
             startTime: null,
             endTime: null,
+            errorMessage: null,
           ),
           equals(createSubject()),
         );
@@ -90,6 +94,7 @@ void main() {
             day: altDay,
             startTime: altStartTime,
             endTime: altEndTime,
+            errorMessage: 'error',
           ),
           equals(
             createSubject(
@@ -98,6 +103,7 @@ void main() {
               day: altDay,
               startTime: altStartTime,
               endTime: altEndTime,
+              errorMessage: 'error',
             ),
           ),
         );
