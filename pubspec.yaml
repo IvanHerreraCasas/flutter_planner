@@ -15,8 +15,6 @@ dependencies:
     path: packages/authentication/authentication_api
   authentication_repository:
     path: packages/authentication/authentication_repository 
-  authentication_ui:
-    path: packages/authentication/authentication_ui 
   bloc: ^8.0.3
   bloc_concurrency: ^0.2.0
   dropdown_button2: ^1.6.2
