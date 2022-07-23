@@ -1,4 +1,3 @@
-import 'package:activities_api/activities_api.dart';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_planner/planner/planner.dart';
@@ -8,10 +7,6 @@ import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
-
-class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
-
-class MockRoutinesRepository extends Mock implements RoutinesRepository {}
 
 void main() {
   group('PlannerBloc', () {

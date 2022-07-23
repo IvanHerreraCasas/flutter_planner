@@ -1,6 +1,5 @@
 import 'package:activities_repository/activities_repository.dart';
-import 'package:authentication_api/authentication_api.dart';
-import 'package:bloc_test/bloc_test.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
@@ -13,8 +12,6 @@ import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
-
-class MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
 
 void main() {
   group('HomePage', () {

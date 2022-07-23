@@ -1,10 +1,10 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_planner/app/router/router.dart';
+import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:go_router/go_router.dart';
-import 'package:routines_api/routines_api.dart';
+import 'package:routines_repository/routines_repository.dart';
 
 class ScheduleHeader extends StatelessWidget {
   const ScheduleHeader({
@@ -16,7 +16,7 @@ class ScheduleHeader extends StatelessWidget {
 
   void _onAdd({required BuildContext context}) {
     final newRoutine = Routine(
-      userID: context.read<AuthenticationRepository>().user!.id,
+      userID: context.read<AuthenticationBloc>().state.user!.id,
       name: '',
       day: 1,
       startTime: DateTime(1970, 1, 1, 7),

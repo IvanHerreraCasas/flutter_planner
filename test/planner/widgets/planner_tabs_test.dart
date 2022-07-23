@@ -1,5 +1,6 @@
-import 'package:activities_api/activities_api.dart';
+import 'package:activities_repository/activities_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/task/task.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,7 +8,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
 import '../../helpers/helpers.dart';
-import '../planner_mocks.dart';
 
 void main() {
   group('PlannerTabs', () {

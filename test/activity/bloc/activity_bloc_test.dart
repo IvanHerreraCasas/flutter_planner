@@ -1,11 +1,10 @@
-import 'package:activities_api/activities_api.dart';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockActivitiesRepository extends Mock implements ActivitiesRepository {}
+import '../../helpers/helpers.dart';
 
 void main() {
   group('ActivityBloc', () {

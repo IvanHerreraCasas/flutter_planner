@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:routines_api/routines_api.dart';
+import 'package:routines_repository/routines_repository.dart';
 
 import '../../helpers/helpers.dart';
-import '../schedule_mocks.dart';
 
 void main() {
   group('ScheduleTimetable', () {

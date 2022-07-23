@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_planner/task/bloc/task_bloc.dart';
+import 'package:flutter_planner/task/task.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tasks_repository/tasks_repository.dart';

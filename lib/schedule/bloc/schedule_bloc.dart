@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:routines_api/routines_api.dart';
 import 'package:routines_repository/routines_repository.dart';
 
 part 'schedule_event.dart';

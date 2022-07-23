@@ -2,7 +2,7 @@
 
 import 'package:flutter_planner/routine/routine.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:routines_api/routines_api.dart';
+import 'package:routines_repository/routines_repository.dart';
 
 void main() {
   group('RoutineState', () {

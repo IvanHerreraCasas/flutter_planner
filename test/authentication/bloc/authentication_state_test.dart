@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:authentication_api/authentication_api.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

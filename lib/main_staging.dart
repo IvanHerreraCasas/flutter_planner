@@ -29,11 +29,11 @@ Future<void> main() async {
   );
   final supabaseClient = supabase.client;
 
-  final supabaseAuthApi = SupabaseAuthenticationApi(
+  final authenticationApi = SupabaseAuthenticationApi(
     supabaseClient: supabaseClient,
   );
 
-  final supabaseActivitiesApi = SupabaseActivitiesApi(
+  final activitiesApi = SupabaseActivitiesApi(
     supabaseClient: supabaseClient,
   );
 
@@ -48,10 +48,10 @@ Future<void> main() async {
   await bootstrap(
     () => App(
       authenticationRepository: AuthenticationRepository(
-        authenticationApi: supabaseAuthApi,
+        authenticationApi: authenticationApi,
       ),
       activitiesRepository: ActivitiesRepository(
-        activitiesApi: supabaseActivitiesApi,
+        activitiesApi: activitiesApi,
       ),
       routinesRepository: RoutinesRepository(
         routinesApi: routinesApi,

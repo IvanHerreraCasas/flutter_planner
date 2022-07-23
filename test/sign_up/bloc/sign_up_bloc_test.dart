@@ -4,8 +4,7 @@ import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAuthenticationRepository extends Mock
-    implements AuthenticationRepository {}
+import '../../helpers/helpers.dart';
 
 void main() {
   group('SignUpBloc', () {

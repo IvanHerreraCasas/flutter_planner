@@ -1,9 +1,5 @@
 import 'package:activities_api/activities_api.dart';
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_planner/activity/activity.dart';
-
-class MockActivityBloc extends MockBloc<ActivityEvent, ActivityState>
-    implements ActivityBloc {}
 
 final mockActivity = Activity(
   userID: 'user_id',

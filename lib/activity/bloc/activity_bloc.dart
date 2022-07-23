@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:activities_api/activities_api.dart';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

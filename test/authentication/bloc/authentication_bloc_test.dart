@@ -1,4 +1,3 @@
-import 'package:authentication_api/authentication_api.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_planner/authentication/authentication.dart';

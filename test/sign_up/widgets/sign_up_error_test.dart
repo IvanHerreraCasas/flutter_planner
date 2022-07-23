@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
-import '../sign_up_mocks.dart';
 
 void main() {
   group('SignUpError', () {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
-import 'package:flutter_planner/widgets/custom_date_picker.dart';
+import 'package:flutter_planner/widgets/widgets.dart';
 
 class ActivityDatePicker extends StatelessWidget {
   const ActivityDatePicker({

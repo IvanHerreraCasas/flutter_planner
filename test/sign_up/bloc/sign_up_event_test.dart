@@ -7,52 +7,59 @@ void main() {
   group('SignUpEvent', () {
     group('SignUpEmailChanged', () {
       const email = 'email@example.com';
-      final event = SignUpEmailChanged(email);
 
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(SignUpEmailChanged(email), equals(SignUpEmailChanged(email)));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[email]));
+        expect(SignUpEmailChanged(email).props, equals(<Object?>[email]));
       });
     });
 
     group('SignUpPasswordChanged', () {
       const password = 'password';
-      final event = SignUpPasswordChanged(password);
 
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(
+          SignUpPasswordChanged(password),
+          equals(SignUpPasswordChanged(password)),
+        );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[password]));
+        expect(
+          SignUpPasswordChanged(password).props,
+          equals(<Object?>[password]),
+        );
       });
     });
 
     group('SignUpPasswordVisibilityChanged', () {
       const passwordVisibility = true;
-      final event = SignUpPasswordVisibilityChanged(passwordVisibility);
 
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(
+          SignUpPasswordVisibilityChanged(passwordVisibility),
+          equals(SignUpPasswordVisibilityChanged(passwordVisibility)),
+        );
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[passwordVisibility]));
+        expect(
+          SignUpPasswordVisibilityChanged(passwordVisibility).props,
+          equals(<Object?>[passwordVisibility]),
+        );
       });
     });
 
     group('SignUpRequested', () {
-      final event = SignUpRequested();
-
       test('supports value equality', () {
-        expect(event, equals(event));
+        expect(SignUpRequested(), equals(SignUpRequested()));
       });
 
       test('props are correct', () {
-        expect(event.props, equals(<Object?>[]));
+        expect(SignUpRequested().props, equals(<Object?>[]));
       });
     });
   });

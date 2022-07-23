@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_planner/app/router/router.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:go_router/go_router.dart';
 
 class SignInRedirection extends StatelessWidget {

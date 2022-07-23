@@ -1,17 +1,14 @@
-import 'package:activities_api/activities_api.dart';
 import 'package:activities_repository/activities_repository.dart';
-import 'package:authentication_api/authentication_api.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
-import 'package:flutter_planner/app/router/app_routes.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/routine/routine.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:go_router/go_router.dart';
-import 'package:routines_api/routines_api.dart';
 import 'package:routines_repository/routines_repository.dart';
 
 abstract class AppRouter {

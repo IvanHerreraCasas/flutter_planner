@@ -9,11 +9,6 @@ import 'package:mockingjay/mockingjay.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockActivityBloc extends MockBloc<ActivityEvent, ActivityState>
-    implements ActivityBloc {}
-
-class MockGoRouter extends Mock implements GoRouter {}
-
 void main() {
   late ActivityBloc activityBloc;
   late GoRouter goRouter;
