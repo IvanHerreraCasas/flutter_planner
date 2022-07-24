@@ -64,73 +64,79 @@ void main() {
       );
     }
 
-    testWidgets('renders HomeLayoutBuilder', (tester) async {
-      await tester.pumpApp(
-        buildSubject(),
-        activitiesRepository: activitiesRepository,
-        routinesRepository: routinesRepository,
-        tasksRepository: tasksRepository,
-      );
+    group('HomeLayoutBuilder', () {
+      //finders
+      final appBarFinder = find.byType(AppBar);
+      final drawerFinder = find.byType(HomeDrawer);
+      final bodyFinder = find.byType(HomeBody);
+      final navRailFinder = find.byType(HomeNavRail);
 
-      expect(find.byType(HomeLayoutBuilder), findsOneWidget);
-    });
+      testWidgets('is rendered', (tester) async {
+        await tester.pumpApp(
+          buildSubject(),
+          activitiesRepository: activitiesRepository,
+          routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
+        );
 
-    testWidgets('renders HomeBody', (tester) async {
-      await tester.pumpApp(
-        buildSubject(),
-        activitiesRepository: activitiesRepository,
-        routinesRepository: routinesRepository,
-        tasksRepository: tasksRepository,
-      );
+        expect(find.byType(HomeLayoutBuilder), findsOneWidget);
+      });
 
-      expect(find.byType(HomeBody), findsOneWidget);
-    });
+      testWidgets(
+          'renders correct small size widgets '
+          'when width is less or equal than 576 pixels.', (tester) async {
+        await tester.binding.setSurfaceSize(const Size(576, 600));
 
-    testWidgets('renders appbar when is small', (tester) async {
-      await tester.pumpApp(
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: HomeBreakpoints.small - 10,
-          ),
-          child: buildSubject(),
-        ),
-        activitiesRepository: activitiesRepository,
-        routinesRepository: routinesRepository,
-        tasksRepository: tasksRepository,
-      );
+        await tester.pumpApp(
+          buildSubject(),
+          activitiesRepository: activitiesRepository,
+          routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
+        );
 
-      expect(find.byType(AppBar), findsOneWidget);
-    });
+        await tester.dragFrom(Offset.zero, const Offset(200, 0));
 
-    testWidgets('renders HomeDrawer when is small', (tester) async {
-      await tester.pumpApp(
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: HomeBreakpoints.small - 10,
-          ),
-          child: buildSubject(),
-        ),
-        activitiesRepository: activitiesRepository,
-        routinesRepository: routinesRepository,
-        tasksRepository: tasksRepository,
-      );
+        await tester.pump();
 
-      await tester.dragFrom(Offset.zero, const Offset(200, 0));
+        expect(appBarFinder, findsOneWidget);
+        expect(drawerFinder, findsOneWidget);
+        expect(bodyFinder, findsOneWidget);
+      });
 
-      await tester.pump();
+      testWidgets(
+          'renders correct medium size widgets '
+          'when width is less or equal than 1200 pixels.', (tester) async {
+        await tester.binding.setSurfaceSize(const Size(1200, 600));
 
-      expect(find.byType(HomeDrawer), findsOneWidget);
-    });
+        await tester.pumpApp(
+          buildSubject(),
+          activitiesRepository: activitiesRepository,
+          routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
+        );
 
-    testWidgets('renders HomeNavRail when is not small', (tester) async {
-      await tester.pumpApp(
-        buildSubject(),
-        activitiesRepository: activitiesRepository,
-        routinesRepository: routinesRepository,
-        tasksRepository: tasksRepository,
-      );
+        final navRail = tester.widget<HomeNavRail>(navRailFinder);
 
-      expect(find.byType(HomeNavRail), findsOneWidget);
+        expect(navRail.currentSize, HomeSize.medium);
+        expect(bodyFinder, findsOneWidget);
+      });
+
+      testWidgets(
+          'renders correct large size widgets '
+          'when width is greater than 1200 pixels.', (tester) async {
+        await tester.binding.setSurfaceSize(const Size(1300, 600));
+
+        await tester.pumpApp(
+          buildSubject(),
+          activitiesRepository: activitiesRepository,
+          routinesRepository: routinesRepository,
+          tasksRepository: tasksRepository,
+        );
+        final navRail = tester.widget<HomeNavRail>(navRailFinder);
+
+        expect(navRail.currentSize, HomeSize.large);
+        expect(bodyFinder, findsOneWidget);
+      });
     });
   });
 }

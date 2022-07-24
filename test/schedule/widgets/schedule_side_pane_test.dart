@@ -45,7 +45,9 @@ void main() {
       expect(find.byType(RoutinePage), findsOneWidget);
     });
 
-    testWidgets('renders SizedBox with non size', (tester) async {
+    testWidgets(
+        'renders SizedBox with non size '
+        'when selectedRoutine is null', (tester) async {
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(SizedBox), findsOneWidget);
@@ -53,6 +55,41 @@ void main() {
       final renderBox = tester.renderObject<RenderBox>(find.byType(SizedBox));
 
       expect(renderBox.size, Size.zero);
+    });
+
+    group('Close icon button', () {
+      testWidgets('is rendered', (tester) async {
+        when(() => scheduleBloc.state).thenReturn(
+          ScheduleState(selectedRoutine: mockRoutine),
+        );
+        FlutterError.onError = ignoreOverflowErrors;
+
+        await tester.pumpApp(buildSubject());
+
+        expect(
+          find.widgetWithIcon(IconButton, Icons.close),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'add ScheduleSelectedRoutineChanged(null) '
+          'to ScheduleBloc when is pressed', (tester) async {
+        when(() => scheduleBloc.state).thenReturn(
+          ScheduleState(selectedRoutine: mockRoutine),
+        );
+        FlutterError.onError = ignoreOverflowErrors;
+
+        await tester.pumpApp(buildSubject());
+
+        await tester.tap(find.widgetWithIcon(IconButton, Icons.close));
+
+        verify(
+          () => scheduleBloc.add(
+            const ScheduleSelectedRoutineChanged(null),
+          ),
+        );
+      });
     });
   });
 }

@@ -86,25 +86,92 @@ void main() {
         );
       }
 
-      testWidgets(
-          'renders PlannerLayoutBuilder '
-          'with correct widgets', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
+      group('PlannerLayoutBuilder', () {
+        // finders
+        final activitiesHeaderFinder = find.byType(PlannerActivitiesHeader);
+        final tasksHeaderFinder = find.byType(PlannerTasksHeader);
+        final calendarFinder = find.byType(PlannerCalendar);
+        final activitiesFinder = find.byType(PlannerActivities);
+        final tasksFinder = find.byType(PlannerTasks);
+        final tabsFinder = find.byType(PlannerTabs);
+        final fabFinder = find.byType(PlannerFab);
 
-        await tester.pumpApp(
-          buildSubject(),
-          activitiesRepository: activitiesRepository,
-          routinesRepository: routinesRepository,
-          tasksRepository: tasksRepository,
-        );
+        testWidgets('is rendered.', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
 
-        expect(find.byType(PlannerLayoutBuilder), findsOneWidget);
+          await tester.pumpApp(
+            buildSubject(),
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
 
-        expect(find.byType(PlannerActivitiesHeader), findsOneWidget);
-        expect(find.byType(PlannerCalendar), findsOneWidget);
-        expect(find.byType(PlannerActivities), findsOneWidget);
-        expect(find.byType(PlannerTasksHeader), findsOneWidget);
-        expect(find.byType(PlannerTasks), findsOneWidget);
+          expect(find.byType(PlannerLayoutBuilder), findsOneWidget);
+        });
+
+        testWidgets(
+            'renders correct small size widgets '
+            'when width is less or equal than 400 pixels.', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+
+          await tester.binding.setSurfaceSize(const Size(400, 600));
+
+          await tester.pumpApp(buildSubject());
+
+          final calendar = tester.widget<PlannerCalendar>(calendarFinder);
+
+          final tabs = tester.widget<PlannerTabs>(tabsFinder);
+
+          final activities = tester.widget<PlannerActivities>(activitiesFinder);
+
+          expect(calendar.currentSize, PlannerSize.small);
+          expect(tabs.currentSize, PlannerSize.small);
+          expect(activities.currentSize, PlannerSize.small);
+          expect(tasksFinder, findsOneWidget);
+          expect(fabFinder, findsOneWidget);
+        });
+
+        testWidgets(
+            'renders correct medium size widgets '
+            'when width is less or equal than 660 pixels.', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+
+          await tester.binding.setSurfaceSize(const Size(660, 600));
+
+          await tester.pumpApp(buildSubject());
+
+          final calendar = tester.widget<PlannerCalendar>(calendarFinder);
+
+          final tabs = tester.widget<PlannerTabs>(tabsFinder);
+
+          final activities = tester.widget<PlannerActivities>(activitiesFinder);
+
+          expect(calendar.currentSize, PlannerSize.medium);
+          expect(tabs.currentSize, PlannerSize.medium);
+          expect(activities.currentSize, PlannerSize.medium);
+          expect(tasksFinder, findsOneWidget);
+          expect(fabFinder, findsOneWidget);
+        });
+
+        testWidgets(
+            'renders correct large size widgets '
+            'when width is greater than 660 pixels.', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+
+          await tester.binding.setSurfaceSize(const Size(700, 600));
+
+          await tester.pumpApp(buildSubject());
+
+          final calendar = tester.widget<PlannerCalendar>(calendarFinder);
+
+          final activities = tester.widget<PlannerActivities>(activitiesFinder);
+
+          expect(calendar.currentSize, PlannerSize.large);
+          expect(tasksHeaderFinder, findsOneWidget);
+          expect(tasksFinder, findsOneWidget);
+          expect(activitiesHeaderFinder, findsOneWidget);
+          expect(activities.currentSize, PlannerSize.large);
+        });
       });
 
       group('BlocListener', () {

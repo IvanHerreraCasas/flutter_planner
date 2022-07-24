@@ -57,13 +57,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
-  authentication_ui:
-    dependency: "direct main"
-    description:
-      path: "packages/authentication/authentication_ui"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   back_button_interceptor:
     dependency: transitive
     description:

@@ -114,10 +114,6 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
 
       final pendentRoutines = <Routine>[];
 
-      for (final activity in state.activities) {
-        if (activity.type == 2) {}
-      }
-
       for (final routine in routines) {
         if (state.activities
                 .indexWhere((activity) => activity.routineID == routine.id) ==
@@ -131,9 +127,11 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
             (routine) => Activity(
               userID: routine.userID,
               name: routine.name,
+              type: 2,
               date: state.selectedDay,
               startTime: routine.startTime,
               endTime: routine.endTime,
+              routineID: routine.id,
             ),
           )
           .toList();
