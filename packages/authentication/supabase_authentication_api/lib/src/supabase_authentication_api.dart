@@ -20,7 +20,11 @@ class SupabaseAuthenticationApi extends AuthenticationApi {
     final sbUser = _supabaseClient.auth.user();
 
     if (sbUser == null) return null;
-    return User(id: sbUser.id, email: sbUser.email);
+    return User(
+      id: sbUser.id,
+      email: sbUser.email,
+      name: sbUser.userMetadata['name'] as String?,
+    );
   }
 
   @override
