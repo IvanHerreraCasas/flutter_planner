@@ -72,5 +72,18 @@ class SupabaseAuthenticationApi extends AuthenticationApi {
   Future<void> signOut() => _supabaseClient.auth.signOut();
 
   @override
+  Future<void> changeName({required String name}) async {
+    final res = await _supabaseClient.auth.update(
+      sb.UserAttributes(
+        data: {'name': name},
+      ),
+    );
+
+    if (res.error != null) {
+      throw Exception(res.error!.message);
+    }
+  }
+
+  @override
   void dispose() => _statusStreamController.close();
 }

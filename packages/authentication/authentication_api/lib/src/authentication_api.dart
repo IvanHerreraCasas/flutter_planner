@@ -25,6 +25,8 @@ abstract class AuthenticationApi {
     required String password,
   });
 
+  Future<void> changeName({required String name});
+
   /// Signs out the current user, if there is a logged in user.
   Future<void> signOut();
 
