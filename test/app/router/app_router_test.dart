@@ -5,6 +5,7 @@ import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/planner/planner.dart';
+import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -152,6 +153,19 @@ void main() {
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
+        });
+        testWidgets(
+            'renders SettingsPage '
+            'when page param is settings', (tester) async {
+          await tester.pumpAppRouter(
+            buildSubject(initialLocation: '/home/settings'),
+            authenticationBloc: authenticationBloc,
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          expect(find.byType(SettingsPage), findsOneWidget);
         });
       });
     });

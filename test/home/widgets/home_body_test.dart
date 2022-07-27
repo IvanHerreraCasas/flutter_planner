@@ -6,6 +6,7 @@ import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
+import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:routines_repository/routines_repository.dart';
@@ -74,6 +75,18 @@ void main() {
       );
 
       expect(find.byType(SchedulePage), findsOneWidget);
+    });
+
+    testWidgets('renders and shows SettingsPage when index is 2',
+        (tester) async {
+      await tester.pumpApp(
+        buildSubject(index: 1),
+        activitiesRepository: activitiesRepository,
+        routinesRepository: routinesRepository,
+        tasksRepository: tasksRepository,
+      );
+
+      expect(find.byType(SettingsPage), findsOneWidget);
     });
   });
 }

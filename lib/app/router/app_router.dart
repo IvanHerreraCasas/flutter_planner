@@ -61,6 +61,9 @@ abstract class AppRouter {
               case 'schedule':
                 index = 1;
                 break;
+              case 'settings':
+                index = 2;
+                break;
             }
             return HomePage(homeViewKey: state.pageKey, index: index);
           },

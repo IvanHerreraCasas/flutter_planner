@@ -7,6 +7,7 @@ import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/routine/routine.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
+import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:flutter_planner/task/task.dart';
@@ -51,3 +52,6 @@ class MockRoutineBloc extends MockBloc<RoutineEvent, RoutineState>
     implements RoutineBloc {}
 
 class MockTaskBloc extends MockBloc<TaskEvent, TaskState> implements TaskBloc {}
+
+class MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
+    implements SettingsBloc {}

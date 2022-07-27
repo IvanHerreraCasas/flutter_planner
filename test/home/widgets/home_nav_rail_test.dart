@@ -103,5 +103,40 @@ void main() {
         ).called(1);
       });
     });
+
+    group('Settings destination', () {
+      testWidgets('renders Settings text when size is large', (tester) async {
+        await tester.pumpApp(buildSubject());
+
+        expect(
+          find.text('Settings'),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'renders settings icon '
+          'when size is not large', (tester) async {
+        await tester.pumpApp(buildSubject(currentSize: HomeSize.small));
+
+        expect(
+          find.byIcon(Icons.settings),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('goes to SettingsPage when is selected', (tester) async {
+        await tester.pumpApp(buildSubject());
+
+        await tester.tap(find.text('Settings'));
+
+        verify(
+          () => goRouter.goNamed(
+            AppRoutes.home,
+            params: {'page': 'settings'},
+          ),
+        ).called(1);
+      });
+    });
   });
 }
