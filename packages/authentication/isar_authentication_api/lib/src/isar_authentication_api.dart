@@ -38,5 +38,8 @@ class IsarAuthenticationApi extends AuthenticationApi {
   Future<void> changeName({required String name}) async {}
 
   @override
+  Future<void> changeEmail({required String email}) async {}
+
+  @override
   void dispose() {}
 }

@@ -85,5 +85,16 @@ class SupabaseAuthenticationApi extends AuthenticationApi {
   }
 
   @override
+  Future<void> changeEmail({required String email}) async {
+    final res = await _supabaseClient.auth.update(
+      sb.UserAttributes(email: email),
+    );
+
+    if (res.error != null) {
+      throw Exception(res.error!.message);
+    }
+  }
+
+  @override
   void dispose() => _statusStreamController.close();
 }
