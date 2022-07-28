@@ -1,6 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:intl/intl.dart';
 
@@ -19,15 +20,10 @@ class PlannerActivities extends StatefulWidget {
 class _PlannerActivitiesState extends State<PlannerActivities> {
   late final ScrollController controller;
 
-  final double intervalExtent = 80;
-
   @override
   void initState() {
     super.initState();
-    final currentHour = DateTime.now().hour;
-    controller = ScrollController(
-      initialScrollOffset: intervalExtent * (currentHour - 7),
-    );
+    controller = ScrollController();
   }
 
   @override
@@ -41,17 +37,23 @@ class _PlannerActivitiesState extends State<PlannerActivities> {
     final activities = context.select(
       (PlannerBloc bloc) => bloc.state.activities,
     );
+    final startHour = context.select(
+      (AppBloc bloc) => bloc.state.timelineStartHour,
+    );
+    final endHour = context.select(
+      (AppBloc bloc) => bloc.state.timelineEndHour,
+    );
 
     return SingleChildScrollView(
       controller: controller,
       padding: const EdgeInsets.all(20),
       child: DynamicTimeline(
-        firstDateTime: DateTime(1970, 01, 01, 7),
-        lastDateTime: DateTime(1970, 01, 01, 22),
+        firstDateTime: DateTime(1970, 01, 01, startHour),
+        lastDateTime: DateTime(1970, 01, 01, endHour),
         labelBuilder: DateFormat('HH:mm').format,
         intervalDuration: const Duration(hours: 1),
         resizable: false,
-        intervalExtent: intervalExtent,
+        intervalExtent: 80,
         items: activities
             .map(
               (activity) => TimelineItem(

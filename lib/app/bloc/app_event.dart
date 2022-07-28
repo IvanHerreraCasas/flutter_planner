@@ -33,3 +33,21 @@ class AppSettingsIndexChanged extends AppEvent {
   @override
   List<Object?> get props => [index];
 }
+
+class AppTimelineStartHourChanged extends AppEvent {
+  const AppTimelineStartHourChanged(this.hour);
+
+  final int hour;
+
+  @override
+  List<Object?> get props => [hour];
+}
+
+class AppTimelineEndHourChanged extends AppEvent {
+  const AppTimelineEndHourChanged(this.hour);
+
+  final int hour;
+
+  @override
+  List<Object?> get props => [hour];
+}

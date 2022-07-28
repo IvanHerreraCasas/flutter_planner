@@ -9,6 +9,8 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<AppRouteChanged>(_onRouteChanged);
     on<AppThemeModeChanged>(_onThemeModeChanged);
     on<AppSettingsIndexChanged>(_onSettingsIndexChanged);
+    on<AppTimelineStartHourChanged>(_onAppTimelineStartHourChanged);
+    on<AppTimelineEndHourChanged>(_onAppTimelineEndHourChanged);
   }
 
   void _onRouteChanged(
@@ -30,6 +32,20 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     Emitter<AppState> emit,
   ) {
     emit(state.copyWith(settingsIndex: event.index));
+  }
+
+  void _onAppTimelineStartHourChanged(
+    AppTimelineStartHourChanged event,
+    Emitter<AppState> emit,
+  ) {
+    emit(state.copyWith(timelineStartHour: event.hour));
+  }
+
+  void _onAppTimelineEndHourChanged(
+    AppTimelineEndHourChanged event,
+    Emitter<AppState> emit,
+  ) {
+    emit(state.copyWith(timelineEndHour: event.hour));
   }
 
   @override
