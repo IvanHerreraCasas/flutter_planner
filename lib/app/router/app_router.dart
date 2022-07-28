@@ -102,6 +102,13 @@ abstract class AppRouter {
               builder: (context, state) => const MyDetailsPage(
                 isPage: true,
               ),
+            ), // my_details
+            GoRoute(
+              path: 'appearance',
+              name: AppRoutes.appearance,
+              builder: (context, state) => const AppearancePage(
+                isPage: true,
+              ),
             ),
           ],
         ),

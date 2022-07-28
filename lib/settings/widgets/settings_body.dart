@@ -15,13 +15,11 @@ class SettingsBody extends StatelessWidget {
     return IndexedStack(
       index: selectedIndex,
       children: const [
-        Center(
-          child: MyDetailsPage(
-            isPage: false,
-          ),
+        MyDetailsPage(
+          isPage: false,
         ),
-        Center(
-          child: Text('Appearance page'),
+        AppearancePage(
+          isPage: false,
         ),
       ],
     );

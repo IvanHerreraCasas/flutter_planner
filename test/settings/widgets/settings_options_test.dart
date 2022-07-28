@@ -64,6 +64,24 @@ void main() {
             ),
           ).called(1);
         });
+        testWidgets(
+            'goes to appearance route '
+            'when is pressed', (tester) async {
+          await tester.pumpApp(
+            buildSubject(
+              currentSize: SettingsSize.small,
+            ),
+          );
+
+          await tester.tap(find.widgetWithText(InkWell, 'Appearance'));
+
+          verify(
+            () => goRouter.goNamed(
+              AppRoutes.appearance,
+              params: {'page': 'settings'},
+            ),
+          ).called(1);
+        });
       });
       group('when size is large', () {
         testWidgets('renders Inkwell with My details text', (tester) async {

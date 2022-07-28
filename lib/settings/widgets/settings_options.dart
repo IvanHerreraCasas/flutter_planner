@@ -68,7 +68,10 @@ class _SettingsOptionsState extends State<SettingsOptions> {
           ),
           const Divider(),
           InkWell(
-            onTap: () {},
+            onTap: () => context.goNamed(
+              AppRoutes.appearance,
+              params: {'page': 'settings'},
+            ),
             borderRadius: BorderRadius.circular(10),
             child: Padding(
               padding: const EdgeInsets.symmetric(

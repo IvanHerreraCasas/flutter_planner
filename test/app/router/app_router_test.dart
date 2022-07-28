@@ -1,6 +1,7 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
@@ -193,6 +194,23 @@ void main() {
           );
 
           expect(find.byType(MyDetailsPage), findsOneWidget);
+        });
+
+        testWidgets(
+            'renders AppearancePage '
+            'when page param is settings and subroute is appearance',
+            (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+          await tester.pumpAppRouter(
+            buildSubject(initialLocation: '/home/settings/appearance'),
+            appBloc: appBloc,
+            authenticationBloc: authenticationBloc,
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          expect(find.byType(AppearancePage), findsOneWidget);
         });
       });
     });

@@ -5,4 +5,5 @@ abstract class AppRoutes {
   static String activity = 'activity';
   static String routine = 'routine';
   static String myDetails = 'my_details';
+  static String appearance = 'appearance';
 }

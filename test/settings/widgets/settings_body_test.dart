@@ -34,11 +34,22 @@ void main() {
       );
     }
 
-    testWidgets('renders MyDetailsPage when selectedIndex is 0',
+    testWidgets('renders MyDetailsPage when settingsIndex is 0',
         (tester) async {
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(MyDetailsPage), findsOneWidget);
+    });
+
+    testWidgets('renders AppearancePage when settingsIndex is 1',
+        (tester) async {
+      FlutterError.onError = ignoreOverflowErrors;
+      when(() => appBloc.state).thenReturn(
+        const AppState(settingsIndex: 1),
+      );
+      await tester.pumpApp(buildSubject());
+
+      expect(find.byType(AppearancePage), findsOneWidget);
     });
   });
 }
