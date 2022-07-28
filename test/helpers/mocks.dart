@@ -53,8 +53,5 @@ class MockRoutineBloc extends MockBloc<RoutineEvent, RoutineState>
 
 class MockTaskBloc extends MockBloc<TaskEvent, TaskState> implements TaskBloc {}
 
-class MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
-    implements SettingsBloc {}
-
 class MockMyDetailsBloc extends MockBloc<MyDetailsEvent, MyDetailsState>
     implements MyDetailsBloc {}

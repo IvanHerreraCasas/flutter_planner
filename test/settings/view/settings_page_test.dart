@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,19 +10,25 @@ import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
+  late AppBloc appBloc;
   late AuthenticationBloc authenticationBloc;
 
   setUp(() {
     authenticationBloc = MockAuthenticationBloc();
+    appBloc = MockAppBloc();
 
+    when(() => appBloc.state).thenReturn(const AppState());
     when(() => authenticationBloc.state).thenReturn(
       const AuthenticationState.authenticated(User(id: 'id')),
     );
   });
   group('SettingsPage', () {
     Widget buildSubject() {
-      return BlocProvider.value(
-        value: authenticationBloc,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: authenticationBloc),
+          BlocProvider.value(value: appBloc),
+        ],
         child: const SettingsPage(),
       );
     }
@@ -33,19 +40,11 @@ void main() {
     });
   });
   group('SettingsView', () {
-    late SettingsBloc settingsBloc;
-
-    setUp(() {
-      settingsBloc = MockSettingsBloc();
-
-      when(() => settingsBloc.state).thenReturn(const SettingsState());
-    });
-
     Widget buildSubject() {
       return MultiBlocProvider(
         providers: [
           BlocProvider.value(value: authenticationBloc),
-          BlocProvider.value(value: settingsBloc),
+          BlocProvider.value(value: appBloc),
         ],
         child: const SettingsView(),
       );

@@ -4,6 +4,7 @@ class AppState extends Equatable {
   const AppState({
     this.route = '/sign-in',
     this.themeModeIndex = 0,
+    this.settingsIndex = 0,
   });
 
   factory AppState.fromJson(Map<String, dynamic> jsonMap) {
@@ -15,6 +16,7 @@ class AppState extends Equatable {
 
   final String route;
   final int themeModeIndex;
+  final int settingsIndex;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -26,13 +28,19 @@ class AppState extends Equatable {
   AppState copyWith({
     String? route,
     int? themeModeIndex,
+    int? settingsIndex,
   }) {
     return AppState(
       route: route ?? this.route,
       themeModeIndex: themeModeIndex ?? this.themeModeIndex,
+      settingsIndex: settingsIndex ?? this.settingsIndex,
     );
   }
 
   @override
-  List<Object?> get props => [route, themeModeIndex];
+  List<Object?> get props => [
+        route,
+        themeModeIndex,
+        settingsIndex,
+      ];
 }

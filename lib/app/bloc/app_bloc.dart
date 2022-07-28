@@ -8,6 +8,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
   AppBloc() : super(const AppState()) {
     on<AppRouteChanged>(_onRouteChanged);
     on<AppThemeModeChanged>(_onThemeModeChanged);
+    on<AppSettingsIndexChanged>(_onSettingsIndexChanged);
   }
 
   void _onRouteChanged(
@@ -22,6 +23,13 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     Emitter<AppState> emit,
   ) {
     emit(state.copyWith(themeModeIndex: event.index));
+  }
+
+  void _onSettingsIndexChanged(
+    AppSettingsIndexChanged event,
+    Emitter<AppState> emit,
+  ) {
+    emit(state.copyWith(settingsIndex: event.index));
   }
 
   @override

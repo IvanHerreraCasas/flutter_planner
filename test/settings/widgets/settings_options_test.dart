@@ -11,13 +11,13 @@ import '../../helpers/helpers.dart';
 void main() {
   group('SettingsOptions', () {
     late GoRouter goRouter;
-    late SettingsBloc settingsBloc;
+    late AppBloc appBloc;
 
     setUp(() {
       goRouter = MockGoRouter();
-      settingsBloc = MockSettingsBloc();
+      appBloc = MockAppBloc();
 
-      when(() => settingsBloc.state).thenReturn(const SettingsState());
+      when(() => appBloc.state).thenReturn(const AppState());
     });
 
     Widget buildSubject({
@@ -26,7 +26,7 @@ void main() {
       return InheritedGoRouter(
         goRouter: goRouter,
         child: BlocProvider.value(
-          value: settingsBloc,
+          value: appBloc,
           child: SettingsOptions(
             currentSize: currentSize,
           ),
@@ -73,14 +73,14 @@ void main() {
         });
 
         testWidgets(
-            'adds SettingsSelectedIndexChanged(0) to SettingsBloc '
+            'adds  AppSettingsIndex(0) to AppBloc '
             'when is pressed', (tester) async {
           await tester.pumpApp(buildSubject());
 
           await tester.tap(find.widgetWithText(InkWell, 'My details'));
 
           verify(
-            () => settingsBloc.add(const SettingsSelectedIndexChanged(0)),
+            () => appBloc.add(const AppSettingsIndexChanged(0)),
           ).called(1);
         });
       });
@@ -95,14 +95,14 @@ void main() {
         });
 
         testWidgets(
-            'adds SettingsSelectedIndexChanged(1) to SettingsBloc '
+            'adds  AppSettingsIndexChanged(1) to AppBloc '
             'when is pressed', (tester) async {
           await tester.pumpApp(buildSubject());
 
           await tester.tap(find.widgetWithText(InkWell, 'Appearance'));
 
           verify(
-            () => settingsBloc.add(const SettingsSelectedIndexChanged(1)),
+            () => appBloc.add(const AppSettingsIndexChanged(1)),
           ).called(1);
         });
       });

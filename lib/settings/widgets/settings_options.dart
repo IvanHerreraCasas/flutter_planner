@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_planner/app/router/app_routes.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/settings/settings.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,7 +34,7 @@ class _SettingsOptionsState extends State<SettingsOptions> {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = context.select(
-      (SettingsBloc bloc) => bloc.state.selectedIndex,
+      (AppBloc bloc) => bloc.state.settingsIndex,
     );
 
     final textTheme = Theme.of(context).textTheme;
@@ -95,8 +95,8 @@ class _SettingsOptionsState extends State<SettingsOptions> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
-          onTap: () => context.read<SettingsBloc>().add(
-                const SettingsSelectedIndexChanged(0),
+          onTap: () => context.read<AppBloc>().add(
+                const AppSettingsIndexChanged(0),
               ),
           borderRadius: BorderRadius.circular(10),
           child: Container(
@@ -118,8 +118,8 @@ class _SettingsOptionsState extends State<SettingsOptions> {
         ),
         const SizedBox(height: 5),
         InkWell(
-          onTap: () => context.read<SettingsBloc>().add(
-                const SettingsSelectedIndexChanged(1),
+          onTap: () => context.read<AppBloc>().add(
+                const AppSettingsIndexChanged(1),
               ),
           borderRadius: BorderRadius.circular(10),
           child: Container(

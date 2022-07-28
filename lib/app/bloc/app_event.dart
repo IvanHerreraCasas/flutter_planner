@@ -24,3 +24,12 @@ class AppThemeModeChanged extends AppEvent {
   @override
   List<Object?> get props => [index];
 }
+
+class AppSettingsIndexChanged extends AppEvent {
+  const AppSettingsIndexChanged(this.index);
+
+  final int index;
+
+  @override
+  List<Object?> get props => [index];
+}

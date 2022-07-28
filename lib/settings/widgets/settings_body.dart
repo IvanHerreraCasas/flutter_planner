@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/settings/settings.dart';
 
 class SettingsBody extends StatelessWidget {
@@ -8,7 +9,7 @@ class SettingsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = context.select(
-      (SettingsBloc bloc) => bloc.state.selectedIndex,
+      (AppBloc bloc) => bloc.state.settingsIndex,
     );
 
     return IndexedStack(
