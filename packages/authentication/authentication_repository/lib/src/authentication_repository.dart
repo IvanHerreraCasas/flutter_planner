@@ -31,6 +31,14 @@ class AuthenticationRepository {
   }) =>
       _authenticationApi.signIn(email: email, password: password);
 
+  /// Changes the name of the current user
+  Future<void> changeName({required String name}) =>
+      _authenticationApi.changeName(name: name);
+
+  /// Changes the email of the current user
+  Future<void> changeEmail({required String email}) =>
+      _authenticationApi.changeEmail(email: email);
+
   /// Signs out the current user, if there is a logged in user.
   Future<void> signOut() => _authenticationApi.signOut();
 
