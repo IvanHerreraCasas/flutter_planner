@@ -18,6 +18,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('AppRouter', () {
+    late AppBloc appBloc;
     late AuthenticationBloc authenticationBloc;
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
@@ -28,6 +29,7 @@ void main() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
       tasksRepository = MockTasksRepository();
+      appBloc = MockAppBloc();
 
       final currentDateTime = DateTime.now();
       final utcTodayDate = DateTime.utc(
@@ -36,6 +38,7 @@ void main() {
         currentDateTime.day,
       );
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(() => authenticationBloc.state)
           .thenReturn(const AuthenticationState.unknown());
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
@@ -61,6 +64,7 @@ void main() {
           'when user is not authenticated', (tester) async {
         await tester.pumpAppRouter(
           buildSubject(),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
@@ -78,6 +82,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(initialLocation: '/sign-in'),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
@@ -93,6 +98,7 @@ void main() {
         testWidgets('renders SignUpPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-up'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
           );
 
@@ -104,6 +110,7 @@ void main() {
         testWidgets('renders SignInPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-in'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
           );
 
@@ -120,6 +127,7 @@ void main() {
         testWidgets('renders HomePage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -133,6 +141,7 @@ void main() {
             'when page param is planner', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -146,6 +155,7 @@ void main() {
             'when page param is schedule', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/schedule'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -159,6 +169,7 @@ void main() {
             'when page param is settings', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/settings'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -174,6 +185,7 @@ void main() {
             (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/settings/my_details'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -199,6 +211,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
@@ -220,6 +233,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
         );
 

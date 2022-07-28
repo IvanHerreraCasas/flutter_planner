@@ -2,6 +2,7 @@ import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/planner/planner.dart';
@@ -20,6 +21,7 @@ void main() {
     late RoutinesRepository routinesRepository;
     late TasksRepository tasksRepository;
 
+    late AppBloc appBloc;
     late AuthenticationBloc authenticationBloc;
 
     setUp(() {
@@ -27,10 +29,12 @@ void main() {
       routinesRepository = MockRoutinesRepository();
       tasksRepository = MockTasksRepository();
       authenticationBloc = MockAuthenticationBloc();
+      appBloc = MockAppBloc();
 
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState.authenticated(User(id: 'userID')),
       );
+      when(() => appBloc.state).thenReturn(const AppState());
 
       when(
         () => activitiesRepository.streamActivities(date: any(named: 'date')),
@@ -46,8 +50,11 @@ void main() {
     Widget buildSubject({
       int index = 0,
     }) {
-      return BlocProvider.value(
-        value: authenticationBloc,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: authenticationBloc),
+          BlocProvider.value(value: appBloc),
+        ],
         child: HomeBody(index: index),
       );
     }

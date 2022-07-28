@@ -34,6 +34,7 @@ void main() {
         const AuthenticationState.authenticated(User(id: 'userID')),
       );
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(
         () => activitiesRepository.streamActivities(date: any(named: 'date')),
       ).thenAnswer((_) => const Stream.empty());
