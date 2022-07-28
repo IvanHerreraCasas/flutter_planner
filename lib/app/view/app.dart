@@ -76,8 +76,11 @@ class AppView extends StatelessWidget {
       initialLocation: context.read<AppBloc>().state.route,
     );
 
+    final themeModeIndex = context.watch<AppBloc>().state.themeModeIndex;
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.values[themeModeIndex],
       theme: FlexThemeData.light(
         scheme: FlexScheme.flutterDash,
         fontFamily: GoogleFonts.lato().fontFamily,

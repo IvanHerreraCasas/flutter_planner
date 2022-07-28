@@ -7,6 +7,7 @@ part 'app_state.dart';
 class AppBloc extends HydratedBloc<AppEvent, AppState> {
   AppBloc() : super(const AppState()) {
     on<AppRouteChanged>(_onRouteChanged);
+    on<AppThemeModeChanged>(_onThemeModeChanged);
   }
 
   void _onRouteChanged(
@@ -14,6 +15,13 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     Emitter<AppState> emit,
   ) {
     emit(state.copyWith(route: event.route));
+  }
+
+  void _onThemeModeChanged(
+    AppThemeModeChanged event,
+    Emitter<AppState> emit,
+  ) {
+    emit(state.copyWith(themeModeIndex: event.index));
   }
 
   @override

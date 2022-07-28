@@ -15,3 +15,12 @@ class AppRouteChanged extends AppEvent {
   @override
   List<Object?> get props => [route];
 }
+
+class AppThemeModeChanged extends AppEvent {
+  const AppThemeModeChanged(this.index);
+
+  final int index;
+
+  @override
+  List<Object?> get props => [index];
+}
