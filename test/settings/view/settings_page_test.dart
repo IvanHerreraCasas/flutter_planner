@@ -1,5 +1,7 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -7,9 +9,21 @@ import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
+  late AuthenticationBloc authenticationBloc;
+
+  setUp(() {
+    authenticationBloc = MockAuthenticationBloc();
+
+    when(() => authenticationBloc.state).thenReturn(
+      const AuthenticationState.authenticated(User(id: 'id')),
+    );
+  });
   group('SettingsPage', () {
     Widget buildSubject() {
-      return const SettingsPage();
+      return BlocProvider.value(
+        value: authenticationBloc,
+        child: const SettingsPage(),
+      );
     }
 
     testWidgets('renders SettingsView', (tester) async {
@@ -28,8 +42,11 @@ void main() {
     });
 
     Widget buildSubject() {
-      return BlocProvider.value(
-        value: settingsBloc,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: authenticationBloc),
+          BlocProvider.value(value: settingsBloc),
+        ],
         child: const SettingsView(),
       );
     }
