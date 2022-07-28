@@ -73,10 +73,14 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     final router = AppRouter.router(
       authenticationBloc: context.read<AuthenticationBloc>(),
-      initialLocation: context.read<AppBloc>().state.route,
+      initialLocation: context.select(
+        (AppBloc bloc) => bloc.state.route,
+      ),
     );
 
-    final themeModeIndex = context.watch<AppBloc>().state.themeModeIndex;
+    final themeModeIndex = context.select(
+      (AppBloc bloc) => bloc.state.themeModeIndex,
+    );
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
