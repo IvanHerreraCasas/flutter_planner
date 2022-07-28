@@ -1,6 +1,7 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/task/task.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +12,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('PlannerTabs', () {
+    late AppBloc appBloc;
     late PlannerBloc plannerBloc;
 
     final mockDate = DateTime.utc(2022);
@@ -50,8 +52,10 @@ void main() {
     ];
 
     setUp(() {
+      appBloc = MockAppBloc();
       plannerBloc = MockPlannerBloc();
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(() => plannerBloc.state).thenReturn(
         PlannerState(
           tasks: mockTasks,
@@ -63,8 +67,11 @@ void main() {
     Widget buildSubject({
       PlannerSize currentSize = PlannerSize.small,
     }) {
-      return BlocProvider.value(
-        value: plannerBloc,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: appBloc),
+          BlocProvider.value(value: plannerBloc),
+        ],
         child: PlannerTabs(currentSize: currentSize),
       );
     }

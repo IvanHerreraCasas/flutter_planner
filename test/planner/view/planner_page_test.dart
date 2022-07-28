@@ -3,6 +3,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,12 +15,14 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('PlannerPage', () {
+    late AppBloc appBloc;
     late AuthenticationBloc authenticationBloc;
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
     late TasksRepository tasksRepository;
 
     setUp(() {
+      appBloc = MockAppBloc();
       authenticationBloc = MockAuthenticationBloc();
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
@@ -32,6 +35,7 @@ void main() {
         currentDateTime.day,
       );
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState.authenticated(User(id: 'userID')),
       );
@@ -48,8 +52,11 @@ void main() {
 
     group('PlannerPage', () {
       Widget buildSubject() {
-        return BlocProvider.value(
-          value: authenticationBloc,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: authenticationBloc),
+            BlocProvider.value(value: appBloc),
+          ],
           child: const PlannerPage(),
         );
       }
@@ -77,12 +84,13 @@ void main() {
         when(() => plannerBloc.state).thenReturn(PlannerState());
       });
       Widget buildSubject() {
-        return BlocProvider.value(
-          value: authenticationBloc,
-          child: BlocProvider.value(
-            value: plannerBloc,
-            child: const PlannerView(),
-          ),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: authenticationBloc),
+            BlocProvider.value(value: appBloc),
+            BlocProvider.value(value: plannerBloc),
+          ],
+          child: const PlannerView(),
         );
       }
 

@@ -1,6 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,6 +11,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('ScheduleTimetable', () {
+    late AppBloc appBloc;
     late ScheduleBloc scheduleBloc;
 
     final mockRoutines = [
@@ -40,8 +42,10 @@ void main() {
     ];
 
     setUp(() {
+      appBloc = MockAppBloc();
       scheduleBloc = MockScheduleBloc();
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(() => scheduleBloc.state).thenReturn(
         ScheduleState(
           routines: mockRoutines,
@@ -52,8 +56,11 @@ void main() {
     Widget buildSubject({
       ScheduleSize currentSize = ScheduleSize.small,
     }) {
-      return BlocProvider.value(
-        value: scheduleBloc,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: appBloc),
+          BlocProvider.value(value: scheduleBloc),
+        ],
         child: ScheduleTimetable(
           currentSize: currentSize,
         ),

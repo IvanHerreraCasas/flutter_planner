@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,11 +11,14 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('SchedulePage', () {
+    late AppBloc appBloc;
     late RoutinesRepository routinesRepository;
 
     setUp(() {
+      appBloc = MockAppBloc();
       routinesRepository = MockRoutinesRepository();
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
@@ -22,7 +26,10 @@ void main() {
 
     group('SchedulePage', () {
       Widget buildSubject() {
-        return const SchedulePage();
+        return BlocProvider.value(
+          value: appBloc,
+          child: const SchedulePage(),
+        );
       }
 
       testWidgets('renders ScheduleView', (tester) async {
@@ -45,8 +52,11 @@ void main() {
       });
 
       Widget buildSubject() {
-        return BlocProvider.value(
-          value: scheduleBloc,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: appBloc),
+            BlocProvider.value(value: scheduleBloc),
+          ],
           child: const ScheduleView(),
         );
       }
