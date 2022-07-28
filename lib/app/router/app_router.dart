@@ -6,6 +6,7 @@ import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/routine/routine.dart';
+import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:go_router/go_router.dart';
@@ -92,6 +93,14 @@ abstract class AppRouter {
                 child: const RoutinePage(
                   isPage: true,
                 ),
+              ),
+            ),
+            // my_details
+            GoRoute(
+              path: 'my_details',
+              name: AppRoutes.myDetails,
+              builder: (context, state) => const MyDetailsPage(
+                isPage: true,
               ),
             ),
           ],

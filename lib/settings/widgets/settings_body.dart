@@ -15,7 +15,9 @@ class SettingsBody extends StatelessWidget {
       index: selectedIndex,
       children: const [
         Center(
-          child: Text('My details page'),
+          child: MyDetailsPage(
+            isPage: false,
+          ),
         ),
         Center(
           child: Text('Appearance page'),

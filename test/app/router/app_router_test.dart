@@ -167,6 +167,21 @@ void main() {
 
           expect(find.byType(SettingsPage), findsOneWidget);
         });
+
+        testWidgets(
+            'renders MyDetailsPage '
+            'when page param is settings and subroute is my_details',
+            (tester) async {
+          await tester.pumpAppRouter(
+            buildSubject(initialLocation: '/home/settings/my_details'),
+            authenticationBloc: authenticationBloc,
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          expect(find.byType(MyDetailsPage), findsOneWidget);
+        });
       });
     });
 

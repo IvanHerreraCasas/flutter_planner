@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/router/app_routes.dart';
 import 'package:flutter_planner/settings/settings.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsOptions extends StatefulWidget {
   const SettingsOptions({
@@ -38,54 +40,51 @@ class _SettingsOptionsState extends State<SettingsOptions> {
     final textTheme = Theme.of(context).textTheme;
 
     if (widget.currentSize == SettingsSize.small) {
-      return ListView(
-        controller: _scrollController,
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(15),
+          InkWell(
+            onTap: () => context.goNamed(
+              AppRoutes.myDetails,
+              params: {'page': 'settings'},
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'My details',
-                  style: textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 500,
-                  child: Center(
-                    child: Text('My details content'),
+            borderRadius: BorderRadius.circular(10),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 10,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    'My details',
+                    style: textTheme.titleMedium,
                   ),
-                ),
-              ],
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios)
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Appearance',
-                  style: textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 500,
-                  child: Center(
-                    child: Text('Appearance content'),
+          const Divider(),
+          InkWell(
+            onTap: () {},
+            borderRadius: BorderRadius.circular(10),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 10,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    'Appearance',
+                    style: textTheme.titleMedium,
                   ),
-                ),
-              ],
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios)
+                ],
+              ),
             ),
           ),
         ],
