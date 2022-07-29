@@ -15,7 +15,8 @@ class AuthenticationRepository {
   User? get user => _authenticationApi.user;
 
   /// Stream of AuthStatus
-  Stream<AuthenticationStatus> get status => _authenticationApi.status;
+  Stream<AuthenticationStatus> get status =>
+      _authenticationApi.status.asBroadcastStream();
 
   /// Creates a new user
   Future<void> signUp({
