@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -12,10 +13,12 @@ void main() {
   group('SettingsOptions', () {
     late GoRouter goRouter;
     late AppBloc appBloc;
+    late AuthenticationBloc authenticationBloc;
 
     setUp(() {
       goRouter = MockGoRouter();
       appBloc = MockAppBloc();
+      authenticationBloc = MockAuthenticationBloc();
 
       when(() => appBloc.state).thenReturn(const AppState());
     });
@@ -25,8 +28,11 @@ void main() {
     }) {
       return InheritedGoRouter(
         goRouter: goRouter,
-        child: BlocProvider.value(
-          value: appBloc,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: authenticationBloc),
+            BlocProvider.value(value: appBloc),
+          ],
           child: SettingsOptions(
             currentSize: currentSize,
           ),
@@ -123,6 +129,41 @@ void main() {
             () => appBloc.add(const AppSettingsIndexChanged(1)),
           ).called(1);
         });
+      });
+    });
+
+    group('Log out ElevatedButton', () {
+      testWidgets('is rendered', (tester) async {
+        await tester.pumpApp(buildSubject());
+
+        expect(
+          find.widgetWithText(ElevatedButton, 'Log out'),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'adds AuthenticationSignOutRequested to AuthenticationBloc '
+          'when is pressed and size is large', (tester) async {
+        await tester.pumpApp(buildSubject());
+
+        await tester.tap(find.widgetWithText(ElevatedButton, 'Log out'));
+
+        verify(
+          () => authenticationBloc.add(const AuthenticationSignoutRequested()),
+        ).called(1);
+      });
+
+      testWidgets(
+          'adds AuthenticationSignOutRequested to AuthenticationBloc '
+          'when is pressed and size is small', (tester) async {
+        await tester.pumpApp(buildSubject(currentSize: SettingsSize.small));
+
+        await tester.tap(find.widgetWithText(ElevatedButton, 'Log out'));
+
+        verify(
+          () => authenticationBloc.add(const AuthenticationSignoutRequested()),
+        ).called(1);
       });
     });
   });
