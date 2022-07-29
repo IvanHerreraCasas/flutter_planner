@@ -1,29 +1,26 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AuthenticationEvent', () {
-    group('AuthenticationStatusChanged', () {
-      const status = AuthenticationStatus.authenticated;
+    group('AuthenticationSubscriptionRequested', () {
       test('supports value equality', () {
         expect(
-          AuthenticationStatusChanged(status),
-          equals(AuthenticationStatusChanged(status)),
+          AuthenticationSubscriptionRequested(),
+          equals(AuthenticationSubscriptionRequested()),
         );
       });
 
       test('props are correct', () {
         expect(
-          AuthenticationStatusChanged(status).props,
-          equals(<Object?>[status]),
+          AuthenticationSubscriptionRequested().props,
+          equals(<Object?>[]),
         );
       });
     });
-
-    group('AuthenticationStatusChanged', () {
+    group('AuthenticationSignOutRequested', () {
       test('supports value equality', () {
         expect(
           AuthenticationSignoutRequested(),

@@ -18,44 +18,40 @@ class AuthenticationBloc
                   authenticationRepository.user!,
                 ),
         ) {
-    on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationSignoutRequested>(_onAuthenticationSignoutRequested);
-
-    _authenticationStatusSubscription = _authenticationRepository.status
-        .listen((status) => add(AuthenticationStatusChanged(status)));
+    on<AuthenticationSubscriptionRequested>(
+      _onAuthenticationSubscriptionRequested,
+    );
   }
 
   final AuthenticationRepository _authenticationRepository;
-  late StreamSubscription<AuthenticationStatus>
-      _authenticationStatusSubscription;
 
   @override
   Future<void> close() {
-    _authenticationStatusSubscription.cancel();
     _authenticationRepository.dispose();
     return super.close();
   }
 
-  void _onAuthenticationStatusChanged(
-    AuthenticationStatusChanged event,
+  Future<void> _onAuthenticationSubscriptionRequested(
+    AuthenticationSubscriptionRequested event,
     Emitter<AuthenticationState> emit,
-  ) {
-    switch (event.status) {
-      case AuthenticationStatus.authenticated:
-        final user = _authenticationRepository.user;
-        emit(
-          user != null
-              ? AuthenticationState.authenticated(user)
-              : const AuthenticationState.unauthenticated(),
-        );
-        break;
-      case AuthenticationStatus.unauthenticated:
-        emit(const AuthenticationState.unauthenticated());
-        break;
-      case AuthenticationStatus.unknown:
-        emit(const AuthenticationState.unknown());
-        break;
-    }
+  ) async {
+    await emit.forEach<AuthenticationStatus>(
+      _authenticationRepository.status,
+      onData: (status) {
+        switch (status) {
+          case AuthenticationStatus.authenticated:
+            final user = _authenticationRepository.user;
+            return user != null
+                ? AuthenticationState.authenticated(user)
+                : const AuthenticationState.unauthenticated();
+          case AuthenticationStatus.unauthenticated:
+            return const AuthenticationState.unauthenticated();
+          case AuthenticationStatus.unknown:
+            return const AuthenticationState.unknown();
+        }
+      },
+    );
   }
 
   void _onAuthenticationSignoutRequested(

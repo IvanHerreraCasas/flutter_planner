@@ -54,7 +54,8 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => AuthenticationBloc(
               authenticationRepository: authenticationRepository,
-            ),
+            )..add(const AuthenticationSubscriptionRequested()),
+            lazy: false,
           ),
           BlocProvider(
             create: (context) => AppBloc(),
@@ -73,9 +74,7 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     final router = AppRouter.router(
       authenticationBloc: context.read<AuthenticationBloc>(),
-      initialLocation: context.select(
-        (AppBloc bloc) => bloc.state.route,
-      ),
+      initialLocation: context.read<AppBloc>().state.route,
     );
 
     final themeModeIndex = context.select(
