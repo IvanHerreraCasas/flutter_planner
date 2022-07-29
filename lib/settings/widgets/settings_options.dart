@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
+import 'package:flutter_planner/authentication/bloc/authentication_bloc.dart';
 import 'package:flutter_planner/settings/settings.dart';
 import 'package:go_router/go_router.dart';
 
@@ -90,6 +91,16 @@ class _SettingsOptionsState extends State<SettingsOptions> {
               ),
             ),
           ),
+          const Spacer(),
+          ElevatedButton(
+            onPressed: () => context.read<AuthenticationBloc>().add(
+                  const AuthenticationSignoutRequested(),
+                ),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 36),
+            ),
+            child: const Text('Log out'),
+          ),
         ],
       );
     }
@@ -141,6 +152,16 @@ class _SettingsOptionsState extends State<SettingsOptions> {
               style: textTheme.titleMedium,
             ),
           ),
+        ),
+        const Spacer(),
+        ElevatedButton(
+          onPressed: () => context.read<AuthenticationBloc>().add(
+                const AuthenticationSignoutRequested(),
+              ),
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 45),
+          ),
+          child: const Text('Log out'),
         ),
       ],
     );
