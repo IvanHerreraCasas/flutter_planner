@@ -117,6 +117,23 @@ void main() {
           expect(find.byType(PlannerLayoutBuilder), findsOneWidget);
         });
 
+        testWidgets('unfocus when is pressed', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+
+          await tester.pumpApp(
+            buildSubject(),
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          await tester.tap(find.byType(PlannerLayoutBuilder));
+
+          final element = tester.element(find.byType(PlannerLayoutBuilder));
+
+          expect(FocusScope.of(element).hasFocus, equals(false));
+        });
+
         testWidgets(
             'renders correct small size widgets '
             'when width is less or equal than 400 pixels.', (tester) async {

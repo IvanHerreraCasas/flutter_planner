@@ -29,7 +29,12 @@ class _TaskTextFieldState extends State<TaskTextField> {
     }
 
     focusNode.addListener(() {
-      if (!focusNode.hasFocus) {
+      if (focusNode.hasFocus) {
+        Scrollable.ensureVisible(
+          context,
+          duration: const Duration(milliseconds: 300),
+        );
+      } else {
         final title = context.read<TaskBloc>().state.title;
 
         if (title.isNotEmpty) {
