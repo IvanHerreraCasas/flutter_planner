@@ -50,8 +50,8 @@ void main() {
           'adds AppTimelineStartHourChanged to AppBloc '
           'when a new hour is selected', (tester) async {
         FlutterError.onError = ignoreOverflowErrors;
-        
-                await tester.pumpApp(buildSubject());
+
+        await tester.pumpApp(buildSubject());
 
         await tester.tap(
           find.descendant(

@@ -99,8 +99,7 @@ void main() {
         expect(find.byType(SnackBar), findsOneWidget);
       });
 
-      testWidgets('shows snackBar when errorMessage changes',
-          (tester) async {
+      testWidgets('shows snackBar when errorMessage changes', (tester) async {
         whenListen(
           myDetailsBloc,
           Stream.fromIterable(const [

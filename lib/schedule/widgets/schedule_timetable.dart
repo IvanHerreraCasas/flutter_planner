@@ -44,7 +44,7 @@ class _ScheduleTimetableState extends State<ScheduleTimetable> {
     final endHour = context.select(
       (AppBloc bloc) => bloc.state.timelineEndHour,
     );
-    
+
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Scrollbar(
