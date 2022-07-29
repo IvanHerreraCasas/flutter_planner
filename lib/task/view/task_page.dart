@@ -35,6 +35,7 @@ class TaskView extends StatelessWidget {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
+            backgroundColor: Theme.of(context).colorScheme.surface,
             onPressed: (context) => context.read<TaskBloc>().add(
                   const TaskDeleted(),
                 ),
