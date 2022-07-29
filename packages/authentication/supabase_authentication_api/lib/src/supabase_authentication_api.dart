@@ -20,7 +20,11 @@ class SupabaseAuthenticationApi extends AuthenticationApi {
     final sbUser = _supabaseClient.auth.user();
 
     if (sbUser == null) return null;
-    return User(id: sbUser.id, email: sbUser.email);
+    return User(
+      id: sbUser.id,
+      email: sbUser.email,
+      name: sbUser.userMetadata['name'] as String?,
+    );
   }
 
   @override
@@ -65,7 +69,38 @@ class SupabaseAuthenticationApi extends AuthenticationApi {
   }
 
   @override
-  Future<void> signOut() => _supabaseClient.auth.signOut();
+  Future<void> signOut() async {
+    final res = await _supabaseClient.auth.signOut();
+    if (res.error != null) {
+      throw AuthenticationFailure(message: res.error!.message);
+    } else {
+      _statusStreamController.add(AuthenticationStatus.unauthenticated);
+    }
+  }
+
+  @override
+  Future<void> changeName({required String name}) async {
+    final res = await _supabaseClient.auth.update(
+      sb.UserAttributes(
+        data: {'name': name},
+      ),
+    );
+
+    if (res.error != null) {
+      throw Exception(res.error!.message);
+    }
+  }
+
+  @override
+  Future<void> changeEmail({required String email}) async {
+    final res = await _supabaseClient.auth.update(
+      sb.UserAttributes(email: email),
+    );
+
+    if (res.error != null) {
+      throw Exception(res.error!.message);
+    }
+  }
 
   @override
   void dispose() => _statusStreamController.close();

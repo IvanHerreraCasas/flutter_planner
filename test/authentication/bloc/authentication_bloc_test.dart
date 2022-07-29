@@ -26,12 +26,8 @@ void main() {
     }
 
     group('constructor', () {
-      test(
-          'works normally and '
-          'starts listening to authenticationRepository.status', () {
+      test('works normally', () {
         expect(buildBloc, returnsNormally);
-
-        verify(() => authenticationRepository.status.listen((event) {}));
       });
 
       test('has unknown initial state, when user is null', () {
@@ -50,46 +46,37 @@ void main() {
       });
     });
 
-    group('AuthenticationStatusChanged', () {
+    group('AuthenticationSubscriptionRequested', () {
       blocTest<AuthenticationBloc, AuthenticationState>(
-        'emits unauthenticated when status is unauthenticated',
+        'starts listening to authentication repository status.',
+        setUp: () {
+          when(() => authenticationRepository.status).thenAnswer(
+            (_) => Stream.value(AuthenticationStatus.unauthenticated),
+          );
+        },
         build: buildBloc,
         act: (bloc) => bloc.add(
-          const AuthenticationStatusChanged(
-            AuthenticationStatus.unauthenticated,
-          ),
+          const AuthenticationSubscriptionRequested(),
         ),
         expect: () => const <AuthenticationState>[
           AuthenticationState.unauthenticated(),
         ],
+        verify: (bloc) {
+          verify(() => authenticationRepository.status).called(1);
+        },
       );
 
       blocTest<AuthenticationBloc, AuthenticationState>(
-        'emits authenticated when status is authenticated',
+        'emits authenticated state when status is authenticated.',
         setUp: () {
-          when(() => authenticationRepository.user).thenAnswer((_) => fakeUser);
+          when(() => authenticationRepository.status).thenAnswer(
+            (_) => Stream.value(AuthenticationStatus.authenticated),
+          );
+          when(() => authenticationRepository.user).thenReturn(fakeUser);
         },
         build: buildBloc,
         act: (bloc) => bloc.add(
-          const AuthenticationStatusChanged(
-            AuthenticationStatus.authenticated,
-          ),
-        ),
-        expect: () => const <AuthenticationState>[
-          AuthenticationState.authenticated(fakeUser),
-        ],
-      );
-
-      blocTest<AuthenticationBloc, AuthenticationState>(
-        'emits authenticated when status is authenticated',
-        setUp: () {
-          when(() => authenticationRepository.user).thenAnswer((_) => fakeUser);
-        },
-        build: buildBloc,
-        act: (bloc) => bloc.add(
-          const AuthenticationStatusChanged(
-            AuthenticationStatus.authenticated,
-          ),
+          const AuthenticationSubscriptionRequested(),
         ),
         expect: () => const <AuthenticationState>[
           AuthenticationState.authenticated(fakeUser),
@@ -102,7 +89,7 @@ void main() {
         'attempts to signOut',
         build: buildBloc,
         act: (bloc) => bloc.add(
-          AuthenticationSignoutRequested(),
+          const AuthenticationSignoutRequested(),
         ),
         verify: (bloc) {
           verify(() => authenticationRepository.signOut()).called(1);

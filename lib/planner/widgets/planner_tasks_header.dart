@@ -18,10 +18,7 @@ class PlannerTasksHeader extends StatelessWidget {
           onPressed: () => context.read<PlannerBloc>().add(
                 const PlannerNewTaskAdded(),
               ),
-          child: Text(
-            '+ new',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          child: const Text('+ new'),
         ),
       ],
     );

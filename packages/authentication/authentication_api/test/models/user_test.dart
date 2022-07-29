@@ -6,11 +6,15 @@ void main() {
   group('User', () {
     User createSubject({
       String id = 'id',
+      String name = 'user-name',
       String email = 'email.example.com',
+      bool isEditable = true,
     }) {
       return User(
         id: id,
         email: email,
+        name: name,
+        isEditable: isEditable,
       );
     }
 
@@ -27,7 +31,9 @@ void main() {
         createSubject().props,
         equals([
           'id', // id
+          'user-name', // name
           'email.example.com', // email
+          true, //isEditable
         ]),
       );
     });

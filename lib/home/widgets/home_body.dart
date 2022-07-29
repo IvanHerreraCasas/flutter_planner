@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
+import 'package:flutter_planner/settings/settings.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({
@@ -20,6 +21,7 @@ class _HomeBodyState extends State<HomeBody> {
   final _pages = const <Widget>[
     PlannerPage(),
     SchedulePage(),
+    SettingsPage(),
   ];
 
   @override

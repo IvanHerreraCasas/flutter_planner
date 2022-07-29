@@ -30,6 +30,13 @@ class HomeNavRail extends StatelessWidget {
           params: {'page': 'schedule'},
         );
         break;
+      case 2:
+        context.read<AppBloc>().add(const AppRouteChanged('/home/settings'));
+        context.goNamed(
+          AppRoutes.home,
+          params: {'page': 'settings'},
+        );
+        break;
     }
   }
 
@@ -42,6 +49,7 @@ class HomeNavRail extends StatelessWidget {
           ? NavigationRailLabelType.none
           : NavigationRailLabelType.selected,
       onDestinationSelected: (index) => _onDestinationSelected(context, index),
+      selectedIndex: selectedIndex,
       destinations: const [
         NavigationRailDestination(
           icon: Icon(Icons.calendar_today),
@@ -51,8 +59,11 @@ class HomeNavRail extends StatelessWidget {
           icon: Icon(Icons.schedule),
           label: Text('Schedule'),
         ),
+        NavigationRailDestination(
+          icon: Icon(Icons.settings),
+          label: Text('Settings'),
+        ),
       ],
-      selectedIndex: selectedIndex,
     );
   }
 }

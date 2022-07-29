@@ -1,6 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:intl/intl.dart';
 import 'package:routines_api/routines_api.dart';
@@ -37,6 +38,13 @@ class _ScheduleTimetableState extends State<ScheduleTimetable> {
 
   @override
   Widget build(BuildContext context) {
+    final startHour = context.select(
+      (AppBloc bloc) => bloc.state.timelineStartHour,
+    );
+    final endHour = context.select(
+      (AppBloc bloc) => bloc.state.timelineEndHour,
+    );
+
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Scrollbar(
@@ -67,8 +75,8 @@ class _ScheduleTimetableState extends State<ScheduleTimetable> {
                     },
                     builder: (context, routines) {
                       return DynamicTimeline(
-                        firstDateTime: DateTime(1970, 01, 01, 7),
-                        lastDateTime: DateTime(1970, 01, 01, 22),
+                        firstDateTime: DateTime(1970, 01, 01, startHour),
+                        lastDateTime: DateTime(1970, 01, 01, endHour),
                         labelBuilder: DateFormat('HH:mm').format,
                         intervalDuration: const Duration(hours: 1),
                         crossAxisCount: 7,

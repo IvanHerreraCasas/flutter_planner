@@ -2,6 +2,7 @@ import 'package:activities_repository/activities_repository.dart';
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,6 +11,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('PlannerActivities', () {
+    late AppBloc appBloc;
     late PlannerBloc plannerBloc;
 
     final mockActivities = [
@@ -37,8 +39,10 @@ void main() {
     ];
 
     setUp(() {
+      appBloc = MockAppBloc();
       plannerBloc = MockPlannerBloc();
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(() => plannerBloc.state).thenReturn(
         PlannerState(
           activities: mockActivities,
@@ -49,8 +53,11 @@ void main() {
     Widget buildSubject({
       PlannerSize currentSize = PlannerSize.large,
     }) {
-      return BlocProvider.value(
-        value: plannerBloc,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: appBloc),
+          BlocProvider.value(value: plannerBloc),
+        ],
         child: PlannerActivities(currentSize: currentSize),
       );
     }

@@ -1,10 +1,12 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/planner/planner.dart';
+import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +19,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('AppRouter', () {
+    late AppBloc appBloc;
     late AuthenticationBloc authenticationBloc;
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
@@ -27,6 +30,7 @@ void main() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
       tasksRepository = MockTasksRepository();
+      appBloc = MockAppBloc();
 
       final currentDateTime = DateTime.now();
       final utcTodayDate = DateTime.utc(
@@ -35,6 +39,7 @@ void main() {
         currentDateTime.day,
       );
 
+      when(() => appBloc.state).thenReturn(const AppState());
       when(() => authenticationBloc.state)
           .thenReturn(const AuthenticationState.unknown());
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
@@ -60,6 +65,7 @@ void main() {
           'when user is not authenticated', (tester) async {
         await tester.pumpAppRouter(
           buildSubject(),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
@@ -77,6 +83,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(initialLocation: '/sign-in'),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
@@ -92,6 +99,7 @@ void main() {
         testWidgets('renders SignUpPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-up'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
           );
 
@@ -103,6 +111,7 @@ void main() {
         testWidgets('renders SignInPage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/sign-in'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
           );
 
@@ -119,6 +128,7 @@ void main() {
         testWidgets('renders HomePage', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -132,6 +142,7 @@ void main() {
             'when page param is planner', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -145,6 +156,7 @@ void main() {
             'when page param is schedule', (tester) async {
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/schedule'),
+            appBloc: appBloc,
             authenticationBloc: authenticationBloc,
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
@@ -152,6 +164,53 @@ void main() {
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
+        });
+        testWidgets(
+            'renders SettingsPage '
+            'when page param is settings', (tester) async {
+          await tester.pumpAppRouter(
+            buildSubject(initialLocation: '/home/settings'),
+            appBloc: appBloc,
+            authenticationBloc: authenticationBloc,
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          expect(find.byType(SettingsPage), findsOneWidget);
+        });
+
+        testWidgets(
+            'renders MyDetailsPage '
+            'when page param is settings and subroute is my_details',
+            (tester) async {
+          await tester.pumpAppRouter(
+            buildSubject(initialLocation: '/home/settings/my_details'),
+            appBloc: appBloc,
+            authenticationBloc: authenticationBloc,
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          expect(find.byType(MyDetailsPage), findsOneWidget);
+        });
+
+        testWidgets(
+            'renders AppearancePage '
+            'when page param is settings and subroute is appearance',
+            (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+          await tester.pumpAppRouter(
+            buildSubject(initialLocation: '/home/settings/appearance'),
+            appBloc: appBloc,
+            authenticationBloc: authenticationBloc,
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+          );
+
+          expect(find.byType(AppearancePage), findsOneWidget);
         });
       });
     });
@@ -170,6 +229,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
@@ -191,6 +251,7 @@ void main() {
         );
         await tester.pumpAppRouter(
           buildSubject(),
+          appBloc: appBloc,
           authenticationBloc: authenticationBloc,
         );
 

@@ -25,5 +25,73 @@ void main() {
         expect(AppRouteChanged('/home').props, equals(['/home']));
       });
     });
+
+    group('AppThemeModeChanged', () {
+      const index = 1;
+      test('supports value equality', () {
+        expect(
+          AppThemeModeChanged(index),
+          equals(AppThemeModeChanged(index)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(AppThemeModeChanged(index).props, equals(<Object?>[index]));
+      });
+    });
+
+    group('AppSettingsIndexChanged', () {
+      const index = 1;
+
+      test('supports value equality', () {
+        expect(
+          AppSettingsIndexChanged(index),
+          equals(AppSettingsIndexChanged(index)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          AppSettingsIndexChanged(index).props,
+          equals(<Object?>[index]),
+        );
+      });
+    });
+
+    group('AppTimelineStartHourChanged', () {
+      const hour = 8;
+
+      test('supports value equality', () {
+        expect(
+          AppTimelineStartHourChanged(hour),
+          equals(AppTimelineStartHourChanged(hour)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          AppTimelineStartHourChanged(hour).props,
+          equals(<Object?>[hour]),
+        );
+      });
+    });
+
+    group('AppTimelineEndHourChanged', () {
+      const hour = 22;
+
+      test('supports value equality', () {
+        expect(
+          AppTimelineEndHourChanged(hour),
+          equals(AppTimelineEndHourChanged(hour)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          AppTimelineEndHourChanged(hour).props,
+          equals(<Object?>[hour]),
+        );
+      });
+    });
   });
 }

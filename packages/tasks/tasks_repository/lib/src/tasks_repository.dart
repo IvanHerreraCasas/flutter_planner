@@ -20,7 +20,8 @@ class TasksRepository {
 
     _dateCached = date;
 
-    return _streamCached = _tasksApi.streamTasks(date: date);
+    return _streamCached =
+        _tasksApi.streamTasks(date: date).asBroadcastStream();
   }
 
   /// Saves a [task]

@@ -56,6 +56,16 @@ void main() {
       expect(find.widgetWithText(ListTile, 'Schedule'), findsOneWidget);
     });
 
+    testWidgets('renders Settings ListTile', (tester) async {
+      await tester.pumpApp(buildSubject());
+
+      await tester.dragFrom(Offset.zero, const Offset(200, 0));
+
+      await tester.pump();
+
+      expect(find.widgetWithText(ListTile, 'Settings'), findsOneWidget);
+    });
+
     testWidgets(
         'pops and goes to PlannerPage '
         'when planner is selected', (tester) async {
@@ -92,6 +102,26 @@ void main() {
         () => goRouter.goNamed(
           AppRoutes.home,
           params: {'page': 'schedule'},
+        ),
+      ).called(1);
+    });
+
+    testWidgets(
+        'pops and goes to SettingsPage '
+        'when settings is selected', (tester) async {
+      await tester.pumpApp(buildSubject());
+
+      await tester.dragFrom(Offset.zero, const Offset(200, 0));
+
+      await tester.pump();
+
+      await tester.tap(find.widgetWithText(ListTile, 'Settings'));
+
+      verify(() => navigator.pop()).called(1);
+      verify(
+        () => goRouter.goNamed(
+          AppRoutes.home,
+          params: {'page': 'settings'},
         ),
       ).called(1);
     });

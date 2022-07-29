@@ -12,7 +12,12 @@ class IsarAuthenticationApi extends AuthenticationApi {
       Stream.value(AuthenticationStatus.authenticated);
 
   @override
-  User? get user => const User(id: 'id');
+  User? get user => const User(
+        id: 'id',
+        name: 'local-user',
+        email: 'loca-user@example.com',
+        isEditable: false,
+      );
 
   @override
   Future<void> signIn({required String email, required String password}) async {
@@ -28,6 +33,12 @@ class IsarAuthenticationApi extends AuthenticationApi {
   Future<void> signUp({required String email, required String password}) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> changeName({required String name}) async {}
+
+  @override
+  Future<void> changeEmail({required String email}) async {}
 
   @override
   void dispose() {}

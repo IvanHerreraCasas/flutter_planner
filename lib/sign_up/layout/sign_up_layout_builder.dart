@@ -32,7 +32,7 @@ class SignUpLayoutBuilder extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(

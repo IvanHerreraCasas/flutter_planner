@@ -54,7 +54,8 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => AuthenticationBloc(
               authenticationRepository: authenticationRepository,
-            ),
+            )..add(const AuthenticationSubscriptionRequested()),
+            lazy: false,
           ),
           BlocProvider(
             create: (context) => AppBloc(),
@@ -76,8 +77,13 @@ class AppView extends StatelessWidget {
       initialLocation: context.read<AppBloc>().state.route,
     );
 
+    final themeModeIndex = context.select(
+      (AppBloc bloc) => bloc.state.themeModeIndex,
+    );
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.values[themeModeIndex],
       theme: FlexThemeData.light(
         scheme: FlexScheme.flutterDash,
         fontFamily: GoogleFonts.lato().fontFamily,
