@@ -36,7 +36,7 @@ class AppearanceTimeline extends StatelessWidget {
               dropdownMaxHeight: 200,
               buttonWidth: 70,
               items: List.generate(
-                24,
+                25,
                 (index) => DropdownMenuItem(
                   value: index,
                   enabled: index < endHour,
@@ -67,7 +67,7 @@ class AppearanceTimeline extends StatelessWidget {
               dropdownMaxHeight: 200,
               buttonWidth: 70,
               items: List.generate(
-                24,
+                25,
                 (index) => DropdownMenuItem(
                   value: index,
                   enabled: index > startHour,
