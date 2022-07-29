@@ -19,7 +19,6 @@ class _PlannerTasksState extends State<PlannerTasks> {
 
     _controller = ScrollController();
   }
-  
 
   @override
   void dispose() {
