@@ -42,7 +42,7 @@ class _MyDetailsEmailState extends State<MyDetailsEmail> {
         TextField(
           controller: controller,
           keyboardType: TextInputType.text,
-          enabled: context.watch<AuthenticationBloc>().state.user!.isEditable,
+          enabled: context.read<AuthenticationBloc>().state.user!.isEditable,
           decoration: const InputDecoration(
             hintText: 'email...',
             border: OutlineInputBorder(),

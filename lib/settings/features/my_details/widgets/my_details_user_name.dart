@@ -43,7 +43,7 @@ class _MyDetailsUserNameState extends State<MyDetailsUserName> {
         TextField(
           controller: controller,
           keyboardType: TextInputType.text,
-          enabled: context.watch<AuthenticationBloc>().state.user!.isEditable,
+          enabled: context.read<AuthenticationBloc>().state.user!.isEditable,
           decoration: const InputDecoration(
             hintText: 'user name ...',
             border: OutlineInputBorder(),

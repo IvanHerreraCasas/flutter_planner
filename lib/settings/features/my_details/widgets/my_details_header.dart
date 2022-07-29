@@ -27,7 +27,7 @@ class MyDetailsHeader extends StatelessWidget {
         ),
         const Spacer(),
         ElevatedButton(
-          onPressed: context.watch<AuthenticationBloc>().state.user!.isEditable
+          onPressed: context.read<AuthenticationBloc>().state.user!.isEditable
               ? () => context.read<MyDetailsBloc>().add(const MyDetailsSaved())
               : null,
           child: const Text('Save'),
