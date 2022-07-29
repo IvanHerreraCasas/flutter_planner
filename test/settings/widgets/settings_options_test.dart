@@ -53,7 +53,7 @@ void main() {
         });
 
         testWidgets(
-            'goes to my details route '
+            'goes to my details route and adds AppRouteChanged to AppBloc '
             'when is pressed', (tester) async {
           await tester.pumpApp(
             buildSubject(
@@ -64,26 +64,13 @@ void main() {
           await tester.tap(find.widgetWithText(InkWell, 'My details'));
 
           verify(
-            () => goRouter.goNamed(
-              AppRoutes.myDetails,
-              params: {'page': 'settings'},
-            ),
+            () =>
+                appBloc.add(const AppRouteChanged('/home/settings/my-details')),
           ).called(1);
-        });
-        testWidgets(
-            'goes to appearance route '
-            'when is pressed', (tester) async {
-          await tester.pumpApp(
-            buildSubject(
-              currentSize: SettingsSize.small,
-            ),
-          );
-
-          await tester.tap(find.widgetWithText(InkWell, 'Appearance'));
 
           verify(
             () => goRouter.goNamed(
-              AppRoutes.appearance,
+              AppRoutes.myDetails,
               params: {'page': 'settings'},
             ),
           ).called(1);
@@ -111,6 +98,40 @@ void main() {
     });
 
     group('Appearance', () {
+      group('when size is small', () {
+        testWidgets('renders Inkwell with Appearance text', (tester) async {
+          await tester.pumpApp(
+            buildSubject(
+              currentSize: SettingsSize.small,
+            ),
+          );
+
+          expect(find.widgetWithText(InkWell, 'Appearance'), findsOneWidget);
+        });
+        testWidgets(
+            'goes to appearance route and adds AppRouteChanged to AppBloc '
+            'when is pressed', (tester) async {
+          await tester.pumpApp(
+            buildSubject(
+              currentSize: SettingsSize.small,
+            ),
+          );
+
+          await tester.tap(find.widgetWithText(InkWell, 'Appearance'));
+
+          verify(
+            () =>
+                appBloc.add(const AppRouteChanged('/home/settings/appearance')),
+          ).called(1);
+
+          verify(
+            () => goRouter.goNamed(
+              AppRoutes.appearance,
+              params: {'page': 'settings'},
+            ),
+          ).called(1);
+        });
+      });
       group('when size is large', () {
         testWidgets('renders Inkwell with Appearance text', (tester) async {
           await tester.pumpApp(buildSubject());
