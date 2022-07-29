@@ -27,120 +27,125 @@ class PlannerLayoutBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth;
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth;
 
-        if (width <= PlannerBreakpoints.small) {
-          const currentSize = PlannerSize.small;
+          if (width <= PlannerBreakpoints.small) {
+            const currentSize = PlannerSize.small;
+            return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 20,
+                ),
+                child: Column(
+                  children: [
+                    calendar(currentSize),
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: tabs(currentSize),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButton: fab(currentSize),
+            );
+          } else if (width <= PlannerBreakpoints.medium) {
+            const currentSize = PlannerSize.medium;
+            return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 20,
+                ),
+                child: Column(
+                  children: [
+                    calendar(currentSize),
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: tabs(currentSize),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButton: fab(currentSize),
+            );
+          }
+          const currentSize = PlannerSize.large;
           return Scaffold(
             body: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 20,
               ),
-              child: Column(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  calendar(currentSize),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(15),
+                  Flexible(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 400,
                       ),
-                      child: tabs(currentSize),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            floatingActionButton: fab(currentSize),
-          );
-        } else if (width <= PlannerBreakpoints.medium) {
-          const currentSize = PlannerSize.medium;
-          return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 20,
-              ),
-              child: Column(
-                children: [
-                  calendar(currentSize),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: tabs(currentSize),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            floatingActionButton: fab(currentSize),
-          );
-        }
-        const currentSize = PlannerSize.large;
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 20,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 400,
-                    ),
-                    child: Column(
-                      children: [
-                        calendar(currentSize),
-                        const SizedBox(height: 30),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              children: [
-                                tasksHeader(currentSize),
-                                const SizedBox(height: 10),
-                                Expanded(child: tasks(currentSize)),
-                              ],
+                      child: Column(
+                        children: [
+                          calendar(currentSize),
+                          const SizedBox(height: 30),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                children: [
+                                  tasksHeader(currentSize),
+                                  const SizedBox(height: 10),
+                                  Expanded(child: tasks(currentSize)),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 30),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      activitiesHeader(currentSize),
-                      const SizedBox(height: 20),
-                      Expanded(child: activities(currentSize))
-                    ],
-                  ),
-                )
-              ],
+                  const SizedBox(width: 30),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        activitiesHeader(currentSize),
+                        const SizedBox(height: 20),
+                        Expanded(child: activities(currentSize))
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
