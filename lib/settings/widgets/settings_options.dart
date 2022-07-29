@@ -45,10 +45,15 @@ class _SettingsOptionsState extends State<SettingsOptions> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () => context.goNamed(
-              AppRoutes.myDetails,
-              params: {'page': 'settings'},
-            ),
+            onTap: () {
+              context.read<AppBloc>().add(
+                    const AppRouteChanged('/home/settings/my-details'),
+                  );
+              context.goNamed(
+                AppRoutes.myDetails,
+                params: {'page': 'settings'},
+              );
+            },
             borderRadius: BorderRadius.circular(10),
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -69,10 +74,15 @@ class _SettingsOptionsState extends State<SettingsOptions> {
           ),
           const Divider(),
           InkWell(
-            onTap: () => context.goNamed(
-              AppRoutes.appearance,
-              params: {'page': 'settings'},
-            ),
+            onTap: () {
+              context.read<AppBloc>().add(
+                    const AppRouteChanged('/home/settings/appearance'),
+                  );
+              context.goNamed(
+                AppRoutes.appearance,
+                params: {'page': 'settings'},
+              );
+            },
             borderRadius: BorderRadius.circular(10),
             child: Padding(
               padding: const EdgeInsets.symmetric(
