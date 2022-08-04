@@ -34,6 +34,7 @@ class RoutineCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => _onTap(context: context),
       child: Container(
+        padding: const EdgeInsets.all(10),
         width: double.infinity,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -42,7 +43,8 @@ class RoutineCard extends StatelessWidget {
         ),
         child: Text(
           routine.name,
-          style: theme.textTheme.bodyText2,
+          style: theme.textTheme.bodyMedium,
+          overflow: TextOverflow.fade,
         ),
       ),
     );
