@@ -11,18 +11,9 @@ class TasksRepository {
 
   final TasksApi _tasksApi;
 
-  DateTime? _dateCached;
-  late Stream<List<Task>> _streamCached;
-
   /// Provides a [Stream] of tasks from a [date]
-  Stream<List<Task>> streamTasks({required DateTime date}) {
-    if (date == _dateCached) return _streamCached;
-
-    _dateCached = date;
-
-    return _streamCached =
-        _tasksApi.streamTasks(date: date).asBroadcastStream();
-  }
+  Stream<List<Task>> streamTasks({required DateTime date}) =>
+      _tasksApi.streamTasks(date: date).asBroadcastStream();
 
   /// Saves a [task]
   ///
