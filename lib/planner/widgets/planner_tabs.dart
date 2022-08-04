@@ -57,13 +57,18 @@ class PlannerTabs extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            if (selectedTab == 1)
-              ElevatedButton(
+            Visibility(
+              visible: selectedTab == 1,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: ElevatedButton(
                 onPressed: () => context.read<PlannerBloc>().add(
                       const PlannerAddRoutines(),
                     ),
                 child: const Text('+ routines'),
               ),
+            ),
           ],
         ),
         const SizedBox(
