@@ -15,6 +15,7 @@ class SupabaseTasksApi extends TasksApi {
   final SupabaseClient _supabaseClient;
 
   final _tasksController = TasksController();
+  DateTime? _date;
 
   Future<void> _updateData({required DateTime date}) async {
     final res = await _supabaseClient
@@ -35,7 +36,9 @@ class SupabaseTasksApi extends TasksApi {
 
   @override
   Stream<List<Task>> streamTasks({required DateTime date}) async* {
-    await _updateData(date: date);
+    if (_date != date) {
+      await _updateData(date: date);
+    }
     yield* _tasksController.stream;
   }
 
