@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/app/app.dart';
@@ -20,6 +21,9 @@ void main() {
       appBloc = MockAppBloc();
       authenticationBloc = MockAuthenticationBloc();
 
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.authenticated(User(id: 'id')),
+      );
       when(() => appBloc.state).thenReturn(const AppState());
     });
 
@@ -154,7 +158,10 @@ void main() {
     });
 
     group('Log out ElevatedButton', () {
-      testWidgets('is rendered', (tester) async {
+      testWidgets('is rendered when user is editable', (tester) async {
+        when(() => authenticationBloc.state).thenReturn(
+          const AuthenticationState.authenticated(User(id: 'id')),
+        );
         await tester.pumpApp(buildSubject());
 
         expect(
