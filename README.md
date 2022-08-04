@@ -4,27 +4,33 @@
 [![Codecov][codecov_badge]][codecov_link]
 [![License: MIT][license_badge]][license_link]
 
-A Flutter application to plan personal activities and routines that uses [Supabase](https://supabase.com/) for the backend.
+A Flutter application to plan personal daily tasks, activities and routines that can be used with [Supabase](https://supabase.com/) or [Isar](https://isar.dev/) for the backend.
 
 
 ### Planner
-<img src="screenshots/planner.gif" height="300">
+<img src="screenshots/planner.png" height="300">
 
 ### Schedule
-<img src="screenshots/schedule.gif" height="300">
+<img src="screenshots/schedule.png" height="300">
+
+### Dark theme
+<img src="screenshots/dark_theme.png" height="300">
 
 ---
 ## Features
 
-- Responsive ui, tested on android and windows.
-- Calendar and timeline view for daily activities.
+- 2 backend alternatives: Supabase and Isar.
+- Email authentication (if used with Supabase).
+- Calendar and timeline view for daily tasks and activities.
 - Timetable for weekly routines.
-- Email authentication
+- Settings for appearance and user configuration.
+- Responsive ui, tested on android and windows.
 
 ---
 ## Set up
 
 ### Supabase
+*This step is only needed if you want to use this app with Supabase.*
 
 1. Create a new project.
 2. Create a new table, named routines with the following rows (RLS enable).
@@ -52,11 +58,21 @@ A Flutter application to plan personal activities and routines that uses [Supaba
    | links       | text | Is nullable, define as array | -                                         |
    | routine_id  | int8 | Is nullable                  | Foreign key (table: routines, column: id) |
    
-4. Create a new policy for both tables.
+4. Create a new table, named 'tasks', with the following rows (RLS enable).
+
+   | Name      | Type | Extra       | Other                                  |
+   | --------- | ---- | ----------- | -------------------------------------- |
+   | id        | int8 | Is identity | -                                      |
+   | user_id   | uuid | Is nullable | Foreign key (table: users, column: id) |
+   | title     | text | Is nullable | -                                      |
+   | date      | date | -           | -                                      |
+   | completed | bool | -           | -                                      |
+
+5. Create a new policy for all tables.
    - Allowed operation: ALL.
    - USING expression: auth.uid() = user_id.
    - WITH CHECK expression: (role() = 'authenticated'::text).
-5. In authentication settings, disable email confirmations.
+6. In authentication settings, disable email confirmations.
    
 ### Flutter
 
@@ -69,15 +85,16 @@ SUPABASE_ANON_KEY=<YOUR_KEY>
 
 ### Running the project⚡
 
-Run the desired flavor (for the moment all are the same).
+Run the desired flavor (production is the flavor that uses Isar, development and staging are the same and use Supabase).
+
 ```sh
-# Development
+# Development (Supabase)
 $ flutter run --flavor development --target lib/main_development.dart
 
-# Staging
+# Staging (Supabase)
 $ flutter run --flavor staging --target lib/main_staging.dart
-
-# Production
+  
+# Production (Isar)
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
@@ -89,8 +106,6 @@ To run all unit and widget tests use the following command:
 flutter test --coverage --test-randomize-ordering-seed random
 ```
 
-_\*Flutter Planner works on iOS, Android, and Windows._
-
 ---
 
 ## Dependencies
@@ -98,6 +113,7 @@ _\*Flutter Planner works on iOS, Android, and Windows._
 - [dynamic_timeline](https://pub.dev/packages/dynamic_timeline)
 - [flutter_bloc](https://pub.dev/packages/flutter_bloc)
 - [supabase_flutter](https://pub.dev/packages/supabase_flutter)
+- [isar](https://pub.dev/packages/isar)
 - [go_router](https://pub.dev/packages/go_router)
 
 ---
@@ -106,8 +122,8 @@ _\*Flutter Planner works on iOS, Android, and Windows._
 
 This application is been developed in my free time for personal use, some future features that will be added are
 
-- Settings page for custom theme and user configuration.
-- Projects or tasks page.
+- Categories for activities and routines, and charts for the user's stats.
+- dart_frog backend alternative.
   
 ---
 
