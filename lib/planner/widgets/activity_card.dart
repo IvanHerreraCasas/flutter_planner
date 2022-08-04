@@ -33,74 +33,31 @@ class ActivityCard extends StatelessWidget {
             ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxHeight > 50) {
-            return Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        activity.name,
-                        style: theme.textTheme.headline6,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const Spacer(),
-                      if (currentSize != PlannerSize.small) ...[
-                        const SizedBox(width: 10),
-                        Text(
-                          '${DateFormat('hh: mm').format(activity.startTime)}'
-                          ' - '
-                          '${DateFormat('hh: mm').format(activity.endTime)}',
-                          style: theme.textTheme.bodyText1,
-                        ),
-                      ],
-                    ],
-                  ),
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(height: 15),
-                        Text(
-                          activity.description,
-                          style: theme.textTheme.bodyText2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
           return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            width: double.infinity,
             decoration: BoxDecoration(
               color: theme.colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   activity.name,
-                  style: theme.textTheme.headline6!.copyWith(fontSize: 10),
-                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleLarge,
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
                 ),
-                const Spacer(),
-                if (currentSize != PlannerSize.small) ...[
-                  const SizedBox(width: 10),
+                if (constraints.maxHeight > 50) ...[
+                  const SizedBox(height: 5),
                   Text(
-                    '${DateFormat('hh: mm').format(activity.startTime)}'
+                    '${DateFormat('hh:mm').format(activity.startTime)}'
                     ' - '
-                    '${DateFormat('hh: mm').format(activity.endTime)}',
-                    style: theme.textTheme.bodyText1!.copyWith(fontSize: 10),
+                    '${DateFormat('hh:mm').format(activity.endTime)}',
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    style: theme.textTheme.bodySmall,
                   ),
                 ],
               ],

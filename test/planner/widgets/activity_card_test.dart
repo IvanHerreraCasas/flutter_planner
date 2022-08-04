@@ -40,12 +40,12 @@ void main() {
     }
 
     testWidgets(
-        'renders the name and description '
+        'renders the name and times '
         'when constraints.maxHeight is greater than 50', (tester) async {
       await tester.pumpApp(buildSubject());
 
       expect(find.text('name'), findsOneWidget);
-      expect(find.text('description'), findsOneWidget);
+      expect(find.text('07:00 - 09:00'), findsOneWidget);
     });
 
     testWidgets(
