@@ -22,8 +22,8 @@ class AppearanceView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
+      body: SafeArea(
+        minimum: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 30,
         ),

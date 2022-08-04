@@ -11,7 +11,8 @@ class ActivityDescriptionTextField extends StatelessWidget {
       (ActivityBloc bloc) => bloc.state.initialActivity.description,
     );
 
-    return DecoratedBox(
+    return Container(
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
@@ -19,8 +20,8 @@ class ActivityDescriptionTextField extends StatelessWidget {
         ),
       ),
       child: TextField(
-        minLines: 2,
-        maxLines: 5,
+        maxLines: null,
+        expands: true,
         keyboardType: TextInputType.multiline,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(10),

@@ -51,7 +51,7 @@ class ScheduleView extends StatelessWidget {
       child: ScheduleLayoutBuilder(
         header: (currentSize) => ScheduleHeader(currentSize: currentSize),
         timetable: (currentSize) => ScheduleTimetable(currentSize: currentSize),
-        sidePane: (_) => const ScheduleSidePane(),
+        sidePane: (currentSize) => ScheduleSidePane(currentSize: currentSize),
       ),
     );
   }

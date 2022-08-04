@@ -24,10 +24,10 @@ class ActivityLayoutBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
+      body: SafeArea(
+        minimum: const EdgeInsets.symmetric(
           horizontal: 15,
-          vertical: 20,
+          vertical: 10,
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -43,7 +43,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
                   datePicker(currentSize),
                   timePickers(currentSize),
                   const SizedBox(height: 20),
-                  descriptionTextField(currentSize),
+                  Expanded(child: descriptionTextField(currentSize)),
                 ],
               );
             }
@@ -58,7 +58,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
                       const SizedBox(height: 20),
                       nameTextField(currentSize),
                       const SizedBox(height: 20),
-                      descriptionTextField(currentSize),
+                      Expanded(child: descriptionTextField(currentSize)),
                     ],
                   ),
                 ),
