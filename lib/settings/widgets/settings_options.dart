@@ -103,12 +103,11 @@ class _SettingsOptionsState extends State<SettingsOptions> {
           ),
           const Spacer(),
           ElevatedButton(
-            onPressed:
-                context.read<AuthenticationBloc>().state.user!.isEditable
-                    ? () => context.read<AuthenticationBloc>().add(
-                          const AuthenticationSignoutRequested(),
-                        )
-                    : null,
+            onPressed: context.read<AuthenticationBloc>().state.user!.isEditable
+                ? () => context.read<AuthenticationBloc>().add(
+                      const AuthenticationSignoutRequested(),
+                    )
+                : null,
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(double.infinity, 36),
             ),
