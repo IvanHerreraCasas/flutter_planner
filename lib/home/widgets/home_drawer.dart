@@ -9,8 +9,8 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
+      child: SafeArea(
+        minimum: const EdgeInsets.symmetric(
           vertical: 20,
           horizontal: 10,
         ),
