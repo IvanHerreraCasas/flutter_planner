@@ -43,7 +43,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
                   datePicker(currentSize),
                   timePickers(currentSize),
                   const SizedBox(height: 20),
-                  descriptionTextField(currentSize),
+                  Expanded(child: descriptionTextField(currentSize)),
                 ],
               );
             }
@@ -58,7 +58,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
                       const SizedBox(height: 20),
                       nameTextField(currentSize),
                       const SizedBox(height: 20),
-                      descriptionTextField(currentSize),
+                      Expanded(child: descriptionTextField(currentSize)),
                     ],
                   ),
                 ),
