@@ -5,7 +5,12 @@ import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:routines_repository/routines_repository.dart';
 
 class ScheduleSidePane extends StatelessWidget {
-  const ScheduleSidePane({Key? key}) : super(key: key);
+  const ScheduleSidePane({
+    Key? key,
+    required this.currentSize,
+  }) : super(key: key);
+
+  final ScheduleSize currentSize;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +18,7 @@ class ScheduleSidePane extends StatelessWidget {
       (ScheduleBloc bloc) => bloc.state.selectedRoutine,
     );
 
-    if (selectedRoutine != null) {
+    if (selectedRoutine != null && currentSize != ScheduleSize.small) {
       return Container(
         color: Theme.of(context).colorScheme.surface,
         width: 300,

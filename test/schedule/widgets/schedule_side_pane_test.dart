@@ -23,22 +23,22 @@ void main() {
     setUp(() {
       scheduleBloc = MockScheduleBloc();
 
-      when(() => scheduleBloc.state).thenReturn(const ScheduleState());
+      when(() => scheduleBloc.state).thenReturn(
+        ScheduleState(selectedRoutine: mockRoutine),
+      );
     });
 
-    Widget buildSubject() {
+    Widget buildSubject({ScheduleSize currentSize = ScheduleSize.large}) {
       return BlocProvider.value(
         value: scheduleBloc,
-        child: const ScheduleSidePane(),
+        child: ScheduleSidePane(currentSize: currentSize),
       );
     }
 
     testWidgets(
         'renders a RoutinePage '
-        'when selectedRoutine is not null', (tester) async {
-      when(() => scheduleBloc.state).thenReturn(
-        ScheduleState(selectedRoutine: mockRoutine),
-      );
+        'when selectedRoutine is not null and currentSize is not small',
+        (tester) async {
       FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
@@ -47,7 +47,20 @@ void main() {
 
     testWidgets(
         'renders SizedBox with non size '
+        'when currentSize is small', (tester) async {
+      await tester.pumpApp(buildSubject(currentSize: ScheduleSize.small));
+
+      expect(find.byType(SizedBox), findsOneWidget);
+
+      final renderBox = tester.renderObject<RenderBox>(find.byType(SizedBox));
+
+      expect(renderBox.size, Size.zero);
+    });
+
+    testWidgets(
+        'renders SizedBox with non size '
         'when selectedRoutine is null', (tester) async {
+      when(() => scheduleBloc.state).thenReturn(const ScheduleState());
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(SizedBox), findsOneWidget);
@@ -59,9 +72,6 @@ void main() {
 
     group('Close icon button', () {
       testWidgets('is rendered', (tester) async {
-        when(() => scheduleBloc.state).thenReturn(
-          ScheduleState(selectedRoutine: mockRoutine),
-        );
         FlutterError.onError = ignoreOverflowErrors;
 
         await tester.pumpApp(buildSubject());
@@ -75,9 +85,6 @@ void main() {
       testWidgets(
           'add ScheduleSelectedRoutineChanged(null) '
           'to ScheduleBloc when is pressed', (tester) async {
-        when(() => scheduleBloc.state).thenReturn(
-          ScheduleState(selectedRoutine: mockRoutine),
-        );
         FlutterError.onError = ignoreOverflowErrors;
 
         await tester.pumpApp(buildSubject());
