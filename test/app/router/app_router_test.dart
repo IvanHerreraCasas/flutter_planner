@@ -78,6 +78,7 @@ void main() {
       testWidgets(
           'redirects to HomePage '
           'when user is authenticated', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         when(() => authenticationBloc.state).thenReturn(
           const AuthenticationState.authenticated(User(id: 'id')),
         );
@@ -126,6 +127,7 @@ void main() {
           );
         });
         testWidgets('renders HomePage', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
             appBloc: appBloc,
@@ -140,6 +142,7 @@ void main() {
         testWidgets(
             'renders PlannerPage '
             'when page param is planner', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
             appBloc: appBloc,
@@ -154,6 +157,7 @@ void main() {
         testWidgets(
             'renders SchedulePage '
             'when page param is schedule', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/schedule'),
             appBloc: appBloc,
@@ -168,6 +172,7 @@ void main() {
         testWidgets(
             'renders SettingsPage '
             'when page param is settings', (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/settings'),
             appBloc: appBloc,
