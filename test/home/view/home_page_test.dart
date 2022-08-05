@@ -73,6 +73,7 @@ void main() {
       final navRailFinder = find.byType(HomeNavRail);
 
       testWidgets('is rendered', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(
           buildSubject(),
           activitiesRepository: activitiesRepository,
@@ -86,6 +87,7 @@ void main() {
       testWidgets(
           'renders correct small size widgets '
           'when width is less or equal than 576 pixels.', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.binding.setSurfaceSize(const Size(576, 600));
 
         await tester.pumpApp(
@@ -107,6 +109,7 @@ void main() {
       testWidgets(
           'renders correct medium size widgets '
           'when width is less or equal than 1200 pixels.', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.binding.setSurfaceSize(const Size(1200, 600));
 
         await tester.pumpApp(
