@@ -71,6 +71,7 @@ dev_dependencies:
     sdk: flutter
   mockingjay: ^0.3.0
   mocktail: ^0.3.0
+  msix: ^3.6.2
   very_good_analysis: ^2.4.0
 
 flutter:
@@ -80,4 +81,5 @@ flutter:
   assets:
   - .env
 
-
+msix_config:
+  display_name: Flutter Planner
