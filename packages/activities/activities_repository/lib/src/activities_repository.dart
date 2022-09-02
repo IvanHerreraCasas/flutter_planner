@@ -19,6 +19,16 @@ class ActivitiesRepository {
   Stream<List<Activity>> streamActivities({required DateTime date}) =>
       _activitiesApi.streamActivities(date: date).asBroadcastStream();
 
+  /// Provides a [Stream] of event activities
+  /// between the given range [lower], [upper]
+  Stream<List<Activity>> streamEvents({
+    required DateTime lower,
+    required DateTime upper,
+  }) =>
+      _activitiesApi
+          .streamEvents(lower: lower, upper: upper)
+          .asBroadcastStream();
+
   /// Saves an [activity]
   ///
   /// If an [activity] with the same id exists, it will be replaced

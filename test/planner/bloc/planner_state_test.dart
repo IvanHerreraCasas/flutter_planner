@@ -20,6 +20,7 @@ void main() {
       DateTime? selectedDay,
       DateTime? focusedDay,
       List<Activity> activities = const [],
+      List<Activity> events = const [],
       List<Task> tasks = const [],
       int selectedTab = 0,
       String errorMessage = '',
@@ -29,6 +30,7 @@ void main() {
         selectedDay: selectedDay,
         focusedDay: focusedDay,
         activities: activities,
+        events: events,
         selectedTab: 0,
         errorMessage: errorMessage,
       );
@@ -56,6 +58,7 @@ void main() {
           utcTodayDate,
           utcTodayDate,
           <Activity>[],
+          <Activity>[],
           <Task>[],
           0,
           '',
@@ -75,6 +78,7 @@ void main() {
             selectedDay: null,
             focusedDay: null,
             activities: null,
+            events: null,
             tasks: null,
             selectedTab: null,
             errorMessage: null,
@@ -86,6 +90,7 @@ void main() {
       test('replaces every non-null parameter', () {
         final activity = Activity(
           userID: 'userID',
+          type: 1,
           date: DateTime.utc(2022, 5, 22),
           startTime: DateTime(2022, 5, 22, 7, 0),
           endTime: DateTime(2022, 5, 22, 10, 0),
@@ -98,6 +103,7 @@ void main() {
                 selectedDay: DateTime.utc(2022, 5, 22),
                 focusedDay: DateTime.utc(2022, 5, 22),
                 activities: [activity],
+                events: [activity],
                 tasks: [task],
                 selectedTab: 1,
                 errorMessage: 'error',
@@ -110,6 +116,16 @@ void main() {
             [
               Activity(
                 userID: 'userID',
+                type: 1,
+                date: DateTime.utc(2022, 5, 22),
+                startTime: DateTime(2022, 5, 22, 7, 0),
+                endTime: DateTime(2022, 5, 22, 10, 0),
+              )
+            ],
+            [
+              Activity(
+                userID: 'userID',
+                type: 1,
                 date: DateTime.utc(2022, 5, 22),
                 startTime: DateTime(2022, 5, 22, 7, 0),
                 endTime: DateTime(2022, 5, 22, 10, 0),

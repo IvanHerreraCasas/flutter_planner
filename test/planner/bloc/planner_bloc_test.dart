@@ -16,6 +16,9 @@ void main() {
 
     final date = DateTime.utc(2022, 5, 25);
 
+    final lowerDate = DateTime.utc(date.year, date.month - 2);
+    final upperDate = DateTime.utc(date.year, date.month + 2);
+
     const mockUserID = 'userID';
 
     final mockActivities = [
@@ -33,6 +36,25 @@ void main() {
         startTime: DateTime(1970, 1, 1, 11),
         endTime: DateTime(1970, 1, 1, 12),
         routineID: 2,
+      ),
+    ];
+
+    final mockEventActivities = [
+      Activity(
+        userID: mockUserID,
+        name: 'event 1',
+        type: 1,
+        date: DateTime.utc(date.year, date.month - 1, 10),
+        startTime: DateTime(1970, 1, 1, 8),
+        endTime: DateTime(1970, 1, 1, 10),
+      ),
+      Activity(
+        userID: mockUserID,
+        name: 'event 2',
+        type: 1,
+        date: DateTime.utc(date.year, date.month, 20),
+        startTime: DateTime(1970, 1, 1, 11),
+        endTime: DateTime(1970, 1, 1, 12),
       ),
     ];
 
@@ -94,6 +116,12 @@ void main() {
       when(() => activitiesRepository.streamActivities(date: date)).thenAnswer(
         (_) => const Stream.empty(),
       );
+      when(
+        () => activitiesRepository.streamEvents(
+          lower: lowerDate,
+          upper: upperDate,
+        ),
+      ).thenAnswer((_) => const Stream.empty());
       when(() => tasksRepository.streamTasks(date: date)).thenAnswer(
         (_) => const Stream.empty(),
       );
@@ -199,6 +227,98 @@ void main() {
       );
     });
 
+    group('PlannerEventsSubRequested', () {
+      blocTest<PlannerBloc, PlannerState>(
+        'starts listening to activitiesRepository streamEvents',
+        setUp: () {
+          when(
+            () => activitiesRepository.streamEvents(
+              lower: lowerDate,
+              upper: upperDate,
+            ),
+          ).thenAnswer((_) => Stream.value(mockEventActivities));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerEventsSubRequested()),
+        verify: (bloc) {
+          verify(
+            () => activitiesRepository.streamEvents(
+              lower: lowerDate,
+              upper: upperDate,
+            ),
+          ).called(1);
+        },
+      );
+
+      blocTest<PlannerBloc, PlannerState>(
+        'emits state with updated events '
+        'when repository stream events emits new events',
+        setUp: () {
+          when(
+            () => activitiesRepository.streamEvents(
+              lower: lowerDate,
+              upper: upperDate,
+            ),
+          ).thenAnswer((_) => Stream.value(mockEventActivities));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerEventsSubRequested()),
+        expect: () => <PlannerState>[
+          PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.success,
+            selectedDay: date,
+            focusedDay: date,
+            events: mockEventActivities,
+          ),
+        ],
+      );
+
+      blocTest<PlannerBloc, PlannerState>(
+        'emits state with failure status and errorMessage '
+        'when repository stream events emits error',
+        setUp: () {
+          when(
+            () => activitiesRepository.streamEvents(
+              lower: lowerDate,
+              upper: upperDate,
+            ),
+          ).thenAnswer((_) => Stream.error('error'));
+        },
+        build: buildBloc,
+        seed: () => PlannerState(
+          selectedDay: date,
+          focusedDay: date,
+        ),
+        act: (bloc) => bloc.add(const PlannerEventsSubRequested()),
+        expect: () => <PlannerState>[
+          PlannerState(
+            status: PlannerStatus.loading,
+            selectedDay: date,
+            focusedDay: date,
+          ),
+          PlannerState(
+            status: PlannerStatus.failure,
+            selectedDay: date,
+            focusedDay: date,
+            errorMessage: 'error: events could not be loaded',
+          ),
+        ],
+      );
+    });
+
     group('PlannerTasksSubRequested', () {
       blocTest<PlannerBloc, PlannerState>(
         'starts listening to tasksRepository streamTasks',
@@ -294,10 +414,17 @@ void main() {
 
     group('PlannerFocusedDayChanged', () {
       blocTest<PlannerBloc, PlannerState>(
-        'emits state with updated focusedDay.',
+        'emits state with updated focusedDay '
+        'and add events subscription',
         build: buildBloc,
         act: (bloc) => bloc.add(PlannerFocusedDayChanged(date)),
-        expect: () => <PlannerState>[PlannerState(focusedDay: date)],
+        expect: () => <PlannerState>[
+          PlannerState(focusedDay: date),
+          PlannerState(
+            status: PlannerStatus.loading,
+            focusedDay: date,
+          ),
+        ],
       );
     });
 

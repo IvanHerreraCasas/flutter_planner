@@ -38,6 +38,23 @@ class IsarActivitiesApi extends ActivitiesApi {
   }
 
   @override
+  Stream<List<Activity>> streamEvents({
+    required DateTime lower,
+    required DateTime upper,
+  }) async* {
+    final isarEventsStream = _activitiesCollection
+        .filter()
+        .typeEqualTo(1)
+        .dateBetween(lower, upper)
+        .build()
+        .watch(initialReturn: true);
+
+    yield* isarEventsStream.map(
+      (isarEvents) => isarEvents.map((e) => e.toActivity()).toList(),
+    );
+  }
+
+  @override
   Future<Activity> saveActivity(Activity activity) async {
     return _isar.writeTxn<Activity>(() async {
       final id = await _activitiesCollection.put(activity.toIsarModel());

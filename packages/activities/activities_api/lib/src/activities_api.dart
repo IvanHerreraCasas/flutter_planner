@@ -13,6 +13,13 @@ abstract class ActivitiesApi {
   /// Provides a [Stream] of activities from a [date]
   Stream<List<Activity>> streamActivities({required DateTime date});
 
+  /// Provides a [Stream] of event activities
+  /// between the given range [lower], [upper]
+  Stream<List<Activity>> streamEvents({
+    required DateTime lower,
+    required DateTime upper,
+  });
+
   /// Saves an [activity]
   ///
   /// If an [activity] with the same id exists, it will be replaced

@@ -34,6 +34,8 @@ void main() {
         currentDateTime.month,
         currentDateTime.day,
       );
+      final lowerDate = DateTime.utc(utcTodayDate.year, utcTodayDate.month - 2);
+      final upperDate = DateTime.utc(utcTodayDate.year, utcTodayDate.month + 2);
 
       when(() => appBloc.state).thenReturn(const AppState());
       when(() => authenticationBloc.state).thenReturn(
@@ -43,6 +45,12 @@ void main() {
           .thenAnswer(
         (_) => const Stream.empty(),
       );
+      when(
+        () => activitiesRepository.streamEvents(
+          lower: lowerDate,
+          upper: upperDate,
+        ),
+      ).thenAnswer((_) => const Stream.empty());
       when(() => tasksRepository.streamTasks(date: utcTodayDate)).thenAnswer(
         (_) => const Stream.empty(),
       );

@@ -11,6 +11,10 @@ class PlannerSubscriptionRequested extends PlannerEvent {
   const PlannerSubscriptionRequested();
 }
 
+class PlannerEventsSubRequested extends PlannerEvent {
+  const PlannerEventsSubRequested();
+}
+
 class PlannerTasksSubRequested extends PlannerEvent {
   const PlannerTasksSubRequested();
 }

@@ -18,6 +18,19 @@ void main() {
       });
     });
 
+    group('PlannerEventsSubRequested', () {
+      test('supports value equality', () {
+        expect(
+          PlannerEventsSubRequested(),
+          equals(PlannerEventsSubRequested()),
+        );
+      });
+
+      test('props are correct', () {
+        expect(PlannerEventsSubRequested().props, equals(<Object?>[]));
+      });
+    });
+
     group('PlannerTaskSubRequested', () {
       test('supports value equality', () {
         expect(
