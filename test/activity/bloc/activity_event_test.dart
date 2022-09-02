@@ -38,6 +38,19 @@ void main() {
       });
     });
 
+     group('ActivityTypeChanged', () {
+      test('supports value equality', () {
+        expect(
+          ActivityTypeChanged(1),
+          equals(ActivityTypeChanged(1)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(ActivityTypeChanged(1).props, equals([1]));
+      });
+    });
+
     group('ActivityDescriptionChanged', () {
       test('supports value equality', () {
         expect(

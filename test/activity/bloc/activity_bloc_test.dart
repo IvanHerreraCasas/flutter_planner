@@ -14,6 +14,7 @@ void main() {
       userID: 'user_id',
       name: 'initial-name',
       description: 'initial-description',
+      type: 1,
       date: DateTime.utc(2022),
       startTime: DateTime(1970, 1, 1, 7),
       endTime: DateTime(1970, 1, 1, 7),
@@ -22,6 +23,7 @@ void main() {
     final fakeInitialState = ActivityState(
       initialActivity: fakeInitialActivity,
       name: fakeInitialActivity.name,
+      type: fakeInitialActivity.type,
       description: fakeInitialActivity.description,
       date: fakeInitialActivity.date,
       startTime: fakeInitialActivity.startTime,
@@ -56,6 +58,17 @@ void main() {
         act: (bloc) => bloc.add(const ActivityNameChanged('name')),
         expect: () => <ActivityState>[
           fakeInitialState.copyWith(name: 'name'),
+        ],
+      );
+    });
+
+    group('TypeChanged', () {
+      blocTest<ActivityBloc, ActivityState>(
+        'emits new state with updated type',
+        build: buildBloc,
+        act: (bloc) => bloc.add(const ActivityTypeChanged(1)),
+        expect: () => <ActivityState>[
+          fakeInitialState.copyWith(type: 1),
         ],
       );
     });

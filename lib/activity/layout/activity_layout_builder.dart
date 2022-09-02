@@ -13,6 +13,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
     required this.descriptionTextField,
     required this.datePicker,
     required this.timePickers,
+    required this.typePicker,
   }) : super(key: key);
 
   final ActivityWidgetBuilder headerButtons;
@@ -20,6 +21,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
   final ActivityWidgetBuilder descriptionTextField;
   final ActivityWidgetBuilder datePicker;
   final ActivityWidgetBuilder timePickers;
+  final ActivityWidgetBuilder typePicker;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,8 @@ class ActivityLayoutBuilder extends StatelessWidget {
                   const SizedBox(height: 20),
                   nameTextField(currentSize),
                   const SizedBox(height: 20),
+                  typePicker(currentSize),
+                  const SizedBox(height: 10),
                   datePicker(currentSize),
                   timePickers(currentSize),
                   const SizedBox(height: 20),
@@ -67,6 +71,8 @@ class ActivityLayoutBuilder extends StatelessWidget {
                   width: 250,
                   child: Column(
                     children: [
+                      typePicker(currentSize),
+                      const SizedBox(height: 10),
                       datePicker(currentSize),
                       timePickers(currentSize),
                     ],

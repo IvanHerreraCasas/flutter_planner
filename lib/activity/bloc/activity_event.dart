@@ -24,6 +24,15 @@ class ActivityNameChanged extends ActivityEvent {
   List<Object?> get props => [name];
 }
 
+class ActivityTypeChanged extends ActivityEvent {
+  const ActivityTypeChanged(this.type);
+
+  final int type;
+
+  @override
+  List<Object?> get props => [type];
+}
+
 class ActivityDescriptionChanged extends ActivityEvent {
   const ActivityDescriptionChanged(this.description);
 

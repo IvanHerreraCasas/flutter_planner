@@ -7,6 +7,7 @@ class ActivityState extends Equatable {
     this.status = ActivityStatus.initial,
     required this.initialActivity,
     this.name = '',
+    this.type = 0,
     this.description = '',
     required this.date,
     required this.startTime,
@@ -29,6 +30,8 @@ class ActivityState extends Equatable {
 
   final String name;
 
+  final int type;
+
   final String description;
 
   final DateTime date;
@@ -45,6 +48,7 @@ class ActivityState extends Equatable {
     ActivityStatus? status,
     Activity? initialActivity,
     String? name,
+    int? type,
     String? description,
     DateTime? date,
     DateTime? startTime,
@@ -56,6 +60,7 @@ class ActivityState extends Equatable {
       status: status ?? this.status,
       initialActivity: initialActivity ?? this.initialActivity,
       name: name ?? this.name,
+      type: type ?? this.type,
       description: description ?? this.description,
       date: date ?? this.date,
       startTime: startTime ?? this.startTime,
@@ -70,6 +75,7 @@ class ActivityState extends Equatable {
         status,
         initialActivity,
         name,
+        type,
         description,
         date,
         startTime,
