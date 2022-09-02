@@ -138,6 +138,7 @@ void main() {
     group('ActivitySaved', () {
       final fakeState = fakeInitialState.copyWith(
         name: 'name',
+        type: 2,
         description: 'description',
         date: DateTime.utc(2022),
         startTime: DateTime(2022, 1, 1, 8),
@@ -147,6 +148,7 @@ void main() {
 
       final fakeActivity = fakeState.initialActivity.copyWith(
         name: fakeState.name,
+        type: fakeState.type,
         description: fakeState.description,
         date: fakeState.date,
         startTime: fakeState.startTime,

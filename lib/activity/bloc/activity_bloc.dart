@@ -43,6 +43,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     emit(state.copyWith(status: ActivityStatus.loading));
     final activity = state.initialActivity.copyWith(
       name: state.name,
+      type: state.type,
       description: state.description,
       date: state.date,
       startTime: state.startTime,
