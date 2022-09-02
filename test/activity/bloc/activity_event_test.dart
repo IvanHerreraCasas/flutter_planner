@@ -38,7 +38,7 @@ void main() {
       });
     });
 
-     group('ActivityTypeChanged', () {
+    group('ActivityTypeChanged', () {
       test('supports value equality', () {
         expect(
           ActivityTypeChanged(1),
