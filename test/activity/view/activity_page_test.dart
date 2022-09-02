@@ -59,10 +59,12 @@ void main() {
 
     group('dialog', () {
       testWidgets('renders a Dialog', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(ActivityPage.dialog(activity: mockActivity));
         expect(find.byType(Dialog), findsOneWidget);
       });
       testWidgets('renders ActivityPage', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(ActivityPage.dialog(activity: mockActivity));
         expect(find.byType(ActivityPage), findsOneWidget);
       });

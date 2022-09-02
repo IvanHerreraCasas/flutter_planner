@@ -225,6 +225,7 @@ void main() {
       testWidgets(
           'renders HomePage '
           'when authState changes to authenticated', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         whenListen(
           authenticationBloc,
           Stream.fromIterable(const [

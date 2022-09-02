@@ -46,6 +46,7 @@ void main() {
     }
 
     testWidgets('renders planner title', (tester) async {
+      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.text('Activities'), findsOneWidget);
@@ -53,6 +54,7 @@ void main() {
 
     group('ElevatedButton: Add Routines', () {
       testWidgets('is rendered', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         expect(
@@ -65,6 +67,7 @@ void main() {
           'add PlannerAddRoutines '
           'to PlannerBloc '
           'when is tapped', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.widgetWithText(ElevatedButton, 'Add routines'));
