@@ -42,6 +42,7 @@ void main() {
     testWidgets(
         'renders the name and times '
         'when constraints.maxHeight is greater than 50', (tester) async {
+      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.text('name'), findsOneWidget);
@@ -51,6 +52,7 @@ void main() {
     testWidgets(
         'renders only the name '
         'when constraints.maxHeight is not greater than 50', (tester) async {
+      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 40),
@@ -66,6 +68,7 @@ void main() {
       testWidgets(
           'shows ActivityPage dialog '
           'when size is large', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.text('name'));
@@ -80,6 +83,7 @@ void main() {
       });
 
       testWidgets('goes to activityPage', (tester) async {
+        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(
           buildSubject(currentSize: PlannerSize.small),
         );
