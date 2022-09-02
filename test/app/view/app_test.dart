@@ -62,6 +62,8 @@ void main() {
         currentDateTime.month,
         currentDateTime.day,
       );
+      final lowerDate = DateTime.utc(utcTodayDate.year, utcTodayDate.month - 2);
+      final upperDate = DateTime.utc(utcTodayDate.year, utcTodayDate.month + 2);
 
       when(() => authenticationRepository.status)
           .thenAnswer((_) => const Stream.empty());
@@ -73,6 +75,12 @@ void main() {
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
       when(() => activitiesRepository.streamActivities(date: utcTodayDate))
           .thenAnswer((_) => const Stream.empty());
+      when(
+        () => activitiesRepository.streamEvents(
+          lower: lowerDate,
+          upper: upperDate,
+        ),
+      ).thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());
       when(() => tasksRepository.streamTasks(date: utcTodayDate))
