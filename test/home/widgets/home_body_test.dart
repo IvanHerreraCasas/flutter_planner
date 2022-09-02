@@ -31,6 +31,15 @@ void main() {
       authenticationBloc = MockAuthenticationBloc();
       appBloc = MockAppBloc();
 
+      final currentDateTime = DateTime.now();
+      final utcTodayDate = DateTime.utc(
+        currentDateTime.year,
+        currentDateTime.month,
+        currentDateTime.day,
+      );
+      final lowerDate = DateTime.utc(utcTodayDate.year, utcTodayDate.month - 2);
+      final upperDate = DateTime.utc(utcTodayDate.year, utcTodayDate.month + 2);
+
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState.authenticated(User(id: 'userID')),
       );
@@ -38,6 +47,12 @@ void main() {
 
       when(
         () => activitiesRepository.streamActivities(date: any(named: 'date')),
+      ).thenAnswer((_) => const Stream.empty());
+      when(
+        () => activitiesRepository.streamEvents(
+          lower: lowerDate,
+          upper: upperDate,
+        ),
       ).thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());

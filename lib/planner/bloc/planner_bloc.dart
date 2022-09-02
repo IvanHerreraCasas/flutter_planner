@@ -25,6 +25,10 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
       _onSubscriptionRequested,
       transformer: restartable(),
     );
+    on<PlannerEventsSubRequested>(
+      _onEventsSubRequested,
+      transformer: restartable(),
+    );
     on<PlannerTasksSubRequested>(
       _onTasksSubRequested,
       transformer: restartable(),
@@ -55,10 +59,41 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
         activities: activities,
       ),
       onError: (error, stack) {
-        log('PlannerBloc(56) --- error: ${error.toString()}');
+        log('PlannerBloc(62) --- error: ${error.toString()}');
         return state.copyWith(
           status: PlannerStatus.failure,
           errorMessage: 'error: activities could not be loaded',
+        );
+      },
+    );
+  }
+
+  Future<void> _onEventsSubRequested(
+    PlannerEventsSubRequested event,
+    Emitter<PlannerState> emit,
+  ) async {
+    emit(state.copyWith(status: PlannerStatus.loading));
+
+    await emit.forEach<List<Activity>>(
+      _activitiesRepository.streamEvents(
+        lower: DateTime.utc(
+          state.focusedDay.year,
+          state.focusedDay.month - 2,
+        ),
+        upper: DateTime.utc(
+          state.focusedDay.year,
+          state.focusedDay.month + 2,
+        ),
+      ),
+      onData: (events) => state.copyWith(
+        status: PlannerStatus.success,
+        events: events,
+      ),
+      onError: (error, stack) {
+        log('PlannerBloc(90) --- error: ${error.toString()}');
+        return state.copyWith(
+          status: PlannerStatus.failure,
+          errorMessage: 'error: events could not be loaded',
         );
       },
     );
@@ -76,7 +111,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
         tasks: tasks,
       ),
       onError: (error, stack) {
-        log('PlannerBloc(73) --- error: ${error.toString()}');
+        log('PlannerBloc(111) --- error: ${error.toString()}');
         return state.copyWith(
           status: PlannerStatus.failure,
           errorMessage: 'error: tasks could not be loaded',
@@ -99,6 +134,7 @@ class PlannerBloc extends Bloc<PlannerEvent, PlannerState> {
     Emitter<PlannerState> emit,
   ) {
     emit(state.copyWith(focusedDay: event.focusedDay));
+    add(const PlannerEventsSubRequested());
   }
 
   Future<void> _onAddRoutines(

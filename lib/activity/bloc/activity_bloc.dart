@@ -16,6 +16,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           ActivityState(
             initialActivity: initialActivity,
             name: initialActivity.name,
+            type: initialActivity.type,
             description: initialActivity.description,
             date: initialActivity.date,
             startTime: initialActivity.startTime,
@@ -25,6 +26,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     on<ActivitySaved>(_onSaved);
     on<ActivityDeleted>(_onDeleted);
     on<ActivityNameChanged>(_onNameChanged);
+    on<ActivityTypeChanged>(_onTypeChanged);
     on<ActivityDescriptionChanged>(_onDescriptionChanged);
     on<ActivityDateChanged>(_onDateChanged);
     on<ActivityStartTimeChanged>(_onStartTimeChanged);
@@ -41,6 +43,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     emit(state.copyWith(status: ActivityStatus.loading));
     final activity = state.initialActivity.copyWith(
       name: state.name,
+      type: state.type,
       description: state.description,
       date: state.date,
       startTime: state.startTime,
@@ -88,6 +91,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     Emitter<ActivityState> emit,
   ) {
     emit(state.copyWith(name: event.name));
+  }
+
+  void _onTypeChanged(
+    ActivityTypeChanged event,
+    Emitter<ActivityState> emit,
+  ) {
+    emit(state.copyWith(type: event.type));
   }
 
   void _onDescriptionChanged(

@@ -8,6 +8,7 @@ class PlannerState extends Equatable {
     DateTime? selectedDay,
     DateTime? focusedDay,
     this.activities = const [],
+    this.events = const [],
     this.tasks = const [],
     this.selectedTab = 0,
     this.errorMessage = '',
@@ -28,6 +29,7 @@ class PlannerState extends Equatable {
   late final DateTime focusedDay;
 
   final List<Activity> activities;
+  final List<Activity> events;
   final List<Task> tasks;
 
   final int selectedTab;
@@ -39,6 +41,7 @@ class PlannerState extends Equatable {
     DateTime? selectedDay,
     DateTime? focusedDay,
     List<Activity>? activities,
+    List<Activity>? events,
     List<Task>? tasks,
     int? selectedTab,
     String? errorMessage,
@@ -48,6 +51,7 @@ class PlannerState extends Equatable {
       selectedDay: selectedDay ?? this.selectedDay,
       focusedDay: focusedDay ?? this.focusedDay,
       activities: activities ?? this.activities,
+      events: events ?? this.events,
       tasks: tasks ?? this.tasks,
       selectedTab: selectedTab ?? this.selectedTab,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -60,6 +64,7 @@ class PlannerState extends Equatable {
         selectedDay,
         focusedDay,
         activities,
+        events,
         tasks,
         selectedTab,
         errorMessage,

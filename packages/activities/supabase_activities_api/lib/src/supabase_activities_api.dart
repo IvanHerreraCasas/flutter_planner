@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:activities_api/activities_api.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_activities_api/src/activities_controller.dart';
+import 'package:supabase_activities_api/src/event_activities_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// {@template supabase_activities_api}
@@ -17,9 +18,12 @@ class SupabaseActivitiesApi extends ActivitiesApi {
   final SupabaseClient _supabaseClient;
 
   final _activitiesController = ActivitiesController();
+  final _eventActivitiesController = EventActivitiesController();
   DateTime? _date;
+  DateTime? _lowerDateLimit;
+  DateTime? _upperDateLimit;
 
-  Future<void> _updateData({required DateTime date}) async {
+  Future<void> _updateActivitiesData({required DateTime date}) async {
     final res = await _supabaseClient
         .from('activities')
         .select()
@@ -37,10 +41,34 @@ class SupabaseActivitiesApi extends ActivitiesApi {
     _activitiesController.update(activities);
   }
 
+  Future<void> _updateEventActivitiesData({
+    required DateTime lower,
+    required DateTime upper,
+  }) async {
+    final res = await _supabaseClient
+        .from('activities')
+        .select()
+        .eq('type', 1)
+        .gte('date', DateFormat('MM/dd/yyyy').format(lower))
+        .lte('date', DateFormat('MM/dd/yyyy').format(upper))
+        .execute();
+
+    if (res.hasError) throw Exception(res.error);
+
+    final eventActivities = (res.data as List)
+        .cast<Map<String, dynamic>>()
+        .map(Activity.fromJson)
+        .toList();
+
+    _lowerDateLimit = lower;
+    _upperDateLimit = upper;
+    _eventActivitiesController.update(eventActivities);
+  }
+
   @override
   Future<List<Activity>> fetchActivities({required DateTime date}) async {
     if (_date != date) {
-      await _updateData(date: date);
+      await _updateActivitiesData(date: date);
     }
 
     return _activitiesController.activities;
@@ -49,15 +77,28 @@ class SupabaseActivitiesApi extends ActivitiesApi {
   @override
   Stream<List<Activity>> streamActivities({required DateTime date}) async* {
     if (_date != date) {
-      await _updateData(date: date);
+      await _updateActivitiesData(date: date);
     }
 
     yield* _activitiesController.stream;
   }
 
   @override
+  Stream<List<Activity>> streamEvents({
+    required DateTime lower,
+    required DateTime upper,
+  }) async* {
+    if (_lowerDateLimit != lower || _upperDateLimit != upper) {
+      await _updateEventActivitiesData(lower: lower, upper: upper);
+    }
+
+    yield* _eventActivitiesController.stream;
+  }
+
+  @override
   Future<Activity> saveActivity(Activity activity) async {
     late Activity _activity;
+
     if (activity.id == null) {
       final res = await _supabaseClient.from('activities').insert(
         [activity.toJson()..remove('id')],
@@ -69,7 +110,17 @@ class SupabaseActivitiesApi extends ActivitiesApi {
         (res.data as List).cast<Map<String, dynamic>>().first,
       );
 
-      _activitiesController.addActivity(_activity);
+      if (_activity.date == _date) {
+        _activitiesController.addActivity(_activity);
+      }
+
+      if (_lowerDateLimit != null &&
+          _upperDateLimit != null &&
+          _activity.type == 1 &&
+          _activity.date.isAfter(_lowerDateLimit!) &&
+          _activity.date.isBefore(_upperDateLimit!)) {
+        _eventActivitiesController.addEventActivity(_activity);
+      } 
     } else {
       final res = await _supabaseClient
           .from('activities')
@@ -83,7 +134,19 @@ class SupabaseActivitiesApi extends ActivitiesApi {
         (res.data as List).cast<Map<String, dynamic>>().first,
       );
 
-      _activitiesController.updateActivity(_activity);
+      if (_activity.date == _date) {
+        _activitiesController.updateActivity(_activity);
+      }
+      
+      if (_lowerDateLimit != null &&
+          _upperDateLimit != null &&
+          _activity.type == 1 &&
+          _activity.date.isAfter(_lowerDateLimit!) &&
+          _activity.date.isBefore(_upperDateLimit!)) {
+        _eventActivitiesController.updateEventActivity(_activity);
+      } else if (_activity.type != 1) {
+        _eventActivitiesController.delete(_activity.id!);
+      }
     }
 
     return _activity;
@@ -121,6 +184,7 @@ class SupabaseActivitiesApi extends ActivitiesApi {
     if (res.hasError) throw Exception(res.error);
 
     _activitiesController.delete(id);
+    _eventActivitiesController.delete(id);
   }
 
   @override

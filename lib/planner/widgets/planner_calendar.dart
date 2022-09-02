@@ -1,3 +1,4 @@
+import 'package:activities_repository/activities_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/planner/planner.dart';
@@ -34,6 +35,8 @@ class PlannerCalendar extends StatelessWidget {
       (PlannerBloc bloc) => bloc.state.focusedDay,
     );
 
+    final events = context.select((PlannerBloc bloc) => bloc.state.events);
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
@@ -69,6 +72,7 @@ class PlannerCalendar extends StatelessWidget {
         ),
         lastDay: DateTime.now().add(const Duration(days: 365 * 2)),
         focusedDay: focusedDay,
+        eventLoader: (day) => _filterEvents(day: day, events: events),
         selectedDayPredicate: (day) => isSameDay(
           day,
           selectedDay,
@@ -81,5 +85,14 @@ class PlannerCalendar extends StatelessWidget {
             .add(PlannerFocusedDayChanged(focusedDay)),
       ),
     );
+  }
+
+  List<Object> _filterEvents({
+    required DateTime day,
+    required List<Activity> events,
+  }) {
+    final _events = List.of(events)..retainWhere((event) => event.date == day);
+
+    return _events;
   }
 }

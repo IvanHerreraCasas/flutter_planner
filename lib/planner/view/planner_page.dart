@@ -19,6 +19,7 @@ class PlannerPage extends StatelessWidget {
         userID: context.read<AuthenticationBloc>().state.user!.id,
       )
         ..add(const PlannerSubscriptionRequested())
+        ..add(const PlannerEventsSubRequested())
         ..add(const PlannerTasksSubRequested()),
       child: const PlannerView(),
     );
