@@ -1,3 +1,4 @@
+export 'activity_all_day_switch.dart';
 export 'activity_date_picker.dart';
 export 'activity_description_text_field.dart';
 export 'activity_header_buttons.dart';

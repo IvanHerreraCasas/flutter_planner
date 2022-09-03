@@ -30,6 +30,7 @@ void main() {
       DateTime? endTime,
       List<String> links = const <String>[],
       String errorMessage = '',
+      bool isAllDay = false,
     }) {
       return ActivityState(
         status: status,
@@ -42,6 +43,7 @@ void main() {
         endTime: endTime ?? fakeEndTime,
         links: links,
         errorMessage: errorMessage,
+        isAllDay: isAllDay,
       );
     }
 
@@ -75,6 +77,7 @@ void main() {
           fakeEndTime,
           <String>[],
           '',
+          false,
         ]),
       );
     });
@@ -97,6 +100,7 @@ void main() {
             endTime: null,
             links: null,
             errorMessage: null,
+            isAllDay: null,
           ),
           equals(createSubject()),
         );
@@ -126,6 +130,7 @@ void main() {
             endTime: altEndTime,
             links: ['https://api.flutter.dev/'],
             errorMessage: 'error',
+            isAllDay: true,
           ),
           equals(
             createSubject(
@@ -139,6 +144,7 @@ void main() {
               endTime: altEndTime,
               links: ['https://api.flutter.dev/'],
               errorMessage: 'error',
+              isAllDay: true,
             ),
           ),
         );

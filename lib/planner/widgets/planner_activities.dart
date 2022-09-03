@@ -44,30 +44,56 @@ class _PlannerActivitiesState extends State<PlannerActivities> {
       (AppBloc bloc) => bloc.state.timelineEndHour,
     );
 
-    return SingleChildScrollView(
+    final allDayActivities = List.of(activities)
+      ..retainWhere(
+        (activity) => activity.isAllDay,
+      );
+
+    final normalActivities = List.of(activities)
+      ..removeWhere(
+        (activity) => activity.isAllDay,
+      );
+
+    return ListView(
       controller: controller,
       padding: const EdgeInsets.all(20),
-      child: DynamicTimeline(
-        firstDateTime: DateTime(1970, 01, 01, startHour),
-        lastDateTime: DateTime(1970, 01, 01, endHour),
-        labelBuilder: DateFormat('HH:mm').format,
-        intervalDuration: const Duration(hours: 1),
-        resizable: false,
-        intervalExtent: 80,
-        items: activities
+      children: [
+        ...allDayActivities
             .map(
-              (activity) => TimelineItem(
-                key: ValueKey(activity),
-                startDateTime: activity.startTime,
-                endDateTime: activity.endTime,
+              (activity) => Padding(
+                padding: const EdgeInsets.only(bottom: 10),
                 child: ActivityCard(
                   activity: activity,
                   currentSize: widget.currentSize,
+                  isAllDay: true,
                 ),
               ),
             )
             .toList(),
-      ),
+        const SizedBox(height: 10),
+        DynamicTimeline(
+          firstDateTime: DateTime(1970, 01, 01, startHour),
+          lastDateTime: DateTime(1970, 01, 01, endHour),
+          labelBuilder: DateFormat('HH:mm').format,
+          intervalDuration: const Duration(hours: 1),
+          resizable: false,
+          intervalExtent: 80,
+          items: normalActivities
+              .map(
+                (activity) => TimelineItem(
+                  key: ValueKey(activity),
+                  startDateTime: activity.startTime,
+                  endDateTime: activity.endTime,
+                  child: ActivityCard(
+                    activity: activity,
+                    currentSize: widget.currentSize,
+                    isAllDay: false,
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+      ],
     );
   }
 }

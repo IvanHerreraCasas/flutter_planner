@@ -21,12 +21,14 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             date: initialActivity.date,
             startTime: initialActivity.startTime,
             endTime: initialActivity.endTime,
+            isAllDay: initialActivity.isAllDay,
           ),
         ) {
     on<ActivitySaved>(_onSaved);
     on<ActivityDeleted>(_onDeleted);
     on<ActivityNameChanged>(_onNameChanged);
     on<ActivityTypeChanged>(_onTypeChanged);
+    on<ActivityAllDayToggled>(_onAllDayToggled);
     on<ActivityDescriptionChanged>(_onDescriptionChanged);
     on<ActivityDateChanged>(_onDateChanged);
     on<ActivityStartTimeChanged>(_onStartTimeChanged);
@@ -41,13 +43,17 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     Emitter<ActivityState> emit,
   ) async {
     emit(state.copyWith(status: ActivityStatus.loading));
+
+    final startTime = state.isAllDay ? DateTime(1970) : state.startTime;
+    final endTime = state.isAllDay ? DateTime(1970) : state.endTime;
+
     final activity = state.initialActivity.copyWith(
       name: state.name,
       type: state.type,
       description: state.description,
       date: state.date,
-      startTime: state.startTime,
-      endTime: state.endTime,
+      startTime: startTime,
+      endTime: endTime,
       links: state.links,
     );
 
@@ -55,7 +61,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       await _activitiesRepository.saveActivity(activity);
       emit(state.copyWith(status: ActivityStatus.success));
     } catch (e) {
-      log('ActivityBloc(56) --- error: ${e.toString()}');
+      log('ActivityBloc(64) --- error: ${e.toString()}');
       emit(
         state.copyWith(
           status: ActivityStatus.failure,
@@ -75,7 +81,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         await _activitiesRepository.deleteActivity(state.initialActivity.id!);
         emit(state.copyWith(status: ActivityStatus.success));
       } catch (e) {
-        log('ActivityBloc(71) --- error: ${e.toString()}');
+        log('ActivityBloc(84) --- error: ${e.toString()}');
         emit(
           state.copyWith(
             status: ActivityStatus.failure,
@@ -98,6 +104,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     Emitter<ActivityState> emit,
   ) {
     emit(state.copyWith(type: event.type));
+  }
+
+  void _onAllDayToggled(
+    ActivityAllDayToggled event,
+    Emitter<ActivityState> emit,
+  ) {
+    emit(state.copyWith(isAllDay: !state.isAllDay));
   }
 
   void _onDescriptionChanged(

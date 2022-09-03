@@ -49,11 +49,20 @@ void main() {
           throwsA(isA<AssertionError>()),
         );
       });
-
     });
 
     test('supports value equality', () {
       expect(createSubject(), equals(createSubject()));
+    });
+
+    test('isAllDay if start and time are 0', () {
+      expect(
+        createSubject(
+          startTime: DateTime(1970),
+          endTime: DateTime(1970),
+        ).isAllDay,
+        true,
+      );
     });
 
     test('props are correct', () {

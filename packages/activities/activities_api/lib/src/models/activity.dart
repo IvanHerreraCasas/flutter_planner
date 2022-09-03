@@ -80,6 +80,9 @@ class Activity extends Equatable {
   /// Otherwise it will be null
   final int? routineID;
 
+  /// it is true if start and time hours are 0
+  bool get isAllDay => startTime.hour == 0 && endTime.hour == 0;
+
   /// Returns a copy of this activity with the given values updated.
   ///
   /// {@macro activity}
