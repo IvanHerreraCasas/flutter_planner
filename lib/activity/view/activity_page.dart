@@ -77,6 +77,7 @@ class ActivityPage extends StatelessWidget {
             datePicker: (_) => ActivityDatePicker(isDialog: isDialog),
             timePickers: (_) => const ActivityTimePickers(),
             typePicker: (_) => const ActivityTypePicker(),
+            allDaySwitch: (_) => const ActivityAllDaySwitch(),
           ),
         ),
       ),

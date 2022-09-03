@@ -33,6 +33,10 @@ class ActivityTypeChanged extends ActivityEvent {
   List<Object?> get props => [type];
 }
 
+class ActivityAllDayToggled extends ActivityEvent {
+  const ActivityAllDayToggled();
+}
+
 class ActivityDescriptionChanged extends ActivityEvent {
   const ActivityDescriptionChanged(this.description);
 

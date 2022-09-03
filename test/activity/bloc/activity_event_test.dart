@@ -51,6 +51,16 @@ void main() {
       });
     });
 
+    group('ActivityAllDayToggled', () {
+      test('supports value equality', () {
+        expect(ActivityAllDayToggled(), equals(ActivityAllDayToggled()));
+      });
+
+      test('props are correct', () {
+        expect(ActivityAllDayToggled().props, equals(<Object?>[]));
+      });
+    });
+
     group('ActivityDescriptionChanged', () {
       test('supports value equality', () {
         expect(

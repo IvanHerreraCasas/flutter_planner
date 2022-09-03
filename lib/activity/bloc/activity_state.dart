@@ -14,6 +14,7 @@ class ActivityState extends Equatable {
     required this.endTime,
     this.links = const [],
     this.errorMessage = '',
+    this.isAllDay = false,
   }) : assert(
           date.isUtc &&
               date.hour == 0 &&
@@ -44,6 +45,8 @@ class ActivityState extends Equatable {
 
   final String errorMessage;
 
+  final bool isAllDay;
+
   ActivityState copyWith({
     ActivityStatus? status,
     Activity? initialActivity,
@@ -55,6 +58,7 @@ class ActivityState extends Equatable {
     DateTime? endTime,
     List<String>? links,
     String? errorMessage,
+    bool? isAllDay,
   }) {
     return ActivityState(
       status: status ?? this.status,
@@ -67,6 +71,7 @@ class ActivityState extends Equatable {
       endTime: endTime ?? this.endTime,
       links: links ?? this.links,
       errorMessage: errorMessage ?? this.errorMessage,
+      isAllDay: isAllDay ?? this.isAllDay,
     );
   }
 
@@ -82,5 +87,6 @@ class ActivityState extends Equatable {
         endTime,
         links,
         errorMessage,
+        isAllDay,
       ];
 }

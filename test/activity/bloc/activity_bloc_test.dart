@@ -73,6 +73,28 @@ void main() {
       );
     });
 
+    group('AllDayToggled', () {
+      blocTest<ActivityBloc, ActivityState>(
+        'emits state with true isAllDay prop '
+        'when previous state had false isAllDay prop.',
+        build: buildBloc,
+        seed: () => fakeInitialState.copyWith(isAllDay: false),
+        act: (bloc) => bloc.add(const ActivityAllDayToggled()),
+        expect: () =>
+            <ActivityState>[fakeInitialState.copyWith(isAllDay: true)],
+      );
+
+      blocTest<ActivityBloc, ActivityState>(
+        'emits state with false isAllDay prop '
+        'when previous state had true isAllDay prop.',
+        build: buildBloc,
+        seed: () => fakeInitialState.copyWith(isAllDay: true),
+        act: (bloc) => bloc.add(const ActivityAllDayToggled()),
+        expect: () =>
+            <ActivityState>[fakeInitialState.copyWith(isAllDay: false)],
+      );
+    });
+
     group('DescriptionChanged', () {
       blocTest<ActivityBloc, ActivityState>(
         'emits new state with updated description',
@@ -136,24 +158,26 @@ void main() {
     });
 
     group('ActivitySaved', () {
-      final fakeState = fakeInitialState.copyWith(
+      final fakeState = ActivityState(
+        initialActivity: fakeInitialActivity,
         name: 'name',
         type: 2,
         description: 'description',
         date: DateTime.utc(2022),
         startTime: DateTime(2022, 1, 1, 8),
         endTime: DateTime(2022, 1, 1, 10),
-        links: ['links'],
+        links: const ['links'],
       );
 
-      final fakeActivity = fakeState.initialActivity.copyWith(
-        name: fakeState.name,
-        type: fakeState.type,
-        description: fakeState.description,
-        date: fakeState.date,
-        startTime: fakeState.startTime,
-        endTime: fakeState.endTime,
-        links: fakeState.links,
+      final fakeActivity = Activity(
+        userID: fakeInitialActivity.userID,
+        name: 'name',
+        type: 2,
+        description: 'description',
+        date: DateTime.utc(2022),
+        startTime: DateTime(2022, 1, 1, 8),
+        endTime: DateTime(2022, 1, 1, 10),
+        links: const ['links'],
       );
 
       blocTest<ActivityBloc, ActivityState>(
@@ -171,6 +195,45 @@ void main() {
         ],
         verify: (bloc) {
           verify(() => activitiesRepository.saveActivity(fakeActivity));
+        },
+      );
+
+      blocTest<ActivityBloc, ActivityState>(
+        'attempts to save updated activity with '
+        'zero start and end time (DateTime(1970)) '
+        'attempts to save updated activity',
+        setUp: () {
+          when(
+            () => activitiesRepository.saveActivity(
+              fakeActivity.copyWith(
+                startTime: DateTime(1970),
+                endTime: DateTime(1970),
+              ),
+            ),
+          ).thenAnswer((_) async => fakeActivity);
+        },
+        build: buildBloc,
+        seed: () => fakeState.copyWith(isAllDay: true),
+        act: (bloc) => bloc.add(const ActivitySaved()),
+        expect: () => <ActivityState>[
+          fakeState.copyWith(
+            status: ActivityStatus.loading,
+            isAllDay: true,
+          ),
+          fakeState.copyWith(
+            status: ActivityStatus.success,
+            isAllDay: true,
+          ),
+        ],
+        verify: (bloc) {
+          verify(
+            () => activitiesRepository.saveActivity(
+              fakeActivity.copyWith(
+                startTime: DateTime(1970),
+                endTime: DateTime(1970),
+              ),
+            ),
+          );
         },
       );
 

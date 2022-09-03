@@ -11,10 +11,12 @@ class ActivityCard extends StatelessWidget {
     Key? key,
     required this.activity,
     required this.currentSize,
+    required this.isAllDay,
   }) : super(key: key);
 
   final Activity activity;
   final PlannerSize currentSize;
+  final bool isAllDay;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class ActivityCard extends StatelessWidget {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             width: double.infinity,
+            height: isAllDay ? 80 : null,
             decoration: BoxDecoration(
               color: theme.colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(10),
@@ -49,7 +52,7 @@ class ActivityCard extends StatelessWidget {
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                 ),
-                if (constraints.maxHeight > 50) ...[
+                if (constraints.maxHeight > 50 && !isAllDay) ...[
                   const SizedBox(height: 5),
                   Text(
                     '${DateFormat('hh:mm').format(activity.startTime)}'

@@ -31,10 +31,24 @@ void main() {
       ),
       Activity(
         userID: 'userID',
-        id: 2,
+        id: 3,
         date: DateTime.utc(2022, 6, 16),
         startTime: DateTime(1970, 1, 1, 11),
         endTime: DateTime(1970, 1, 1, 12),
+      ),
+      Activity(
+        userID: 'userID',
+        id: 4,
+        date: DateTime.utc(2022, 6, 16),
+        startTime: DateTime(1970),
+        endTime: DateTime(1970),
+      ),
+      Activity(
+        userID: 'userID',
+        id: 5,
+        date: DateTime.utc(2022, 6, 16),
+        startTime: DateTime(1970),
+        endTime: DateTime(1970),
       ),
     ];
 
@@ -62,10 +76,24 @@ void main() {
       );
     }
 
-    testWidgets('renders DynamicTimeline with ActivitCards', (tester) async {
+    testWidgets(
+        'renders DynamicTimeline with ActivityCards '
+        'of non allDay activities', (tester) async {
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(DynamicTimeline), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(DynamicTimeline),
+          matching: find.byType(ActivityCard),
+        ),
+        findsNWidgets(3),
+      );
+    });
+
+    testWidgets('renders ActivityCards of all activities.', (tester) async {
+      await tester.pumpApp(buildSubject());
+
       expect(
         find.byType(ActivityCard),
         findsNWidgets(mockActivities.length),

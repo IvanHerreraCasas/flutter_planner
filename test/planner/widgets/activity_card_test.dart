@@ -27,21 +27,23 @@ void main() {
 
     Widget buildSubject({
       PlannerSize currentSize = PlannerSize.large,
-      double width = 400,
       Activity? activity,
+      bool? isAllDay,
     }) {
       return InheritedGoRouter(
         goRouter: goRouter,
         child: ActivityCard(
           currentSize: currentSize,
           activity: activity ?? mockActivity,
+          isAllDay: isAllDay ?? false,
         ),
       );
     }
 
     testWidgets(
         'renders the name and times '
-        'when constraints.maxHeight is greater than 50', (tester) async {
+        'when constraints.maxHeight is greater than 50 '
+        'and is not allDay', (tester) async {
       FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
@@ -62,6 +64,18 @@ void main() {
 
       expect(find.text('name'), findsOneWidget);
       expect(find.text('description'), findsNothing);
+    });
+
+    testWidgets(
+        'renders only the name with 80px of height '
+        'when isAllDay', (tester) async {
+      FlutterError.onError = ignoreOverflowErrors;
+      await tester.pumpApp(buildSubject(isAllDay: true));
+
+      expect(find.text('name'), findsOneWidget);
+      expect(find.text('description'), findsNothing);
+
+      expect(tester.getSize(find.byType(ActivityCard)).height, 80);
     });
 
     group('onTap', () {
