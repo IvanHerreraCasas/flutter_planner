@@ -1,6 +1,1 @@
-{
-    "bricks": {
-        "bloc": "0.1.1",
-        "feature_brick": "0.4.0"
-    }
-}
+{"bricks":{"bloc":"0.1.1","feature_brick":"0.4.0","cubit":"0.1.3"}}
