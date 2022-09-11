@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
+
 /// {@template reminder}
 /// A model for reminders
 /// {@endtemplate}
-class Reminder {
+class Reminder extends Equatable {
   /// {@macro reminder}
   const Reminder({
     required this.id,
@@ -21,5 +23,8 @@ class Reminder {
 
   /// reminder's body
   final String? body;
+  
+  @override
+  List<Object?> get props => [id, title, dateTime, body];
 
 }
