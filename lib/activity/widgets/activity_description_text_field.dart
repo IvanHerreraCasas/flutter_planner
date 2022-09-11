@@ -3,13 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
 
 class ActivityDescriptionTextField extends StatelessWidget {
-  const ActivityDescriptionTextField({Key? key}) : super(key: key);
+  const ActivityDescriptionTextField({
+    Key? key,
+    required this.currentSize,
+  }) : super(key: key);
+
+  final ActivitySize currentSize;
 
   @override
   Widget build(BuildContext context) {
     final initialDescription = context.select(
       (ActivityBloc bloc) => bloc.state.initialActivity.description,
     );
+
+    final isSmall = currentSize == ActivitySize.small;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -20,8 +27,9 @@ class ActivityDescriptionTextField extends StatelessWidget {
         ),
       ),
       child: TextField(
-        maxLines: null,
-        expands: true,
+        minLines: isSmall ? 1 : null,
+        maxLines: isSmall ? 10 : null,
+        expands: !isSmall,
         keyboardType: TextInputType.multiline,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(10),

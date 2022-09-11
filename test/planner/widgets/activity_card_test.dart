@@ -6,12 +6,15 @@ import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   group('ActivityCard', () {
     late GoRouter goRouter;
+    late RemindersRepository remindersRepository;
+
     final mockActivity = Activity(
       userID: 'userID',
       name: 'name',
@@ -23,6 +26,9 @@ void main() {
 
     setUp(() {
       goRouter = MockGoRouter();
+      remindersRepository = MockRemindersRepository();
+
+      when(() => remindersRepository.areAllowed).thenReturn(false);
     });
 
     Widget buildSubject({
@@ -83,7 +89,10 @@ void main() {
           'shows ActivityPage dialog '
           'when size is large', (tester) async {
         FlutterError.onError = ignoreOverflowErrors;
-        await tester.pumpApp(buildSubject());
+        await tester.pumpApp(
+          buildSubject(),
+          remindersRepository: remindersRepository,
+        );
 
         await tester.tap(find.text('name'));
 
@@ -100,6 +109,7 @@ void main() {
         FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(
           buildSubject(currentSize: PlannerSize.small),
+          remindersRepository: remindersRepository,
         );
 
         await tester.tap(find.text('name'));

@@ -15,6 +15,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
     required this.timePickers,
     required this.typePicker,
     required this.allDaySwitch,
+    required this.reminders,
   }) : super(key: key);
 
   final ActivityWidgetBuilder headerButtons;
@@ -24,6 +25,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
   final ActivityWidgetBuilder timePickers;
   final ActivityWidgetBuilder typePicker;
   final ActivityWidgetBuilder allDaySwitch;
+  final ActivityWidgetBuilder reminders;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
             final width = constraints.maxWidth;
             if (width <= ActivityBreakpoints.small) {
               const currentSize = ActivitySize.small;
-              return Column(
+              return ListView(
                 children: [
                   headerButtons(currentSize),
                   const SizedBox(height: 20),
@@ -51,7 +53,9 @@ class ActivityLayoutBuilder extends StatelessWidget {
                   allDaySwitch(currentSize),
                   timePickers(currentSize),
                   const SizedBox(height: 20),
-                  Expanded(child: descriptionTextField(currentSize)),
+                  reminders(currentSize),
+                  const SizedBox(height: 20),
+                  descriptionTextField(currentSize)
                 ],
               );
             }
@@ -81,6 +85,7 @@ class ActivityLayoutBuilder extends StatelessWidget {
                       const SizedBox(height: 10),
                       allDaySwitch(currentSize),
                       timePickers(currentSize),
+                      reminders(currentSize),
                     ],
                   ),
                 ),

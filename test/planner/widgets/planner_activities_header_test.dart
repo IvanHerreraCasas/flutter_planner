@@ -9,6 +9,7 @@ import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -17,15 +18,18 @@ void main() {
     late GoRouter goRouter;
     late PlannerBloc plannerBloc;
     late AuthenticationBloc authenticationBloc;
+    late RemindersRepository remindersRepository;
 
     setUp(() {
       goRouter = MockGoRouter();
       plannerBloc = MockPlannerBloc();
       authenticationBloc = MockAuthenticationBloc();
+      remindersRepository = MockRemindersRepository();
 
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState.authenticated(User(id: 'id')),
       );
+      when(() => remindersRepository.areAllowed).thenReturn(false);
     });
 
     Widget buildSubject({
@@ -104,7 +108,10 @@ void main() {
             'shows ActivityPage dialog '
             'when size is large', (tester) async {
           FlutterError.onError = ignoreOverflowErrors;
-          await tester.pumpApp(buildSubject());
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
 
           await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
 

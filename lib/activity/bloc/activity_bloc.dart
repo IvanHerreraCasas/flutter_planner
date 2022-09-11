@@ -3,15 +3,19 @@ import 'dart:developer';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 
 part 'activity_event.dart';
 part 'activity_state.dart';
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   ActivityBloc({
+    required RemindersRepository remindersRepository,
     required ActivitiesRepository activitiesRepository,
     required Activity initialActivity,
-  })  : _activitiesRepository = activitiesRepository,
+  })  : _remindersRepository = remindersRepository,
+        _activitiesRepository = activitiesRepository,
         super(
           ActivityState(
             initialActivity: initialActivity,
@@ -24,6 +28,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             isAllDay: initialActivity.isAllDay,
           ),
         ) {
+    on<ActivityRemindersRequested>(_onRemindersRequested);
     on<ActivitySaved>(_onSaved);
     on<ActivityDeleted>(_onDeleted);
     on<ActivityNameChanged>(_onNameChanged);
@@ -34,9 +39,42 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     on<ActivityStartTimeChanged>(_onStartTimeChanged);
     on<ActivityEndTimeChanged>(_onEndTimeChanged);
     on<ActivityLinksChanged>(_onLinksChanged);
+    on<ActivityReminderValuesChanged>(_onReminderValuesChanged);
   }
 
   final ActivitiesRepository _activitiesRepository;
+
+  final RemindersRepository _remindersRepository;
+
+  Future<void> _onRemindersRequested(
+    ActivityRemindersRequested event,
+    Emitter<ActivityState> emit,
+  ) async {
+    final activityID = state.initialActivity.id;
+    List<bool> reminderValues;
+
+    if (activityID != null) {
+      /// each activity will have 20 notification slots
+      /// the first 100 slots are left in case the app needs it for other cases
+      ///
+      /// for example:
+      /// activityID = 0 => remindersIDs = [100,...,119]
+      /// activityID = 1 => remindersIDs = [120,...,139]
+      ///
+      /// note: each reminder is a diferent notification.
+      final reminderIDs = List.generate(
+        20,
+        (index) => (activityID + 5) * 20 + index,
+      );
+
+      reminderValues = await _remindersRepository.checkReminders(
+        ids: reminderIDs,
+      );
+    } else {
+      reminderValues = List.generate(20, (index) => false);
+    }
+    emit(state.copyWith(reminderValues: reminderValues));
+  }
 
   Future<void> _onSaved(
     ActivitySaved event,
@@ -58,16 +96,204 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     );
 
     try {
-      await _activitiesRepository.saveActivity(activity);
+      final savedActivity = await _activitiesRepository.saveActivity(activity);
+
+      if (savedActivity.id != null) {
+        await _saveReminders(savedActivity.id!);
+      }
+
       emit(state.copyWith(status: ActivityStatus.success));
     } catch (e) {
-      log('ActivityBloc(64) --- error: ${e.toString()}');
+      log('ActivityBloc(105) --- error: ${e.toString()}');
       emit(
         state.copyWith(
           status: ActivityStatus.failure,
           errorMessage: 'error: activity could not be saved',
         ),
       );
+    }
+  }
+
+  Future<void> _saveReminders(int activityID) async {
+    final reminderValues = state.reminderValues;
+    final date = state.date;
+    if (reminderValues.isEmpty) return;
+
+    if (state.isAllDay) {
+      for (var index = 0; index < 5; index++) {
+        final reminderID = (activityID + 5) * 20 + index;
+        if (reminderValues[index]) {
+          late DateTime dateTime;
+
+          switch (index) {
+            case 0:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                8,
+              );
+              break;
+            case 1:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day - 1,
+                8,
+              );
+              break;
+            case 2:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day - 2,
+                8,
+              );
+              break;
+            case 3:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day - 3,
+                8,
+              );
+              break;
+            case 4:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day - 7,
+                8,
+              );
+              break;
+            default:
+              return;
+          }
+          final reminder = Reminder(
+            id: reminderID,
+            title: state.name,
+            dateTime: dateTime,
+            body: DateFormat.MMMMd().format(date),
+          );
+          await _remindersRepository.saveReminder(reminder: reminder);
+        } else {
+          await _remindersRepository.deleteReminder(id: reminderID);
+        }
+      }
+    } else {
+      final startTime = state.startTime;
+      for (var index = 0; index < 9; index++) {
+        final reminderID = (activityID + 5) * 20 + index;
+        if (reminderValues[index]) {
+          late DateTime dateTime;
+
+          switch (index) {
+            case 0:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                startTime.hour,
+                startTime.minute,
+              );
+              break;
+            case 1:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                startTime.hour,
+                startTime.minute - 5,
+              );
+              break;
+            case 2:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                startTime.hour,
+                startTime.minute - 15,
+              );
+              break;
+            case 3:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                startTime.hour,
+                startTime.minute - 30,
+              );
+              break;
+            case 4:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                startTime.hour - 1,
+                startTime.minute,
+              );
+              break;
+            case 5:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                startTime.hour - 4,
+                startTime.minute,
+              );
+              break;
+            case 6:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day - 1,
+                startTime.hour,
+                startTime.minute,
+              );
+              break;
+            case 7:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day - 2,
+                startTime.hour,
+                startTime.minute,
+              );
+              break;
+            case 8:
+              dateTime = DateTime(
+                date.year,
+                date.month,
+                date.day - 7,
+                startTime.hour,
+                startTime.minute,
+              );
+              break;
+            default:
+              return;
+          }
+          final reminder = Reminder(
+            id: reminderID,
+            title: state.name,
+            dateTime: dateTime,
+            body: DateFormat('MMMM d - HH:mm').format(startTime),
+          );
+          await _remindersRepository.saveReminder(reminder: reminder);
+        } else {
+          await _remindersRepository.deleteReminder(id: reminderID);
+        }
+      }
+    }
+  }
+
+  Future<void> _deleteAllReminders(int activityID) async {
+    final reminderValues = state.reminderValues;
+    if (reminderValues.isEmpty) return;
+
+    for (var index = 0; index < 20; index++) {
+      final reminderID = (activityID + 5) * 20 + index;
+
+      await _remindersRepository.deleteReminder(id: reminderID);
     }
   }
 
@@ -79,9 +305,10 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       emit(state.copyWith(status: ActivityStatus.loading));
       try {
         await _activitiesRepository.deleteActivity(state.initialActivity.id!);
+        await _deleteAllReminders(state.initialActivity.id!);
         emit(state.copyWith(status: ActivityStatus.success));
       } catch (e) {
-        log('ActivityBloc(84) --- error: ${e.toString()}');
+        log('ActivityBloc(311) --- error: ${e.toString()}');
         emit(
           state.copyWith(
             status: ActivityStatus.failure,
@@ -147,6 +374,15 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     Emitter<ActivityState> emit,
   ) {
     emit(state.copyWith(endTime: event.endTime));
+  }
+
+  void _onReminderValuesChanged(
+    ActivityReminderValuesChanged event,
+    Emitter<ActivityState> emit,
+  ) {
+    emit(
+      state.copyWith(reminderValues: event.reminderValues),
+    );
   }
 
   void _onLinksChanged(

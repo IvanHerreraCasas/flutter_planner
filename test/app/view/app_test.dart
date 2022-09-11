@@ -9,6 +9,7 @@ import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
@@ -19,12 +20,14 @@ void main() {
   late ActivitiesRepository activitiesRepository;
   late RoutinesRepository routinesRepository;
   late TasksRepository tasksRepository;
+  late RemindersRepository remindersRepository;
 
   setUp(() {
     authenticationRepository = MockAuthenticationRepository();
     activitiesRepository = MockActivitiesRepository();
     routinesRepository = MockRoutinesRepository();
     tasksRepository = MockTasksRepository();
+    remindersRepository = MockRemindersRepository();
   });
 
   group('App', () {
@@ -40,6 +43,7 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           ),
         ),
       );

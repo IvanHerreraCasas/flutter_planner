@@ -10,6 +10,7 @@ import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 
 abstract class AppRouter {
@@ -75,6 +76,7 @@ abstract class AppRouter {
               name: AppRoutes.activity,
               builder: (context, state) => BlocProvider(
                 create: (context) => ActivityBloc(
+                  remindersRepository: context.read<RemindersRepository>(),
                   activitiesRepository: context.read<ActivitiesRepository>(),
                   initialActivity: state.extra! as Activity,
                 ),

@@ -15,6 +15,7 @@ import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/l10n/l10n.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
@@ -25,12 +26,14 @@ class App extends StatelessWidget {
     required this.activitiesRepository,
     required this.routinesRepository,
     required this.tasksRepository,
+    required this.remindersRepository,
   }) : super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final ActivitiesRepository activitiesRepository;
   final RoutinesRepository routinesRepository;
   final TasksRepository tasksRepository;
+  final RemindersRepository remindersRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +50,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => tasksRepository,
+        ),
+        RepositoryProvider(
+          create: (context) => remindersRepository,
         ),
       ],
       child: MultiBlocProvider(
