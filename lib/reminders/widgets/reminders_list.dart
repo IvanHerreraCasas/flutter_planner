@@ -16,7 +16,7 @@ class RemindersList extends StatelessWidget {
       (RemindersCubit cubit) => cubit.state.reminderValues,
     );
 
-    if (isAllDay && reminderValues.length == 5) {
+    if (isAllDay && reminderValues.length >= 5) {
       return ListView(
         children: [
           ReminderCheckbox(
@@ -56,7 +56,7 @@ class RemindersList extends StatelessWidget {
           ),
         ],
       );
-    } else if (reminderValues.length == 9) {
+    } else if (reminderValues.length >= 9) {
       return ListView(
         children: [
           ReminderCheckbox(
