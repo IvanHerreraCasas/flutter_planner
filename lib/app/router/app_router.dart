@@ -104,11 +104,20 @@ abstract class AppRouter {
               builder: (context, state) => const MyDetailsPage(
                 isPage: true,
               ),
-            ), // my_details
+            ),
+            // appearance
             GoRoute(
               path: 'appearance',
               name: AppRoutes.appearance,
               builder: (context, state) => const AppearancePage(
+                isPage: true,
+              ),
+            ),
+            // settings reminders
+            GoRoute(
+              path: 'reminders',
+              name: AppRoutes.settingsReminders,
+              builder: (context, state) => const SettingsRemindersPage(
                 isPage: true,
               ),
             ),

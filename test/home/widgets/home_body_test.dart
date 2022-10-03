@@ -10,6 +10,7 @@ import 'package:flutter_planner/schedule/schedule.dart';
 import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
@@ -20,6 +21,7 @@ void main() {
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
     late TasksRepository tasksRepository;
+    late RemindersRepository remindersRepository;
 
     late AppBloc appBloc;
     late AuthenticationBloc authenticationBloc;
@@ -27,8 +29,10 @@ void main() {
     setUp(() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
+      remindersRepository = MockRemindersRepository();
       tasksRepository = MockTasksRepository();
       authenticationBloc = MockAuthenticationBloc();
+
       appBloc = MockAppBloc();
 
       final currentDateTime = DateTime.now();
@@ -60,6 +64,7 @@ void main() {
           .thenAnswer((_) => const Stream.empty());
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
+      when(() => remindersRepository.areAllowed).thenReturn(true);
     });
 
     Widget buildSubject({
@@ -82,6 +87,7 @@ void main() {
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
         tasksRepository: tasksRepository,
+        remindersRepository: remindersRepository,
       );
 
       expect(find.byType(PlannerPage), findsOneWidget);
@@ -94,6 +100,7 @@ void main() {
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
         tasksRepository: tasksRepository,
+        remindersRepository: remindersRepository,
       );
 
       expect(find.byType(SchedulePage), findsOneWidget);
@@ -106,6 +113,7 @@ void main() {
         activitiesRepository: activitiesRepository,
         routinesRepository: routinesRepository,
         tasksRepository: tasksRepository,
+        remindersRepository: remindersRepository,
       );
 
       expect(find.byType(SettingsPage), findsOneWidget);

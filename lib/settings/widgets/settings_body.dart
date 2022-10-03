@@ -21,6 +21,9 @@ class SettingsBody extends StatelessWidget {
         AppearancePage(
           isPage: false,
         ),
+        SettingsRemindersPage(
+          isPage: false,
+        ),
       ],
     );
   }

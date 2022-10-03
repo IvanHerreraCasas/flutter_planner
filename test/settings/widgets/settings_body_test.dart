@@ -6,6 +6,7 @@ import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -13,15 +14,18 @@ void main() {
   group('SettingsBody', () {
     late AuthenticationBloc authenticationBloc;
     late AppBloc appBloc;
+    late RemindersRepository remindersRepository;
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
       appBloc = MockAppBloc();
+      remindersRepository = MockRemindersRepository();
 
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState.authenticated(User(id: 'id')),
       );
       when(() => appBloc.state).thenReturn(const AppState());
+      when(() => remindersRepository.areAllowed).thenReturn(true);
     });
 
     Widget buildSubject() {
@@ -36,7 +40,10 @@ void main() {
 
     testWidgets('renders MyDetailsPage when settingsIndex is 0',
         (tester) async {
-      await tester.pumpApp(buildSubject());
+      await tester.pumpApp(
+        buildSubject(),
+        remindersRepository: remindersRepository,
+      );
 
       expect(find.byType(MyDetailsPage), findsOneWidget);
     });
@@ -47,9 +54,27 @@ void main() {
       when(() => appBloc.state).thenReturn(
         const AppState(settingsIndex: 1),
       );
-      await tester.pumpApp(buildSubject());
+      await tester.pumpApp(
+        buildSubject(),
+        remindersRepository: remindersRepository,
+      );
 
       expect(find.byType(AppearancePage), findsOneWidget);
+    });
+
+    testWidgets(
+        'renders SettingsRemindersPage when settingsIndex is 2 '
+        'and reminders are allowed', (tester) async {
+      FlutterError.onError = ignoreOverflowErrors;
+      when(() => appBloc.state).thenReturn(
+        const AppState(settingsIndex: 2),
+      );
+      await tester.pumpApp(
+        buildSubject(),
+        remindersRepository: remindersRepository,
+      );
+
+      expect(find.byType(SettingsRemindersPage), findsOneWidget);
     });
   });
 }

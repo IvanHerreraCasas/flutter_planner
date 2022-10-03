@@ -64,7 +64,10 @@ class App extends StatelessWidget {
             lazy: false,
           ),
           BlocProvider(
-            create: (context) => AppBloc(),
+            create: (context) => AppBloc(
+              tasksRepository: context.read<TasksRepository>(),
+              remindersRepository: context.read<RemindersRepository>(),
+            ),
           ),
         ],
         child: const AppView(),

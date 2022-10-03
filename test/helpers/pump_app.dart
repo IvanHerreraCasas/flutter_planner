@@ -74,6 +74,7 @@ extension PumpApp on WidgetTester {
     ActivitiesRepository? activitiesRepository,
     RoutinesRepository? routinesRepository,
     TasksRepository? tasksRepository,
+    RemindersRepository? remindersRepository,
   }) {
     return pumpWidget(
       MultiRepositoryProvider(
@@ -91,6 +92,10 @@ extension PumpApp on WidgetTester {
           ),
           RepositoryProvider(
             create: (context) => tasksRepository ?? MockTasksRepository(),
+          ),
+          RepositoryProvider(
+            create: (context) =>
+                remindersRepository ?? MockRemindersRepository(),
           ),
         ],
         child: MultiBlocProvider(

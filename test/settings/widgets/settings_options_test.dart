@@ -7,6 +7,7 @@ import 'package:flutter_planner/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -15,16 +16,19 @@ void main() {
     late GoRouter goRouter;
     late AppBloc appBloc;
     late AuthenticationBloc authenticationBloc;
+    late RemindersRepository remindersRepository;
 
     setUp(() {
       goRouter = MockGoRouter();
       appBloc = MockAppBloc();
       authenticationBloc = MockAuthenticationBloc();
+      remindersRepository = MockRemindersRepository();
 
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState.authenticated(User(id: 'id')),
       );
       when(() => appBloc.state).thenReturn(const AppState());
+      when(() => remindersRepository.areAllowed).thenReturn(true);
     });
 
     Widget buildSubject({
@@ -51,6 +55,7 @@ void main() {
             buildSubject(
               currentSize: SettingsSize.small,
             ),
+            remindersRepository: remindersRepository,
           );
 
           expect(find.widgetWithText(InkWell, 'My details'), findsOneWidget);
@@ -63,6 +68,7 @@ void main() {
             buildSubject(
               currentSize: SettingsSize.small,
             ),
+            remindersRepository: remindersRepository,
           );
 
           await tester.tap(find.widgetWithText(InkWell, 'My details'));
@@ -82,7 +88,10 @@ void main() {
       });
       group('when size is large', () {
         testWidgets('renders Inkwell with My details text', (tester) async {
-          await tester.pumpApp(buildSubject());
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
 
           expect(find.widgetWithText(InkWell, 'My details'), findsOneWidget);
         });
@@ -90,7 +99,10 @@ void main() {
         testWidgets(
             'adds  AppSettingsIndex(0) to AppBloc '
             'when is pressed', (tester) async {
-          await tester.pumpApp(buildSubject());
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
 
           await tester.tap(find.widgetWithText(InkWell, 'My details'));
 
@@ -108,6 +120,7 @@ void main() {
             buildSubject(
               currentSize: SettingsSize.small,
             ),
+            remindersRepository: remindersRepository,
           );
 
           expect(find.widgetWithText(InkWell, 'Appearance'), findsOneWidget);
@@ -119,6 +132,7 @@ void main() {
             buildSubject(
               currentSize: SettingsSize.small,
             ),
+            remindersRepository: remindersRepository,
           );
 
           await tester.tap(find.widgetWithText(InkWell, 'Appearance'));
@@ -138,7 +152,10 @@ void main() {
       });
       group('when size is large', () {
         testWidgets('renders Inkwell with Appearance text', (tester) async {
-          await tester.pumpApp(buildSubject());
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
 
           expect(find.widgetWithText(InkWell, 'Appearance'), findsOneWidget);
         });
@@ -146,7 +163,10 @@ void main() {
         testWidgets(
             'adds  AppSettingsIndexChanged(1) to AppBloc '
             'when is pressed', (tester) async {
-          await tester.pumpApp(buildSubject());
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
 
           await tester.tap(find.widgetWithText(InkWell, 'Appearance'));
 
@@ -157,12 +177,109 @@ void main() {
       });
     });
 
+    group('Reminders', () {
+      group('when size is small', () {
+        testWidgets(
+            'renders Inkwell with Reminders text '
+            'when reminders are allowed.', (tester) async {
+          await tester.pumpApp(
+            buildSubject(
+              currentSize: SettingsSize.small,
+            ),
+            remindersRepository: remindersRepository,
+          );
+
+          expect(find.widgetWithText(InkWell, 'Reminders'), findsOneWidget);
+        });
+
+        testWidgets(
+            'does not render Inkwell with Reminders text '
+            'when reminders are not allowed.', (tester) async {
+          when(() => remindersRepository.areAllowed).thenReturn(false);
+          await tester.pumpApp(
+            buildSubject(
+              currentSize: SettingsSize.small,
+            ),
+            remindersRepository: remindersRepository,
+          );
+
+          expect(find.widgetWithText(InkWell, 'Reminders'), findsNothing);
+        });
+        testWidgets(
+            'goes to reminders route and adds AppRouteChanged to AppBloc '
+            'when is pressed', (tester) async {
+          await tester.pumpApp(
+            buildSubject(
+              currentSize: SettingsSize.small,
+            ),
+            remindersRepository: remindersRepository,
+          );
+
+          await tester.tap(find.widgetWithText(InkWell, 'Reminders'));
+
+          verify(
+            () =>
+                appBloc.add(const AppRouteChanged('/home/settings/reminders')),
+          ).called(1);
+
+          verify(
+            () => goRouter.goNamed(
+              AppRoutes.settingsReminders,
+              params: {'page': 'settings'},
+            ),
+          ).called(1);
+        });
+      });
+      group('when size is large', () {
+        testWidgets(
+            'renders Inkwell with Reminders text '
+            'when reminders are allowed.', (tester) async {
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
+
+          expect(find.widgetWithText(InkWell, 'Reminders'), findsOneWidget);
+        });
+
+        testWidgets(
+            'does not render Inkwell with Reminders text '
+            'when reminders are not allowed.', (tester) async {
+          when(() => remindersRepository.areAllowed).thenReturn(false);
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
+
+          expect(find.widgetWithText(InkWell, 'Reminders'), findsNothing);
+        });
+
+        testWidgets(
+            'adds AppSettingsIndexChanged(2) to AppBloc '
+            'when is pressed', (tester) async {
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
+
+          await tester.tap(find.widgetWithText(InkWell, 'Reminders'));
+
+          verify(
+            () => appBloc.add(const AppSettingsIndexChanged(2)),
+          ).called(1);
+        });
+      });
+    });
+
     group('Log out ElevatedButton', () {
       testWidgets('is rendered when user is editable', (tester) async {
         when(() => authenticationBloc.state).thenReturn(
           const AuthenticationState.authenticated(User(id: 'id')),
         );
-        await tester.pumpApp(buildSubject());
+        await tester.pumpApp(
+          buildSubject(),
+          remindersRepository: remindersRepository,
+        );
 
         expect(
           find.widgetWithText(ElevatedButton, 'Log out'),
@@ -173,7 +290,10 @@ void main() {
       testWidgets(
           'adds AuthenticationSignOutRequested to AuthenticationBloc '
           'when is pressed and size is large', (tester) async {
-        await tester.pumpApp(buildSubject());
+        await tester.pumpApp(
+          buildSubject(),
+          remindersRepository: remindersRepository,
+        );
 
         await tester.tap(find.widgetWithText(ElevatedButton, 'Log out'));
 
@@ -185,7 +305,10 @@ void main() {
       testWidgets(
           'adds AuthenticationSignOutRequested to AuthenticationBloc '
           'when is pressed and size is small', (tester) async {
-        await tester.pumpApp(buildSubject(currentSize: SettingsSize.small));
+        await tester.pumpApp(
+          buildSubject(currentSize: SettingsSize.small),
+          remindersRepository: remindersRepository,
+        );
 
         await tester.tap(find.widgetWithText(ElevatedButton, 'Log out'));
 
