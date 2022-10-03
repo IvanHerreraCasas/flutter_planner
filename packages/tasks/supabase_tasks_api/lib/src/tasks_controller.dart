@@ -34,6 +34,9 @@ class TasksController {
     final tasks = List.of(_streamController.value)
       ..removeWhere((task) => task.id == id);
 
-    _streamController.add(tasks);
+    // adds only when a task has been deleted.
+    if (tasks.length != _streamController.value.length) {
+      _streamController.add(tasks);
+    }
   }
 }
