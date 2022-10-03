@@ -140,14 +140,14 @@ void main() {
       group('before the event reminder', () {
         const key = Key('before the event');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [0] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -158,14 +158,14 @@ void main() {
       group('5 minutes before reminder', () {
         const key = Key('5 minutes before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [1] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -176,14 +176,14 @@ void main() {
       group('15 minutes before reminder', () {
         const key = Key('15 minutes before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [2] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -194,14 +194,14 @@ void main() {
       group('30 minutes before reminder', () {
         const key = Key('30 minutes before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [3] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -212,14 +212,14 @@ void main() {
       group('1 hour before reminder', () {
         const key = Key('1 hour before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [4] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -230,14 +230,14 @@ void main() {
       group('4 hours before reminder', () {
         const key = Key('4 hours before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [5] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -248,14 +248,14 @@ void main() {
       group('1 day before reminder', () {
         const key = Key('1 day before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [6] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -266,14 +266,14 @@ void main() {
       group('2 days before reminder', () {
         const key = Key('2 days before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [7] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
@@ -284,14 +284,14 @@ void main() {
       group('1 week before reminder', () {
         const key = Key('1 week before');
         testWidgets('is rendered', (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           expect(find.byKey(key), findsOneWidget);
         });
 
         testWidgets('change [8] reminder value when checkbox is pressed',
             (tester) async {
-          await tester.pumpApp(buildSubject(isAllDay: true));
+          await tester.pumpApp(buildSubject());
 
           await tester.tap(find.byKey(Key('checkbox: $key')));
 
