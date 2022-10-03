@@ -59,7 +59,7 @@ void main() {
         'when a day is selected', (tester) async {
       await tester.pumpApp(buildSubject());
 
-      await tester.tap(find.text('5'));
+      await tester.tap(find.text('15'));
 
       verify(
         () => plannerBloc.add(
@@ -67,7 +67,7 @@ void main() {
             DateTime.utc(
               currentDateTime.year,
               currentDateTime.month,
-              5,
+              15,
             ),
           ),
         ),
@@ -79,7 +79,7 @@ void main() {
             DateTime.utc(
               currentDateTime.year,
               currentDateTime.month,
-              5,
+              15,
             ),
           ),
         ),
