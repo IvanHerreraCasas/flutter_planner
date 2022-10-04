@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:activities_repository/activities_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_planner/helpers/helpers.dart';
 import 'package:intl/intl.dart';
 import 'package:reminders_repository/reminders_repository.dart';
 
@@ -123,11 +124,11 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       for (var index = 0; index < 5; index++) {
         final reminderID = (activityID + 5) * 20 + index;
         if (reminderValues[index]) {
-          late DateTime dateTime;
+          late DateTime reminderDateTime;
 
           switch (index) {
             case 0:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day,
@@ -135,7 +136,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 1:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day - 1,
@@ -143,7 +144,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 2:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day - 2,
@@ -151,7 +152,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 3:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day - 3,
@@ -159,7 +160,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 4:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day - 7,
@@ -172,7 +173,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           final reminder = Reminder(
             id: reminderID,
             title: state.name,
-            dateTime: dateTime,
+            dateTime: reminderDateTime,
             body: DateFormat.MMMMd().format(date),
           );
           await _remindersRepository.saveReminder(reminder: reminder);
@@ -185,11 +186,11 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       for (var index = 0; index < 9; index++) {
         final reminderID = (activityID + 5) * 20 + index;
         if (reminderValues[index]) {
-          late DateTime dateTime;
+          late DateTime reminderDateTime;
 
           switch (index) {
             case 0:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day,
@@ -198,7 +199,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 1:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day,
@@ -207,7 +208,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 2:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day,
@@ -216,7 +217,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 3:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day,
@@ -225,7 +226,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 4:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day,
@@ -234,7 +235,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 5:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day,
@@ -243,7 +244,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 6:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day - 1,
@@ -252,7 +253,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 7:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day - 2,
@@ -261,7 +262,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               break;
             case 8:
-              dateTime = DateTime(
+              reminderDateTime = DateTime(
                 date.year,
                 date.month,
                 date.day - 7,
@@ -272,11 +273,17 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             default:
               return;
           }
+
           final reminder = Reminder(
             id: reminderID,
             title: state.name,
-            dateTime: dateTime,
-            body: DateFormat('MMMM d - HH:mm').format(startTime),
+            dateTime: reminderDateTime,
+            body: DateFormat('MMMM d - HH:mm').format(
+              date.copyWith(
+                hour: startTime.hour,
+                minute: startTime.minute,
+              ),
+            ),
           );
           await _remindersRepository.saveReminder(reminder: reminder);
         } else {
