@@ -9,6 +9,7 @@ import 'package:flutter_planner/planner/planner.dart';
 import 'package:flutter_planner/sign_in/sign_in.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
@@ -19,12 +20,33 @@ void main() {
   late ActivitiesRepository activitiesRepository;
   late RoutinesRepository routinesRepository;
   late TasksRepository tasksRepository;
+  late RemindersRepository remindersRepository;
 
   setUp(() {
+    final currentDateTime = DateTime.now();
+    final utcTodayDate = DateTime.utc(
+      currentDateTime.year,
+      currentDateTime.month,
+      currentDateTime.day,
+    );
+
+    final utcTomorrowDate = DateTime.utc(
+      currentDateTime.year,
+      currentDateTime.month,
+      currentDateTime.day + 1,
+    );
     authenticationRepository = MockAuthenticationRepository();
     activitiesRepository = MockActivitiesRepository();
     routinesRepository = MockRoutinesRepository();
     tasksRepository = MockTasksRepository();
+    remindersRepository = MockRemindersRepository();
+    when(
+      () => tasksRepository.streamTasks(date: utcTodayDate),
+    ).thenAnswer((_) => const Stream.empty());
+    when(
+      () => tasksRepository.streamTasks(date: utcTomorrowDate),
+    ).thenAnswer((_) => const Stream.empty());
+    when(() => remindersRepository.areAllowed).thenReturn(true);
   });
 
   group('App', () {
@@ -40,6 +62,7 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           ),
         ),
       );
@@ -102,7 +125,10 @@ void main() {
           ),
           RepositoryProvider(
             create: (context) => tasksRepository,
-          )
+          ),
+          RepositoryProvider(
+            create: (context) => remindersRepository,
+          ),
         ],
         child: MultiBlocProvider(
           providers: [

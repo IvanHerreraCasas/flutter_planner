@@ -5,6 +5,18 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ActivityEvent', () {
+    group('ActivityRemindersRequested', () {
+      test('supports value equality', () {
+        expect(
+          ActivityRemindersRequested(),
+          equals(ActivityRemindersRequested()),
+        );
+      });
+
+      test('props are correct', () {
+        expect(ActivityRemindersRequested().props, <Object?>[]);
+      });
+    });
     group('ActivitySaved', () {
       test('supports value equality', () {
         expect(ActivitySaved(), equals(ActivitySaved()));
@@ -119,6 +131,24 @@ void main() {
         expect(
           ActivityEndTimeChanged(fakeEndTime).props,
           equals([fakeEndTime]),
+        );
+      });
+    });
+
+    group('ActivityReminderValuesChanged', () {
+      final reminderValues = [true, false, false, false];
+
+      test('supports value equality', () {
+        expect(
+          ActivityReminderValuesChanged(reminderValues),
+          equals(ActivityReminderValuesChanged(reminderValues)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          ActivityReminderValuesChanged(reminderValues).props,
+          equals([reminderValues]),
         );
       });
     });

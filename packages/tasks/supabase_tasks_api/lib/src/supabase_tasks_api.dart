@@ -14,8 +14,7 @@ class SupabaseTasksApi extends TasksApi {
 
   final SupabaseClient _supabaseClient;
 
-  final _tasksController = TasksController();
-  DateTime? _date;
+  final _controllers = <DateTime, TasksController>{};
 
   Future<void> _updateData({required DateTime date}) async {
     final res = await _supabaseClient
@@ -31,15 +30,16 @@ class SupabaseTasksApi extends TasksApi {
         .map(Task.fromJson)
         .toList();
 
-    _tasksController.update(tasks);
+    _controllers.putIfAbsent(date, TasksController.new).update(tasks);
   }
 
   @override
   Stream<List<Task>> streamTasks({required DateTime date}) async* {
-    if (_date != date) {
+    if (!_controllers.containsKey(date)) {
       await _updateData(date: date);
     }
-    yield* _tasksController.stream;
+
+    yield* _controllers[date]!.stream;
   }
 
   @override
@@ -57,7 +57,7 @@ class SupabaseTasksApi extends TasksApi {
         (res.data as List).cast<Map<String, dynamic>>().first,
       );
 
-      _tasksController.addTask(_task);
+      _controllers[_task.date]?.addTask(_task);
     } else {
       final res = await _supabaseClient
           .from('tasks')
@@ -71,7 +71,7 @@ class SupabaseTasksApi extends TasksApi {
         (res.data as List).cast<Map<String, dynamic>>().first,
       );
 
-      _tasksController.updateTask(_task);
+      _controllers[_task.date]?.updateTask(_task);
     }
     return _task;
   }
@@ -83,6 +83,8 @@ class SupabaseTasksApi extends TasksApi {
 
     if (res.hasError) throw Exception(res.error);
 
-    _tasksController.deleteTask(id);
+    for (final controllerEntry in _controllers.entries) {
+      controllerEntry.value.deleteTask(id);
+    }
   }
 }

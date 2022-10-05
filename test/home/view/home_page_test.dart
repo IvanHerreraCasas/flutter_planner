@@ -8,6 +8,7 @@ import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
@@ -19,6 +20,7 @@ void main() {
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
     late TasksRepository tasksRepository;
+    late RemindersRepository remindersRepository;
     late AppBloc appBloc;
     late AuthenticationBloc authenticationBloc;
 
@@ -27,6 +29,7 @@ void main() {
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
       tasksRepository = MockTasksRepository();
+      remindersRepository = MockRemindersRepository();
       appBloc = MockAppBloc();
       authenticationBloc = MockAuthenticationBloc();
 
@@ -59,6 +62,7 @@ void main() {
           .thenAnswer((_) => const Stream.empty());
       when(() => activitiesRepository.dispose()).thenAnswer((_) async {});
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
+      when(() => remindersRepository.areAllowed).thenReturn(false);
     });
 
     Widget buildSubject({
@@ -94,6 +98,7 @@ void main() {
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
+          remindersRepository: remindersRepository,
         );
 
         expect(find.byType(HomeLayoutBuilder), findsOneWidget);
@@ -110,6 +115,7 @@ void main() {
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
+          remindersRepository: remindersRepository,
         );
 
         await tester.dragFrom(Offset.zero, const Offset(200, 0));
@@ -132,6 +138,7 @@ void main() {
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
+          remindersRepository: remindersRepository,
         );
 
         final navRail = tester.widget<HomeNavRail>(navRailFinder);
@@ -150,6 +157,7 @@ void main() {
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
+          remindersRepository: remindersRepository,
         );
         final navRail = tester.widget<HomeNavRail>(navRailFinder);
 

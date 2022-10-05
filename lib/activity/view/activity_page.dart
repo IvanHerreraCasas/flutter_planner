@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({
@@ -21,6 +22,7 @@ class ActivityPage extends StatelessWidget {
         ),
         child: BlocProvider(
           create: (context) => ActivityBloc(
+            remindersRepository: context.read<RemindersRepository>(),
             activitiesRepository: context.read<ActivitiesRepository>(),
             initialActivity: activity,
           ),
@@ -36,6 +38,12 @@ class ActivityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final areRemindersAllowed = context.watch<RemindersRepository>().areAllowed;
+
+    if (areRemindersAllowed) {
+      context.read<ActivityBloc>().add(const ActivityRemindersRequested());
+    }
+
     return Scaffold(
       body: LoaderOverlay(
         child: BlocListener<ActivityBloc, ActivityState>(
@@ -73,11 +81,16 @@ class ActivityPage extends StatelessWidget {
           child: ActivityLayoutBuilder(
             headerButtons: (_) => ActivityHeaderButtons(isDialog: isDialog),
             nameTextField: (_) => const ActivityNameTextField(),
-            descriptionTextField: (_) => const ActivityDescriptionTextField(),
+            descriptionTextField: (currentSize) => ActivityDescriptionTextField(
+              currentSize: currentSize,
+            ),
             datePicker: (_) => ActivityDatePicker(isDialog: isDialog),
             timePickers: (_) => const ActivityTimePickers(),
             typePicker: (_) => const ActivityTypePicker(),
             allDaySwitch: (_) => const ActivityAllDaySwitch(),
+            reminders: (currentSize) => ActivityReminders(
+              currentSize: currentSize,
+            ),
           ),
         ),
       ),

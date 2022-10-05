@@ -7,6 +7,10 @@ abstract class ActivityEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class ActivityRemindersRequested extends ActivityEvent {
+  const ActivityRemindersRequested();
+}
+
 class ActivitySaved extends ActivityEvent {
   const ActivitySaved();
 }
@@ -71,6 +75,15 @@ class ActivityEndTimeChanged extends ActivityEvent {
 
   @override
   List<Object?> get props => [endTime];
+}
+
+class ActivityReminderValuesChanged extends ActivityEvent {
+  const ActivityReminderValuesChanged(this.reminderValues);
+
+  final List<bool> reminderValues;
+
+  @override
+  List<Object?> get props => [reminderValues];
 }
 
 class ActivityLinksChanged extends ActivityEvent {

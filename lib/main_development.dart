@@ -9,8 +9,11 @@ import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/bootstrap.dart';
+import 'package:local_reminders_api/local_reminders_api.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:supabase_activities_api/supabase_activities_api.dart';
 import 'package:supabase_authentication_api/supabase_authentication_api.dart';
@@ -23,6 +26,22 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load();
+
+  final localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('app_icon');
+  const initializationSettingsIOS = IOSInitializationSettings();
+  const initializationSettingsMacOS = MacOSInitializationSettings();
+  const initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+    macOS: initializationSettingsMacOS,
+  );
+
+  await localNotificationsPlugin.initialize(
+    initializationSettings,
+  );
 
   final supabase = await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL'],
@@ -46,6 +65,24 @@ Future<void> main() async {
     supabaseClient: supabaseClient,
   );
 
+  final isNotificationPluginInitialized =
+      (await localNotificationsPlugin.initialize(
+            initializationSettings,
+          )) ??
+          false;
+
+  final remindersApi = LocalRemindersApi(
+    localNotificationsPlugin: localNotificationsPlugin,
+    notificationDetails: const NotificationDetails(
+      android: AndroidNotificationDetails(
+        'reminders-chanel-id',
+        'Reminders',
+      ),
+      iOS: IOSNotificationDetails(),
+    ),
+    isInitialized: isNotificationPluginInitialized,
+  );
+
   await bootstrap(
     () => App(
       authenticationRepository: AuthenticationRepository(
@@ -59,6 +96,9 @@ Future<void> main() async {
       ),
       tasksRepository: TasksRepository(
         tasksApi: tasksApi,
+      ),
+      remindersRepository: RemindersRepository(
+        remindersApi: remindersApi,
       ),
     ),
   );

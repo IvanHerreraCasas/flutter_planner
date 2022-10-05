@@ -31,6 +31,7 @@ void main() {
       List<String> links = const <String>[],
       String errorMessage = '',
       bool isAllDay = false,
+      List<bool> reminderValues = const [],
     }) {
       return ActivityState(
         status: status,
@@ -44,6 +45,7 @@ void main() {
         links: links,
         errorMessage: errorMessage,
         isAllDay: isAllDay,
+        reminderValues: reminderValues,
       );
     }
 
@@ -78,6 +80,7 @@ void main() {
           <String>[],
           '',
           false,
+          <bool>[],
         ]),
       );
     });
@@ -101,6 +104,7 @@ void main() {
             links: null,
             errorMessage: null,
             isAllDay: null,
+            reminderValues: null,
           ),
           equals(createSubject()),
         );
@@ -131,6 +135,7 @@ void main() {
             links: ['https://api.flutter.dev/'],
             errorMessage: 'error',
             isAllDay: true,
+            reminderValues: [true, false, false, false],
           ),
           equals(
             createSubject(
@@ -145,6 +150,7 @@ void main() {
               links: ['https://api.flutter.dev/'],
               errorMessage: 'error',
               isAllDay: true,
+              reminderValues: [true, false, false, false],
             ),
           ),
         );

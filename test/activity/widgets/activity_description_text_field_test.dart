@@ -17,10 +17,14 @@ void main() {
       when(() => activityBloc.state).thenReturn(mockActivityState);
     });
 
-    Widget buildSubject() {
+    Widget buildSubject({
+      ActivitySize currentSize = ActivitySize.large,
+    }) {
       return BlocProvider.value(
         value: activityBloc,
-        child: const ActivityDescriptionTextField(),
+        child: ActivityDescriptionTextField(
+          currentSize: currentSize,
+        ),
       );
     }
 

@@ -6,6 +6,7 @@ import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockingjay/mockingjay.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -13,6 +14,7 @@ void main() {
   late ActivityBloc activityBloc;
   late GoRouter goRouter;
   late MockNavigator navigator;
+  late RemindersRepository remindersRepository;
 
   final mockActivity = Activity(
     userID: 'user_id',
@@ -35,8 +37,10 @@ void main() {
     activityBloc = MockActivityBloc();
     goRouter = MockGoRouter();
     navigator = MockNavigator();
+    remindersRepository = MockRemindersRepository();
 
     when(() => activityBloc.state).thenReturn(mockActivityState);
+    when(() => remindersRepository.areAllowed).thenReturn(true);
   });
 
   group('ActivityPage', () {
@@ -60,12 +64,18 @@ void main() {
     group('dialog', () {
       testWidgets('renders a Dialog', (tester) async {
         FlutterError.onError = ignoreOverflowErrors;
-        await tester.pumpApp(ActivityPage.dialog(activity: mockActivity));
+        await tester.pumpApp(
+          ActivityPage.dialog(activity: mockActivity),
+          remindersRepository: remindersRepository,
+        );
         expect(find.byType(Dialog), findsOneWidget);
       });
       testWidgets('renders ActivityPage', (tester) async {
         FlutterError.onError = ignoreOverflowErrors;
-        await tester.pumpApp(ActivityPage.dialog(activity: mockActivity));
+        await tester.pumpApp(
+          ActivityPage.dialog(activity: mockActivity),
+          remindersRepository: remindersRepository,
+        );
         expect(find.byType(ActivityPage), findsOneWidget);
       });
     });
@@ -73,7 +83,10 @@ void main() {
     testWidgets('renders ActivityLayoutBuilder', (tester) async {
       FlutterError.onError = ignoreOverflowErrors;
 
-      await tester.pumpApp(buildSubject());
+      await tester.pumpApp(
+        buildSubject(),
+        remindersRepository: remindersRepository,
+      );
 
       expect(find.byType(ActivityLayoutBuilder), findsOneWidget);
     });
@@ -90,7 +103,10 @@ void main() {
           ]),
         );
 
-        await tester.pumpApp(buildSubject());
+        await tester.pumpApp(
+          buildSubject(),
+          remindersRepository: remindersRepository,
+        );
 
         await tester.pump();
 
@@ -111,7 +127,10 @@ void main() {
             ]),
           );
 
-          await tester.pumpApp(buildSubject());
+          await tester.pumpApp(
+            buildSubject(),
+            remindersRepository: remindersRepository,
+          );
 
           await tester.pump();
 
@@ -133,7 +152,10 @@ void main() {
             ]),
           );
 
-          await tester.pumpApp(buildSubject(isDialog: true));
+          await tester.pumpApp(
+            buildSubject(isDialog: true),
+            remindersRepository: remindersRepository,
+          );
 
           await tester.pump();
 
@@ -156,7 +178,10 @@ void main() {
           ]),
         );
 
-        await tester.pumpApp(buildSubject());
+        await tester.pumpApp(
+          buildSubject(),
+          remindersRepository: remindersRepository,
+        );
 
         await tester.pump();
 

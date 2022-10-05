@@ -51,3 +51,31 @@ class AppTimelineEndHourChanged extends AppEvent {
   @override
   List<Object?> get props => [hour];
 }
+
+class AppTasksRemindersAllowed extends AppEvent {
+  const AppTasksRemindersAllowed();
+}
+
+class AppTasksRemindersDisabled extends AppEvent {
+  const AppTasksRemindersDisabled();
+}
+
+class AppTaskReminderValueChanged extends AppEvent {
+  const AppTaskReminderValueChanged({required this.index, required this.value});
+
+  final int index;
+  final bool value;
+
+  @override
+  List<Object?> get props => [index, value];
+}
+
+class AppTaskReminderTimeChanged extends AppEvent {
+  const AppTaskReminderTimeChanged({required this.index, required this.time});
+
+  final int index;
+  final DateTime time;
+
+  @override
+  List<Object?> get props => [index, time];
+}

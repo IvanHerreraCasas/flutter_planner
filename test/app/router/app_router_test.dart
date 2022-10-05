@@ -12,6 +12,7 @@ import 'package:flutter_planner/sign_up/sign_up.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:reminders_repository/reminders_repository.dart';
 import 'package:routines_repository/routines_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 
@@ -24,12 +25,14 @@ void main() {
     late ActivitiesRepository activitiesRepository;
     late RoutinesRepository routinesRepository;
     late TasksRepository tasksRepository;
+    late RemindersRepository remindersRepository;
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
       activitiesRepository = MockActivitiesRepository();
       routinesRepository = MockRoutinesRepository();
       tasksRepository = MockTasksRepository();
+      remindersRepository = MockRemindersRepository();
       appBloc = MockAppBloc();
 
       final currentDateTime = DateTime.now();
@@ -58,6 +61,7 @@ void main() {
       when(() => routinesRepository.streamRoutines())
           .thenAnswer((_) => const Stream.empty());
       when(() => routinesRepository.dispose()).thenAnswer((_) async {});
+      when(() => remindersRepository.areAllowed).thenReturn(true);
     });
 
     GoRouter buildSubject({String? initialLocation}) {
@@ -78,6 +82,7 @@ void main() {
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
+          remindersRepository: remindersRepository,
         );
 
         expect(find.byType(SignInPage), findsOneWidget);
@@ -97,6 +102,7 @@ void main() {
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
+          remindersRepository: remindersRepository,
         );
 
         expect(find.byType(HomePage), findsOneWidget);
@@ -143,6 +149,7 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           );
 
           expect(find.byType(HomePage), findsOneWidget);
@@ -158,6 +165,7 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
@@ -173,6 +181,7 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           );
 
           expect(find.byType(PlannerPage), findsOneWidget);
@@ -188,6 +197,7 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           );
 
           expect(find.byType(SettingsPage), findsOneWidget);
@@ -204,6 +214,7 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           );
 
           expect(find.byType(MyDetailsPage), findsOneWidget);
@@ -221,9 +232,28 @@ void main() {
             activitiesRepository: activitiesRepository,
             routinesRepository: routinesRepository,
             tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
           );
 
           expect(find.byType(AppearancePage), findsOneWidget);
+        });
+
+        testWidgets(
+            'renders SettingsRemindersPage '
+            'when page param is settings and subroute is reminders',
+            (tester) async {
+          FlutterError.onError = ignoreOverflowErrors;
+          await tester.pumpAppRouter(
+            buildSubject(initialLocation: '/home/settings/reminders'),
+            appBloc: appBloc,
+            authenticationBloc: authenticationBloc,
+            activitiesRepository: activitiesRepository,
+            routinesRepository: routinesRepository,
+            tasksRepository: tasksRepository,
+            remindersRepository: remindersRepository,
+          );
+
+          expect(find.byType(SettingsRemindersPage), findsOneWidget);
         });
       });
     });
@@ -248,6 +278,7 @@ void main() {
           activitiesRepository: activitiesRepository,
           routinesRepository: routinesRepository,
           tasksRepository: tasksRepository,
+          remindersRepository: remindersRepository,
         );
 
         expect(find.byType(HomePage), findsOneWidget);
