@@ -76,7 +76,7 @@ class ActivityState extends Equatable {
       links: links ?? this.links,
       errorMessage: errorMessage ?? this.errorMessage,
       isAllDay: isAllDay ?? this.isAllDay,
-      reminderValues:reminderValues ?? this.reminderValues,
+      reminderValues: reminderValues ?? this.reminderValues,
     );
   }
 

@@ -40,7 +40,7 @@ class _SettingsOptionsState extends State<SettingsOptions> {
     );
 
     final textTheme = Theme.of(context).textTheme;
-    
+
     final areRemindersAllowed = context.watch<RemindersRepository>().areAllowed;
 
     if (widget.currentSize == SettingsSize.small) {

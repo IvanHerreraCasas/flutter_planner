@@ -47,7 +47,5 @@ void main() {
       expect(find.byType(RemindersHeader), findsOneWidget);
       expect(find.byType(RemindersList), findsOneWidget);
     });
-
-    
   });
 }
