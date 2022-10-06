@@ -20,8 +20,8 @@ void main() {
       name: 'name',
       description: 'description',
       date: DateTime.utc(2022, 6, 16),
-      startTime: DateTime(1970, 1, 1, 7),
-      endTime: DateTime(1970, 1, 1, 9),
+      startTime: DateTime(1970, 1, 1, 17),
+      endTime: DateTime(1970, 1, 1, 19),
     );
 
     setUp(() {
@@ -53,7 +53,7 @@ void main() {
       await tester.pumpApp(buildSubject());
 
       expect(find.text('name'), findsOneWidget);
-      expect(find.text('07:00 - 09:00'), findsOneWidget);
+      expect(find.text('17:00 - 19:00'), findsOneWidget);
     });
 
     testWidgets(

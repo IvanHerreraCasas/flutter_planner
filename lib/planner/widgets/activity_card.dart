@@ -61,9 +61,9 @@ class ActivityCard extends StatelessWidget {
                         const SizedBox(height: 5),
                         Flexible(
                           child: Text(
-                            '${DateFormat('hh:mm').format(activity.startTime)}'
+                            '${DateFormat('HH:mm').format(activity.startTime)}'
                             ' - '
-                            '${DateFormat('hh:mm').format(activity.endTime)}',
+                            '${DateFormat('HH:mm').format(activity.endTime)}',
                             style: theme.textTheme.bodySmall,
                             overflow: TextOverflow.fade,
                           ),
