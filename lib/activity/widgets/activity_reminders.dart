@@ -64,12 +64,14 @@ class ActivityReminders extends StatelessWidget {
         },
         child: Row(
           children: [
-            Text(
-              'Reminders: ',
-              style: Theme.of(context).textTheme.bodyText1,
+            Expanded(
+              child: Text(
+                'Reminders: ',
+                style: Theme.of(context).textTheme.bodyText1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             const SizedBox(width: 10),
-            const Spacer(),
             Text(
               count.toString(),
               style: Theme.of(context).textTheme.bodyText1,
