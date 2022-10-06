@@ -33,40 +33,50 @@ class ActivityCard extends StatelessWidget {
               params: {'page': 'planner'},
               extra: activity,
             ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            width: double.infinity,
-            height: isAllDay ? 80 : null,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(10),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        width: double.infinity,
+        height: isAllDay ? 80 : null,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              activity.name,
+              style: theme.textTheme.titleLarge,
+              overflow: TextOverflow.fade,
+              softWrap: false,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  activity.name,
-                  style: theme.textTheme.titleLarge,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                ),
-                if (constraints.maxHeight > 50 && !isAllDay) ...[
-                  const SizedBox(height: 5),
-                  Text(
-                    '${DateFormat('hh:mm').format(activity.startTime)}'
-                    ' - '
-                    '${DateFormat('hh:mm').format(activity.endTime)}',
-                    maxLines: 1,
-                    overflow: TextOverflow.fade,
-                    style: theme.textTheme.bodySmall,
-                  ),
-                ],
-              ],
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxHeight > 40 && !isAllDay) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 5),
+                        Flexible(
+                          child: Text(
+                            '${DateFormat('hh:mm').format(activity.startTime)}'
+                            ' - '
+                            '${DateFormat('hh:mm').format(activity.endTime)}',
+                            style: theme.textTheme.bodySmall,
+                            overflow: TextOverflow.fade,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
