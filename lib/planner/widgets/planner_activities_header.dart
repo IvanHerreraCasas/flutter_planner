@@ -18,15 +18,11 @@ class PlannerActivitiesHeader extends StatelessWidget {
   void _onAdd({
     required PlannerSize currentSize,
     required BuildContext context,
+    required DateTime selectedDay,
   }) {
-    final currentDate = DateTime.now();
     final newActivity = Activity(
       userID: context.read<AuthenticationBloc>().state.user!.id,
-      date: DateTime.utc(
-        currentDate.year,
-        currentDate.month,
-        currentDate.day,
-      ),
+      date: selectedDay,
       startTime: DateTime(1970, 1, 1, 7),
       endTime: DateTime(1970, 1, 1, 8),
     );
@@ -48,6 +44,10 @@ class PlannerActivitiesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDay = context.select(
+      (PlannerBloc bloc) => bloc.state.selectedDay,
+    );
+
     return Row(
       children: [
         Expanded(
@@ -68,6 +68,7 @@ class PlannerActivitiesHeader extends StatelessWidget {
           onPressed: () => _onAdd(
             currentSize: currentSize,
             context: context,
+            selectedDay: selectedDay,
           ),
           child: const Text('Add'),
         ),

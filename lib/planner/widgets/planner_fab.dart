@@ -12,6 +12,7 @@ class PlannerFab extends StatelessWidget {
   void _onPressed({
     required BuildContext context,
     required int selectedTab,
+    required DateTime selectedDay,
   }) {
     switch (selectedTab) {
       case 0:
@@ -20,14 +21,9 @@ class PlannerFab extends StatelessWidget {
             );
         break;
       case 1:
-        final currentDate = DateTime.now();
         final newActivity = Activity(
           userID: context.read<AuthenticationBloc>().state.user!.id,
-          date: DateTime.utc(
-            currentDate.year,
-            currentDate.month,
-            currentDate.day,
-          ),
+          date: selectedDay,
           startTime: DateTime(1970, 1, 1, 7),
           endTime: DateTime(1970, 1, 1, 8),
         );
@@ -47,8 +43,16 @@ class PlannerFab extends StatelessWidget {
     final selectedTab = context.select(
       (PlannerBloc bloc) => bloc.state.selectedTab,
     );
+    final selectedDay = context.select(
+      (PlannerBloc bloc) => bloc.state.selectedDay,
+    );
+
     return FloatingActionButton(
-      onPressed: () => _onPressed(context: context, selectedTab: selectedTab),
+      onPressed: () => _onPressed(
+        context: context,
+        selectedTab: selectedTab,
+        selectedDay: selectedDay,
+      ),
       child: const Icon(Icons.add),
     );
   }
