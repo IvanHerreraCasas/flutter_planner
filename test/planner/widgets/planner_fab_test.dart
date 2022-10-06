@@ -62,21 +62,20 @@ void main() {
 
       testWidgets(
           'goes to activityPage '
-          'and send newActivity as extra '
+          'and send newActivity with selected date as extra '
           'when selectedTab is 1', (tester) async {
-        when(() => plannerBloc.state).thenReturn(
-          PlannerState(selectedTab: 1),
-        );
-        final currentDate = DateTime.now();
+        final date = DateTime.utc(2022, 10, 6);
         final newActivity = Activity(
           userID: 'id',
-          date: DateTime.utc(
-            currentDate.year,
-            currentDate.month,
-            currentDate.day,
-          ),
+          date: date,
           startTime: DateTime(1970, 1, 1, 7),
           endTime: DateTime(1970, 1, 1, 8),
+        );
+        when(() => plannerBloc.state).thenReturn(
+          PlannerState(
+            selectedTab: 1,
+            selectedDay: date,
+          ),
         );
 
         await tester.pumpApp(buildSubject());

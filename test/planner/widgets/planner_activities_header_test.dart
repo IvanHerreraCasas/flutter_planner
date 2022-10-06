@@ -30,6 +30,7 @@ void main() {
         const AuthenticationState.authenticated(User(id: 'id')),
       );
       when(() => remindersRepository.areAllowed).thenReturn(false);
+      when(() => plannerBloc.state).thenReturn(PlannerState());
     });
 
     Widget buildSubject({
@@ -88,18 +89,6 @@ void main() {
       });
 
       group('when is tapped', () {
-        final currentDate = DateTime.now();
-        final newActivity = Activity(
-          userID: 'id',
-          date: DateTime.utc(
-            currentDate.year,
-            currentDate.month,
-            currentDate.day,
-          ),
-          startTime: DateTime(1970, 1, 1, 7),
-          endTime: DateTime(1970, 1, 1, 8),
-        );
-
         testWidgets(
             'shows ActivityPage dialog '
             'when size is large', (tester) async {
@@ -121,8 +110,19 @@ void main() {
 
         testWidgets(
             'goes to activityPage '
-            'and send newActivity as extra '
+            'and send newActivity with selected date as extra '
             'when size is not large', (tester) async {
+          final date = DateTime.utc(2022, 10, 6);
+          final newActivity = Activity(
+            userID: 'id',
+            date: date,
+            startTime: DateTime(1970, 1, 1, 7),
+            endTime: DateTime(1970, 1, 1, 8),
+          );
+
+          when(() => plannerBloc.state).thenReturn(
+            PlannerState(selectedDay: date),
+          );
           await tester.pumpApp(buildSubject(currentSize: PlannerSize.small));
 
           await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
