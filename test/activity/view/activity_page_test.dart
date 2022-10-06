@@ -112,7 +112,6 @@ void main() {
         testWidgets(
             'hide indicator and pops using goRouter '
             'when is not a dialog', (tester) async {
-
           whenListen(
             activityBloc,
             Stream.fromIterable([

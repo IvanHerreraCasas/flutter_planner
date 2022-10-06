@@ -71,7 +71,6 @@ void main() {
 
     group('Close icon button', () {
       testWidgets('is rendered', (tester) async {
-
         await tester.pumpApp(buildSubject());
 
         expect(
@@ -83,7 +82,6 @@ void main() {
       testWidgets(
           'add ScheduleSelectedRoutineChanged(null) '
           'to ScheduleBloc when is pressed', (tester) async {
-
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.widgetWithIcon(IconButton, Icons.close));
