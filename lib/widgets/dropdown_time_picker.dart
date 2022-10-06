@@ -23,77 +23,95 @@ class DropdownTimePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.bodyText1,
+        Expanded(
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.bodyText1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         const SizedBox(width: 20),
-        const Spacer(),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Hour
-            DropdownButton2<int>(
-              value: time.hour,
-              dropdownWidth: 60,
-              onChanged: (value) {
-                if (value != null) {
-                  onChanged(
-                    DateTime(
-                      time.year,
-                      time.month,
-                      time.day,
-                      value,
-                      time.minute,
-                      time.second,
-                      time.millisecond,
-                      time.microsecond,
+        SizedBox(
+          width: 130,
+          child: Row(
+            children: [
+              // Hour
+              Flexible(
+                child: DropdownButton2<int>(
+                  value: time.hour,
+                  dropdownWidth: 60,
+                  isExpanded: true,
+                  onChanged: (value) {
+                    if (value != null) {
+                      onChanged(
+                        DateTime(
+                          time.year,
+                          time.month,
+                          time.day,
+                          value,
+                          time.minute,
+                          time.second,
+                          time.millisecond,
+                          time.microsecond,
+                        ),
+                      );
+                    }
+                  },
+                  items: List.generate(
+                    25,
+                    (index) => DropdownMenuItem(
+                      value: index,
+                      enabled: enableHour(index),
+                      child: Text(
+                        index.toString(),
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
+                      ),
                     ),
-                  );
-                }
-              },
-              items: List.generate(
-                25,
-                (index) => DropdownMenuItem(
-                  value: index,
-                  enabled: enableHour(index),
-                  child: Text(index.toString()),
+                  ),
+                  dropdownMaxHeight: 200,
                 ),
               ),
-              dropdownMaxHeight: 200,
-            ),
-            const SizedBox(width: 10),
-            // Minute
-            DropdownButton2<int>(
-              value: (time.minute ~/ 10) * 10,
-              dropdownWidth: 60,
-              onChanged: (value) {
-                if (value != null) {
-                  onChanged(
-                    DateTime(
-                      time.year,
-                      time.month,
-                      time.day,
-                      time.hour,
-                      value,
-                      time.second,
-                      time.millisecond,
-                      time.microsecond,
+              const SizedBox(width: 10),
+              // Minute
+              Flexible(
+                child: DropdownButton2<int>(
+                  value: (time.minute ~/ 10) * 10,
+                  dropdownWidth: 60,
+                  isExpanded: true,
+                  onChanged: (value) {
+                    if (value != null) {
+                      onChanged(
+                        DateTime(
+                          time.year,
+                          time.month,
+                          time.day,
+                          time.hour,
+                          value,
+                          time.second,
+                          time.millisecond,
+                          time.microsecond,
+                        ),
+                      );
+                    }
+                  },
+                  items: List.generate(
+                    7,
+                    (index) => DropdownMenuItem(
+                      value: index * 10,
+                      enabled: enableMinute(index * 10),
+                      child: Text(
+                        (index * 10).toString(),
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
+                      ),
                     ),
-                  );
-                }
-              },
-              items: List.generate(
-                7,
-                (index) => DropdownMenuItem(
-                  value: index * 10,
-                  enabled: enableMinute(index * 10),
-                  child: Text((index * 10).toString()),
+                  ),
+                  dropdownMaxHeight: 200,
                 ),
               ),
-              dropdownMaxHeight: 200,
-            ),
-          ],
+            ],
+          ),
         )
       ],
     );

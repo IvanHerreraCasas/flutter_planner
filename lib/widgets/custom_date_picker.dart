@@ -19,12 +19,14 @@ class CustomDatePicker extends StatelessWidget {
 
     return Row(
       children: [
-        Text(
-          'Date: ',
-          style: Theme.of(context).textTheme.bodyText1,
+        Expanded(
+          child: Text(
+            'Date: ',
+            style: Theme.of(context).textTheme.bodyText1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         const SizedBox(width: 20),
-        const Spacer(),
         ElevatedButton(
           style: ButtonStyle(
             foregroundColor: MaterialStateColor.resolveWith((states) {
