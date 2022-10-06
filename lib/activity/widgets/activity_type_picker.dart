@@ -36,7 +36,8 @@ class ActivityTypePicker extends StatelessWidget {
               value: 0,
               child: Text(
                 'Task',
-                overflow: TextOverflow.fade,
+                overflow: TextOverflow.clip,
+                softWrap: false,
               ),
             ),
             DropdownMenuItem(
@@ -44,6 +45,7 @@ class ActivityTypePicker extends StatelessWidget {
               child: Text(
                 'Event',
                 overflow: TextOverflow.clip,
+                softWrap: false,
               ),
             ),
             DropdownMenuItem(
@@ -51,6 +53,7 @@ class ActivityTypePicker extends StatelessWidget {
               child: Text(
                 'Routine',
                 overflow: TextOverflow.clip,
+                softWrap: false,
               ),
             ),
           ],
