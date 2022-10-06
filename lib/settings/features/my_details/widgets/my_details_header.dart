@@ -21,11 +21,13 @@ class MyDetailsHeader extends StatelessWidget {
             onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back),
           ),
-        Text(
-          'My details',
-          style: Theme.of(context).textTheme.titleLarge,
+        Expanded(
+          child: Text(
+            'My details',
+            style: Theme.of(context).textTheme.titleLarge,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        const Spacer(),
         ElevatedButton(
           onPressed: context.read<AuthenticationBloc>().state.user!.isEditable
               ? () => context.read<MyDetailsBloc>().add(const MyDetailsSaved())

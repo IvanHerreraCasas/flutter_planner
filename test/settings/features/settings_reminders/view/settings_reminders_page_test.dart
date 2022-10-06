@@ -26,7 +26,6 @@ void main() {
     }
 
     testWidgets('renders SettingsRemindersView', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(SettingsRemindersView), findsOneWidget);
@@ -42,7 +41,6 @@ void main() {
     }
 
     testWidgets('renders correct widgets', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(SettingsRemindersHeader), findsOneWidget);

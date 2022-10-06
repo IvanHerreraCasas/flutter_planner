@@ -9,11 +9,13 @@ class PlannerTasksHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'Tasks',
-          style: Theme.of(context).textTheme.titleLarge,
+        Expanded(
+          child: Text(
+            'Tasks',
+            style: Theme.of(context).textTheme.titleLarge,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        const Spacer(),
         ElevatedButton(
           onPressed: () => context.read<PlannerBloc>().add(
                 const PlannerNewTaskAdded(),

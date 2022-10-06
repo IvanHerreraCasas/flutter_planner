@@ -10,12 +10,14 @@ class ActivityAllDaySwitch extends StatelessWidget {
     final isAllDay = context.select((ActivityBloc bloc) => bloc.state.isAllDay);
     return Row(
       children: [
-        Text(
-          'All-day activity:',
-          style: Theme.of(context).textTheme.bodyText1,
+        Expanded(
+          child: Text(
+            'All-day activity:',
+            style: Theme.of(context).textTheme.bodyText1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         const SizedBox(width: 20),
-        const Spacer(),
         Switch(
           value: isAllDay,
           onChanged: (_) => context.read<ActivityBloc>().add(

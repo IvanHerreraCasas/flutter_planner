@@ -12,15 +12,18 @@ class ActivityTypePicker extends StatelessWidget {
 
     return Row(
       children: [
-        Text(
-          'Type:',
-          style: Theme.of(context).textTheme.bodyText1,
+        Expanded(
+          child: Text(
+            'Type:',
+            style: Theme.of(context).textTheme.bodyText1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         const SizedBox(width: 20),
-        const Spacer(),
         DropdownButton2<int>(
           value: type,
           buttonWidth: 100,
+          isExpanded: true,
           onChanged: (value) {
             if (value != null) {
               context.read<ActivityBloc>().add(
@@ -31,15 +34,27 @@ class ActivityTypePicker extends StatelessWidget {
           items: const <DropdownMenuItem<int>>[
             DropdownMenuItem(
               value: 0,
-              child: Text('Task'),
+              child: Text(
+                'Task',
+                overflow: TextOverflow.clip,
+                softWrap: false,
+              ),
             ),
             DropdownMenuItem(
               value: 1,
-              child: Text('Event'),
+              child: Text(
+                'Event',
+                overflow: TextOverflow.clip,
+                softWrap: false,
+              ),
             ),
             DropdownMenuItem(
               value: 2,
-              child: Text('Routine'),
+              child: Text(
+                'Routine',
+                overflow: TextOverflow.clip,
+                softWrap: false,
+              ),
             ),
           ],
         ),

@@ -27,36 +27,49 @@ class PlannerTabs extends StatelessWidget {
       children: [
         Row(
           children: [
-            GestureDetector(
-              onTap: () => context.read<PlannerBloc>().add(
-                    const PlannerSelectedTabChanged(0),
+            Expanded(
+              child: Row(
+                children: [
+                  Flexible(
+                    child: GestureDetector(
+                      onTap: () => context.read<PlannerBloc>().add(
+                            const PlannerSelectedTabChanged(0),
+                          ),
+                      child: Text(
+                        'Tasks',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: selectedTab == 0
+                              ? theme.colorScheme.onBackground
+                              : theme.colorScheme.outline,
+                        ),
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
                   ),
-              child: Text(
-                'Tasks',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: selectedTab == 0
-                      ? theme.colorScheme.onBackground
-                      : theme.colorScheme.outline,
-                ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Flexible(
+                    child: GestureDetector(
+                      onTap: () => context.read<PlannerBloc>().add(
+                            const PlannerSelectedTabChanged(1),
+                          ),
+                      child: Text(
+                        'Activities',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: selectedTab == 1
+                              ? theme.colorScheme.onBackground
+                              : theme.colorScheme.outline,
+                        ),
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              width: 15,
-            ),
-            GestureDetector(
-              onTap: () => context.read<PlannerBloc>().add(
-                    const PlannerSelectedTabChanged(1),
-                  ),
-              child: Text(
-                'Activities',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: selectedTab == 1
-                      ? theme.colorScheme.onBackground
-                      : theme.colorScheme.outline,
-                ),
-              ),
-            ),
-            const Spacer(),
             Visibility(
               visible: selectedTab == 1,
               maintainSize: true,

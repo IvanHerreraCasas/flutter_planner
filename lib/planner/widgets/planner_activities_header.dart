@@ -50,11 +50,13 @@ class PlannerActivitiesHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'Activities',
-          style: Theme.of(context).textTheme.headline5,
+        Expanded(
+          child: Text(
+            'Activities',
+            style: Theme.of(context).textTheme.headline5,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        const Spacer(),
         ElevatedButton(
           onPressed: () => context.read<PlannerBloc>().add(
                 const PlannerAddRoutines(),

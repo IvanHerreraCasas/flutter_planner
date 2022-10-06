@@ -26,7 +26,6 @@ void main() {
     }
 
     testWidgets('renders Timeline title', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.text('Timeline'), findsOneWidget);
@@ -35,7 +34,6 @@ void main() {
     group('Start time', () {
       const key = Key('start time hour');
       testWidgets('is rendered with correct start hour', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         final starTimeDropdown = tester.widget<DropdownButton2<int>>(
@@ -49,8 +47,6 @@ void main() {
       testWidgets(
           'adds AppTimelineStartHourChanged to AppBloc '
           'when a new hour is selected', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
-
         await tester.pumpApp(buildSubject());
 
         await tester.tap(
@@ -81,7 +77,6 @@ void main() {
     group('End time', () {
       const key = Key('end time hour');
       testWidgets('is rendered with correct end hour', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         final starTimeDropdown = tester.widget<DropdownButton2<int>>(
@@ -95,8 +90,6 @@ void main() {
       testWidgets(
           'adds AppTimelineStartHourChanged to AppBloc '
           'when a new hour is selected', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
-
         await tester.pumpApp(buildSubject());
 
         await tester.tap(

@@ -15,9 +15,12 @@ class AppearanceHeader extends StatelessWidget {
             onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back),
           ),
-        Text(
-          'Appearance',
-          style: Theme.of(context).textTheme.titleLarge,
+        Expanded(
+          child: Text(
+            'Appearance',
+            style: Theme.of(context).textTheme.titleLarge,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

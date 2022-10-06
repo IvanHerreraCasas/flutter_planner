@@ -50,7 +50,6 @@ void main() {
 
     testWidgets('renders AppearancePage when settingsIndex is 1',
         (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       when(() => appBloc.state).thenReturn(
         const AppState(settingsIndex: 1),
       );
@@ -65,7 +64,6 @@ void main() {
     testWidgets(
         'renders SettingsRemindersPage when settingsIndex is 2 '
         'and reminders are allowed', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       when(() => appBloc.state).thenReturn(
         const AppState(settingsIndex: 2),
       );

@@ -39,7 +39,6 @@ void main() {
         'renders a RoutinePage '
         'when selectedRoutine is not null and currentSize is not small',
         (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(RoutinePage), findsOneWidget);
@@ -72,8 +71,6 @@ void main() {
 
     group('Close icon button', () {
       testWidgets('is rendered', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
-
         await tester.pumpApp(buildSubject());
 
         expect(
@@ -85,8 +82,6 @@ void main() {
       testWidgets(
           'add ScheduleSelectedRoutineChanged(null) '
           'to ScheduleBloc when is pressed', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
-
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.widgetWithIcon(IconButton, Icons.close));

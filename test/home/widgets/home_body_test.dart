@@ -81,7 +81,6 @@ void main() {
 
     testWidgets('renders and show PlannerPager when index is 0',
         (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(
         buildSubject(),
         activitiesRepository: activitiesRepository,

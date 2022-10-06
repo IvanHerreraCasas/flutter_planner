@@ -50,7 +50,6 @@ void main() {
     }
 
     testWidgets('renders planner title', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.text('Activities'), findsOneWidget);
@@ -58,7 +57,6 @@ void main() {
 
     group('ElevatedButton: Add Routines', () {
       testWidgets('is rendered', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         expect(
@@ -71,7 +69,6 @@ void main() {
           'add PlannerAddRoutines '
           'to PlannerBloc '
           'when is tapped', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.widgetWithText(ElevatedButton, 'Add routines'));
@@ -82,7 +79,6 @@ void main() {
 
     group('ElevatedButton: Add', () {
       testWidgets('is rendered', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         expect(
@@ -107,7 +103,6 @@ void main() {
         testWidgets(
             'shows ActivityPage dialog '
             'when size is large', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpApp(
             buildSubject(),
             remindersRepository: remindersRepository,
@@ -128,7 +123,6 @@ void main() {
             'goes to activityPage '
             'and send newActivity as extra '
             'when size is not large', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpApp(buildSubject(currentSize: PlannerSize.small));
 
           await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));

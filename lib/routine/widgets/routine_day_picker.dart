@@ -11,12 +11,14 @@ class RoutineDayPicker extends StatelessWidget {
     final day = context.select((RoutineBloc bloc) => bloc.state.day);
     return Row(
       children: [
-        Text(
-          'Day: ',
-          style: Theme.of(context).textTheme.bodyText1,
+        Expanded(
+          child: Text(
+            'Day: ',
+            style: Theme.of(context).textTheme.bodyText1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         const SizedBox(width: 20),
-        const Spacer(),
         DropdownButton2<int>(
           value: day - 1,
           dropdownWidth: 150,
