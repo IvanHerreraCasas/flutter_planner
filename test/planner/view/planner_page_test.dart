@@ -70,8 +70,6 @@ void main() {
       }
 
       testWidgets('renders PlannerView', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
-
         await tester.pumpApp(
           buildSubject(),
           activitiesRepository: activitiesRepository,
@@ -113,8 +111,6 @@ void main() {
         final fabFinder = find.byType(PlannerFab);
 
         testWidgets('is rendered.', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
-
           await tester.pumpApp(
             buildSubject(),
             activitiesRepository: activitiesRepository,
@@ -126,8 +122,6 @@ void main() {
         });
 
         testWidgets('unfocus when is pressed', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
-
           await tester.pumpApp(
             buildSubject(),
             activitiesRepository: activitiesRepository,
@@ -145,8 +139,6 @@ void main() {
         testWidgets(
             'renders correct small size widgets '
             'when width is less or equal than 400 pixels.', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
-
           await tester.binding.setSurfaceSize(const Size(400, 600));
 
           await tester.pumpApp(buildSubject());
@@ -167,8 +159,6 @@ void main() {
         testWidgets(
             'renders correct medium size widgets '
             'when width is less or equal than 660 pixels.', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
-
           await tester.binding.setSurfaceSize(const Size(660, 600));
 
           await tester.pumpApp(buildSubject());
@@ -189,8 +179,6 @@ void main() {
         testWidgets(
             'renders correct large size widgets '
             'when width is greater than 660 pixels.', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
-
           await tester.binding.setSurfaceSize(const Size(700, 600));
 
           await tester.pumpApp(buildSubject());
@@ -210,7 +198,6 @@ void main() {
       group('BlocListener', () {
         testWidgets('show SnackBar when status changes to failure',
             (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           whenListen(
             plannerBloc,
             Stream.fromIterable([

@@ -78,14 +78,12 @@ void main() {
 
     group('Tasks tab', () {
       testWidgets('renders Tasks title', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         expect(find.text('Tasks'), findsOneWidget);
       });
 
       testWidgets('renders tasks when is selected', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         expect(find.byType(TaskWidget), findsNWidgets(mockTasks.length));
@@ -94,7 +92,6 @@ void main() {
       testWidgets(
           'add PlannerSelectedTabChanged to PlannerBloc '
           'when Tasks title is pressed', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.text('Tasks'));
@@ -107,14 +104,12 @@ void main() {
 
     group('Activities tab', () {
       testWidgets('renders Activities title', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(buildSubject());
 
         expect(find.text('Activities'), findsOneWidget);
       });
 
       testWidgets('renders activities when is selected', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         when(() => plannerBloc.state).thenReturn(
           PlannerState(activities: mockActivities, selectedTab: 1),
         );
@@ -126,7 +121,6 @@ void main() {
       testWidgets(
           'renders ElevatedButton: + routines '
           'when is selected', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         when(() => plannerBloc.state).thenReturn(
           PlannerState(activities: mockActivities, selectedTab: 1),
         );
@@ -141,7 +135,6 @@ void main() {
       testWidgets(
           'add PlannerSelectedTabChanged to PlannerBloc '
           'when Activities title is pressed', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         when(() => plannerBloc.state).thenReturn(
           PlannerState(activities: mockActivities, selectedTab: 1),
         );
@@ -157,7 +150,6 @@ void main() {
       testWidgets(
           'add PlannerAddRoutines to PlannerBloc '
           'when ElevatedButton: + routines is pressed', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         when(() => plannerBloc.state).thenReturn(
           PlannerState(activities: mockActivities, selectedTab: 1),
         );

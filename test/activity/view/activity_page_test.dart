@@ -63,7 +63,6 @@ void main() {
 
     group('dialog', () {
       testWidgets('renders a Dialog', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(
           ActivityPage.dialog(activity: mockActivity),
           remindersRepository: remindersRepository,
@@ -71,7 +70,6 @@ void main() {
         expect(find.byType(Dialog), findsOneWidget);
       });
       testWidgets('renders ActivityPage', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         await tester.pumpApp(
           ActivityPage.dialog(activity: mockActivity),
           remindersRepository: remindersRepository,
@@ -81,8 +79,6 @@ void main() {
     });
 
     testWidgets('renders ActivityLayoutBuilder', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
-
       await tester.pumpApp(
         buildSubject(),
         remindersRepository: remindersRepository,
@@ -94,7 +90,6 @@ void main() {
     group('BlocListener', () {
       testWidgets('shows indicator when status change to loading',
           (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         whenListen(
           activityBloc,
           Stream.fromIterable([
@@ -117,7 +112,6 @@ void main() {
         testWidgets(
             'hide indicator and pops using goRouter '
             'when is not a dialog', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
 
           whenListen(
             activityBloc,
@@ -142,8 +136,6 @@ void main() {
         testWidgets(
             'hide indicator and pops using navigator '
             'when is a dialog', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
-
           whenListen(
             activityBloc,
             Stream.fromIterable([
@@ -168,8 +160,6 @@ void main() {
       testWidgets(
           'hide indicator and shows a snackbar '
           'when status change to failure ', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
-
         whenListen(
           activityBloc,
           Stream.fromIterable([

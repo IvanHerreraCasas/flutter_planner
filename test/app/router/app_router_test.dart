@@ -1,7 +1,6 @@
 import 'package:activities_repository/activities_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
 import 'package:flutter_planner/home/home.dart';
@@ -91,7 +90,6 @@ void main() {
       testWidgets(
           'redirects to HomePage '
           'when user is authenticated', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         when(() => authenticationBloc.state).thenReturn(
           const AuthenticationState.authenticated(User(id: 'id')),
         );
@@ -141,7 +139,6 @@ void main() {
           );
         });
         testWidgets('renders HomePage', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
             appBloc: appBloc,
@@ -157,7 +154,6 @@ void main() {
         testWidgets(
             'renders PlannerPage '
             'when page param is planner', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/planner'),
             appBloc: appBloc,
@@ -173,7 +169,6 @@ void main() {
         testWidgets(
             'renders SchedulePage '
             'when page param is schedule', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/schedule'),
             appBloc: appBloc,
@@ -189,7 +184,6 @@ void main() {
         testWidgets(
             'renders SettingsPage '
             'when page param is settings', (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/settings'),
             appBloc: appBloc,
@@ -224,7 +218,6 @@ void main() {
             'renders AppearancePage '
             'when page param is settings and subroute is appearance',
             (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/settings/appearance'),
             appBloc: appBloc,
@@ -242,7 +235,6 @@ void main() {
             'renders SettingsRemindersPage '
             'when page param is settings and subroute is reminders',
             (tester) async {
-          FlutterError.onError = ignoreOverflowErrors;
           await tester.pumpAppRouter(
             buildSubject(initialLocation: '/home/settings/reminders'),
             appBloc: appBloc,
@@ -263,7 +255,6 @@ void main() {
       testWidgets(
           'renders HomePage '
           'when authState changes to authenticated', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         whenListen(
           authenticationBloc,
           Stream.fromIterable(const [

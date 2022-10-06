@@ -151,7 +151,6 @@ void main() {
       );
 
       testWidgets('renders the given route page of AppState', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         when(() => appBloc.state)
             .thenReturn(const AppState(route: '/home/planner'));
         when(() => authenticationBloc.state).thenReturn(
@@ -167,7 +166,6 @@ void main() {
       testWidgets(
           'if status changes to authenticated, change route and navigate to /home/planner',
           (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
         whenListen<AuthenticationState>(
           authenticationBloc,
           Stream.fromIterable(const [

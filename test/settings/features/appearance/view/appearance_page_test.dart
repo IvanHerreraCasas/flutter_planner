@@ -24,7 +24,6 @@ void main() {
     }
 
     testWidgets('renders AppearanceView', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(AppearanceView), findsOneWidget);
@@ -40,7 +39,6 @@ void main() {
     }
 
     testWidgets('renders correct widgets', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(AppearanceHeader), findsOneWidget);

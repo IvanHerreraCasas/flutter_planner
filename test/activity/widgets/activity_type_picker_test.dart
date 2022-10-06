@@ -25,7 +25,6 @@ void main() {
     }
 
     testWidgets('shows correct type', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.text('Task').hitTestable(), findsOneWidget);
@@ -34,7 +33,6 @@ void main() {
     testWidgets(
         'adds ActivityTypeChanged to ActivityBloc '
         'when a new type is selected', (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       await tester.tap(find.text('Task'));

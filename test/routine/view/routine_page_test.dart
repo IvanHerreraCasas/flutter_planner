@@ -43,7 +43,6 @@ void main() {
 
     testWidgets('renders RoutineLayoutBuilder with correct widgets',
         (tester) async {
-      FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpApp(buildSubject());
 
       expect(find.byType(RoutineLayoutBuilder), findsOneWidget);
@@ -119,8 +118,6 @@ void main() {
       testWidgets(
           'hide indicator and shows snackbar '
           'when status change to failure', (tester) async {
-        FlutterError.onError = ignoreOverflowErrors;
-
         whenListen(
           routineBloc,
           Stream.fromIterable([
