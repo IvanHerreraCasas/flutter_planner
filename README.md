@@ -23,8 +23,12 @@ A Flutter application to plan personal daily tasks, activities and routines that
 - Email authentication (if used with Supabase).
 - Calendar and timeline view for daily tasks and activities.
 - Timetable for weekly routines.
-- Settings for appearance and user configuration.
-- Responsive ui, tested on android and windows.
+- Activities types: task, routine, and event.
+- Reminders for activities and remaining tasks*.
+- Settings for user configuration, appearance, and tasks reminders.
+- Responsive ui.
+
+**reminders only work on android and ios (ios needs extra [set up](https://pub.dev/packages/flutter_local_notifications#-ios-setup))*
 
 ---
 ## Set up
@@ -106,6 +110,37 @@ To run all unit and widget tests use the following command:
 flutter test --coverage --test-randomize-ordering-seed random
 ```
 
+### Building the project
+
+#### Android
+
+```sh
+# Development (Supabase)
+$ flutter build apk --target lib/main_development.dart
+
+# Staging (Supabase)
+$ flutter build apk --target lib/main_staging.dart
+  
+# Production (Isar)
+$ flutter build apk --target lib/main_production.dart
+```
+
+#### Windows
+
+```sh
+# Development (Supabase)
+$ flutter build windows --target lib/main_development.dart
+$ flutter pub run msix:create --build-windows false
+
+# Staging (Supabase)
+$ flutter build windows --target lib/main_staging.dart
+$ flutter pub run msix:create --build-windows false
+  
+# Production (Isar)
+$ flutter build windows --target lib/main_production.dart
+$ flutter pub run msix:create --build-windows false
+```
+
 ---
 
 ## Dependencies
@@ -115,16 +150,8 @@ flutter test --coverage --test-randomize-ordering-seed random
 - [supabase_flutter](https://pub.dev/packages/supabase_flutter)
 - [isar](https://pub.dev/packages/isar)
 - [go_router](https://pub.dev/packages/go_router)
+- [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
 
----
-
-## Future features
-
-This application is been developed in my free time for personal use, some future features that will be added are
-
-- Categories for activities and routines, and charts for the user's stats.
-- dart_frog backend alternative.
-  
 ---
 
 ## Contribution
