@@ -88,7 +88,6 @@ void main() {
       });
 
       group('when is tapped', () {
-
         testWidgets(
             'shows ActivityPage dialog '
             'when size is large', (tester) async {
@@ -119,7 +118,7 @@ void main() {
             startTime: DateTime(1970, 1, 1, 7),
             endTime: DateTime(1970, 1, 1, 8),
           );
-          
+
           when(() => plannerBloc.state).thenReturn(
             PlannerState(selectedDay: date),
           );
