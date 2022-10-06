@@ -30,6 +30,7 @@ void main() {
         const AuthenticationState.authenticated(User(id: 'id')),
       );
       when(() => remindersRepository.areAllowed).thenReturn(false);
+      when(() => plannerBloc.state).thenReturn(PlannerState());
     });
 
     Widget buildSubject({
