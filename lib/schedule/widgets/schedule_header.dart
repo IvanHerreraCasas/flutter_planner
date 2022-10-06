@@ -40,11 +40,13 @@ class ScheduleHeader extends StatelessWidget {
     return Row(
       children: [
         const SizedBox(width: 20),
-        Text(
-          'Schedule',
-          style: Theme.of(context).textTheme.headline5,
+        Expanded(
+          child: Text(
+            'Schedule',
+            style: Theme.of(context).textTheme.headline5,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        const Spacer(),
         ElevatedButton(
           onPressed: () => _onAdd(context: context),
           child: const Text('Add'),

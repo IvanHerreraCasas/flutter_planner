@@ -50,6 +50,7 @@ class DayHeader extends StatelessWidget {
       child: Text(
         dayString,
         style: Theme.of(context).textTheme.bodyText1,
+        overflow: TextOverflow.clip,
       ),
     );
   }
