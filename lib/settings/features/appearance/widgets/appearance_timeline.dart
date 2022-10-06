@@ -25,16 +25,19 @@ class AppearanceTimeline extends StatelessWidget {
         const SizedBox(height: 20),
         Row(
           children: [
-            Text(
-              'Start time: ',
-              style: textTheme.titleMedium,
+            Expanded(
+              child: Text(
+                'Start time: ',
+                style: textTheme.titleMedium,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            const Spacer(),
             DropdownButton2<int>(
               key: const Key('start time hour'),
               value: startHour,
               dropdownMaxHeight: 200,
               buttonWidth: 70,
+              isExpanded: true,
               items: List.generate(
                 25,
                 (index) => DropdownMenuItem(
@@ -43,6 +46,8 @@ class AppearanceTimeline extends StatelessWidget {
                   child: Text(
                     '$index h',
                     textAlign: TextAlign.end,
+                    softWrap: false,
+                    overflow: TextOverflow.clip,
                   ),
                 ),
               ),
@@ -56,22 +61,30 @@ class AppearanceTimeline extends StatelessWidget {
         ),
         Row(
           children: [
-            Text(
-              'End time: ',
-              style: textTheme.titleMedium,
+            Expanded(
+              child: Text(
+                'End time: ',
+                style: textTheme.titleMedium,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            const Spacer(),
             DropdownButton2<int>(
               key: const Key('end time hour'),
               value: endHour,
               dropdownMaxHeight: 200,
-              buttonWidth: 70,
+              buttonWidth: 80,
+              isExpanded: true,
               items: List.generate(
                 25,
                 (index) => DropdownMenuItem(
                   value: index,
                   enabled: index > startHour,
-                  child: Text('$index h'),
+                  child: Text(
+                    '$index h',
+                    textAlign: TextAlign.end,
+                    softWrap: false,
+                    overflow: TextOverflow.clip,
+                  ),
                 ),
               ),
               onChanged: (value) {

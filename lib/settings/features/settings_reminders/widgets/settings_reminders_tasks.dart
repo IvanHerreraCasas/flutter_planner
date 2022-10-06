@@ -28,12 +28,14 @@ class SettingsRemindersTasks extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              'Tasks reminders',
-              style: textTheme.titleLarge,
+            Expanded(
+              child: Text(
+                'Tasks reminders',
+                style: textTheme.titleLarge,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             const SizedBox(width: 10),
-            const Spacer(),
             Switch(
               value: tasksReminderAreAllowed,
               onChanged: (value) {
