@@ -15,29 +15,26 @@ class HomeNavRail extends StatelessWidget {
   final int selectedIndex;
 
   void _onDestinationSelected(BuildContext context, int index) {
+    late String page;
+
     switch (index) {
       case 0:
-        context.read<AppBloc>().add(const AppRouteChanged('/home/planner'));
-        context.goNamed(
-          AppRoutes.home,
-          params: {'page': 'planner'},
-        );
+        page = 'planner';
         break;
       case 1:
-        context.read<AppBloc>().add(const AppRouteChanged('/home/schedule'));
-        context.goNamed(
-          AppRoutes.home,
-          params: {'page': 'schedule'},
-        );
+        page = 'schedule';
         break;
       case 2:
-        context.read<AppBloc>().add(const AppRouteChanged('/home/settings'));
-        context.goNamed(
-          AppRoutes.home,
-          params: {'page': 'settings'},
-        );
+        page = 'settings';
         break;
     }
+    final route = context.namedLocation(
+      AppRoutes.home,
+      params: {'page': page},
+    );
+
+    context.read<AppBloc>().add(AppRouteChanged(route));
+    context.go(route);
   }
 
   @override

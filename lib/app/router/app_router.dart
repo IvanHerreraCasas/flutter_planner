@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_planner/activity/activity.dart';
 import 'package:flutter_planner/app/app.dart';
 import 'package:flutter_planner/authentication/authentication.dart';
+import 'package:flutter_planner/helpers/helpers.dart';
 import 'package:flutter_planner/home/home.dart';
 import 'package:flutter_planner/routine/routine.dart';
 import 'package:flutter_planner/settings/settings.dart';
@@ -24,7 +25,7 @@ abstract class AppRouter {
         // '/'
         GoRoute(
           path: '/',
-          redirect: (state) => '/home/planner',
+          redirect: (context, state) => '/home/planner',
         ),
         // signUp
         GoRoute(
@@ -124,8 +125,8 @@ abstract class AppRouter {
           ],
         ),
       ],
-      refreshListenable: GoRouterRefreshStream(authenticationBloc.stream),
-      redirect: (state) {
+      refreshListenable: ListenableStream(authenticationBloc.stream),
+      redirect: (context, state) {
         final isSignIn = state.location == '/sign-in';
         final isRegistering = state.location == '/sign-up';
         final isAuthenticated = authenticationBloc.state.status ==

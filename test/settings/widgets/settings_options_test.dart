@@ -64,6 +64,13 @@ void main() {
         testWidgets(
             'goes to my details route and adds AppRouteChanged to AppBloc '
             'when is pressed', (tester) async {
+          when(
+            () => goRouter.namedLocation(
+              AppRoutes.myDetails,
+              params: {'page': 'settings'},
+            ),
+          ).thenReturn('/home/settings/my_details');
+
           await tester.pumpApp(
             buildSubject(
               currentSize: SettingsSize.small,
@@ -74,16 +81,12 @@ void main() {
           await tester.tap(find.widgetWithText(InkWell, 'My details'));
 
           verify(
-            () =>
-                appBloc.add(const AppRouteChanged('/home/settings/my-details')),
-          ).called(1);
-
-          verify(
-            () => goRouter.goNamed(
-              AppRoutes.myDetails,
-              params: {'page': 'settings'},
+            () => appBloc.add(
+              const AppRouteChanged('/home/settings/my_details'),
             ),
-          ).called(1);
+          );
+
+          verify(() => goRouter.go('/home/settings/my_details'));
         });
       });
       group('when size is large', () {
@@ -128,6 +131,13 @@ void main() {
         testWidgets(
             'goes to appearance route and adds AppRouteChanged to AppBloc '
             'when is pressed', (tester) async {
+          when(
+            () => goRouter.namedLocation(
+              AppRoutes.appearance,
+              params: {'page': 'settings'},
+            ),
+          ).thenReturn('/home/settings/appearance');
+
           await tester.pumpApp(
             buildSubject(
               currentSize: SettingsSize.small,
@@ -138,16 +148,12 @@ void main() {
           await tester.tap(find.widgetWithText(InkWell, 'Appearance'));
 
           verify(
-            () =>
-                appBloc.add(const AppRouteChanged('/home/settings/appearance')),
-          ).called(1);
-
-          verify(
-            () => goRouter.goNamed(
-              AppRoutes.appearance,
-              params: {'page': 'settings'},
+            () => appBloc.add(
+              const AppRouteChanged('/home/settings/appearance'),
             ),
-          ).called(1);
+          );
+
+          verify(() => goRouter.go('/home/settings/appearance'));
         });
       });
       group('when size is large', () {
@@ -208,6 +214,13 @@ void main() {
         testWidgets(
             'goes to reminders route and adds AppRouteChanged to AppBloc '
             'when is pressed', (tester) async {
+          when(
+            () => goRouter.namedLocation(
+              AppRoutes.settingsReminders,
+              params: {'page': 'settings'},
+            ),
+          ).thenReturn('/home/settings/reminders');
+
           await tester.pumpApp(
             buildSubject(
               currentSize: SettingsSize.small,
@@ -220,14 +233,9 @@ void main() {
           verify(
             () =>
                 appBloc.add(const AppRouteChanged('/home/settings/reminders')),
-          ).called(1);
+          );
 
-          verify(
-            () => goRouter.goNamed(
-              AppRoutes.settingsReminders,
-              params: {'page': 'settings'},
-            ),
-          ).called(1);
+          verify(() => goRouter.go('/home/settings/reminders'));
         });
       });
       group('when size is large', () {
