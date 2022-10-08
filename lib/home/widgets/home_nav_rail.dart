@@ -16,7 +16,7 @@ class HomeNavRail extends StatelessWidget {
 
   void _onDestinationSelected(BuildContext context, int index) {
     late String page;
-  
+
     switch (index) {
       case 0:
         page = 'planner';

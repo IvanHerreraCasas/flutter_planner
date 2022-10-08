@@ -73,7 +73,7 @@ class _SettingsOptionsState extends State<SettingsOptions> {
     final selectedIndex = context.select(
       (AppBloc bloc) => bloc.state.settingsIndex,
     );
-    
+
     final areRemindersAllowed = context.watch<RemindersRepository>().areAllowed;
 
     if (widget.currentSize == SettingsSize.small) {
