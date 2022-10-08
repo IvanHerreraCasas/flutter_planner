@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.verygoodcore.flutter_planner">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="${appName}"
         android:icon="@mipmap/ic_launcher">
