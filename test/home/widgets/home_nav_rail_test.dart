@@ -56,16 +56,18 @@ void main() {
       });
 
       testWidgets('goes to PlannerPage when is selected', (tester) async {
+        when(
+          () => goRouter.namedLocation(
+            AppRoutes.home,
+            params: {'page': 'planner'},
+          ),
+        ).thenReturn('/home/planner');
+
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.text('Planner'));
 
-        verify(
-          () => goRouter.goNamed(
-            AppRoutes.home,
-            params: {'page': 'planner'},
-          ),
-        ).called(1);
+        verify(() => goRouter.go('/home/planner'));
       });
     });
 
@@ -91,16 +93,18 @@ void main() {
       });
 
       testWidgets('goes to SchedulePage when is selected', (tester) async {
+        when(
+          () => goRouter.namedLocation(
+            AppRoutes.home,
+            params: {'page': 'schedule'},
+          ),
+        ).thenReturn('/home/schedule');
+
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.text('Schedule'));
 
-        verify(
-          () => goRouter.goNamed(
-            AppRoutes.home,
-            params: {'page': 'schedule'},
-          ),
-        ).called(1);
+        verify(() => goRouter.go('/home/schedule'));
       });
     });
 
@@ -126,16 +130,18 @@ void main() {
       });
 
       testWidgets('goes to SettingsPage when is selected', (tester) async {
+        when(
+          () => goRouter.namedLocation(
+            AppRoutes.home,
+            params: {'page': 'settings'},
+          ),
+        ).thenReturn('/home/settings');
+
         await tester.pumpApp(buildSubject());
 
         await tester.tap(find.text('Settings'));
 
-        verify(
-          () => goRouter.goNamed(
-            AppRoutes.home,
-            params: {'page': 'settings'},
-          ),
-        ).called(1);
+        verify(() => goRouter.go('/home/settings'));
       });
     });
   });

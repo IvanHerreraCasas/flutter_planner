@@ -69,6 +69,13 @@ void main() {
     testWidgets(
         'pops and goes to PlannerPage '
         'when planner is selected', (tester) async {
+      when(
+        () => goRouter.namedLocation(
+          AppRoutes.home,
+          params: {'page': 'planner'},
+        ),
+      ).thenReturn('/home/planner');
+
       await tester.pumpApp(buildSubject());
 
       await tester.dragFrom(Offset.zero, const Offset(200, 0));
@@ -77,18 +84,20 @@ void main() {
 
       await tester.tap(find.widgetWithText(ListTile, 'Planner'));
 
-      verify(() => navigator.pop()).called(1);
-      verify(
-        () => goRouter.goNamed(
-          AppRoutes.home,
-          params: {'page': 'planner'},
-        ),
-      ).called(1);
+      verify(() => navigator.pop());
+      verify(() => goRouter.go('/home/planner'));
     });
 
     testWidgets(
         'pops and goes to SchedulePage '
         'when planner is selected', (tester) async {
+      when(
+        () => goRouter.namedLocation(
+          AppRoutes.home,
+          params: {'page': 'schedule'},
+        ),
+      ).thenReturn('/home/schedule');
+
       await tester.pumpApp(buildSubject());
 
       await tester.dragFrom(Offset.zero, const Offset(200, 0));
@@ -97,18 +106,20 @@ void main() {
 
       await tester.tap(find.widgetWithText(ListTile, 'Schedule'));
 
-      verify(() => navigator.pop()).called(1);
-      verify(
-        () => goRouter.goNamed(
-          AppRoutes.home,
-          params: {'page': 'schedule'},
-        ),
-      ).called(1);
+      verify(() => navigator.pop());
+      verify(() => goRouter.go('/home/schedule'));
     });
 
     testWidgets(
         'pops and goes to SettingsPage '
         'when settings is selected', (tester) async {
+      when(
+        () => goRouter.namedLocation(
+          AppRoutes.home,
+          params: {'page': 'settings'},
+        ),
+      ).thenReturn('/home/settings');
+
       await tester.pumpApp(buildSubject());
 
       await tester.dragFrom(Offset.zero, const Offset(200, 0));
@@ -117,13 +128,8 @@ void main() {
 
       await tester.tap(find.widgetWithText(ListTile, 'Settings'));
 
-      verify(() => navigator.pop()).called(1);
-      verify(
-        () => goRouter.goNamed(
-          AppRoutes.home,
-          params: {'page': 'settings'},
-        ),
-      ).called(1);
+      verify(() => navigator.pop());
+      verify(() => goRouter.go('/home/settings'));
     });
   });
 }

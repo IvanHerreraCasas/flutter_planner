@@ -33,76 +33,63 @@ class _SettingsOptionsState extends State<SettingsOptions> {
     super.dispose();
   }
 
+  void _onTapOption({
+    required BuildContext context,
+    required int index,
+    required bool isLarge,
+  }) {
+    if (isLarge) {
+      context.read<AppBloc>().add(AppSettingsIndexChanged(index));
+    } else {
+      late String name;
+      switch (index) {
+        case 0:
+          name = AppRoutes.myDetails;
+          break;
+        case 1:
+          name = AppRoutes.appearance;
+          break;
+        case 2:
+          name = AppRoutes.settingsReminders;
+          break;
+        default:
+          break;
+      }
+
+      final route = context.namedLocation(
+        name,
+        params: {'page': 'settings'},
+      );
+
+      context.read<AppBloc>().add(
+            AppRouteChanged(route),
+          );
+      context.go(route);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedIndex = context.select(
       (AppBloc bloc) => bloc.state.settingsIndex,
     );
-
-    final textTheme = Theme.of(context).textTheme;
-
+    
     final areRemindersAllowed = context.watch<RemindersRepository>().areAllowed;
 
     if (widget.currentSize == SettingsSize.small) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () {
-              context.read<AppBloc>().add(
-                    const AppRouteChanged('/home/settings/my-details'),
-                  );
-              context.goNamed(
-                AppRoutes.myDetails,
-                params: {'page': 'settings'},
-              );
-            },
-            borderRadius: BorderRadius.circular(10),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 20,
-                horizontal: 10,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    'My details',
-                    style: textTheme.titleMedium,
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward_ios)
-                ],
-              ),
-            ),
+          SmallSettingOption(
+            onTap: () =>
+                _onTapOption(context: context, index: 0, isLarge: false),
+            title: 'My details',
           ),
           const Divider(),
-          InkWell(
-            onTap: () {
-              context.read<AppBloc>().add(
-                    const AppRouteChanged('/home/settings/appearance'),
-                  );
-              context.goNamed(
-                AppRoutes.appearance,
-                params: {'page': 'settings'},
-              );
-            },
-            borderRadius: BorderRadius.circular(10),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 20,
-                horizontal: 10,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    'Appearance',
-                    style: textTheme.titleMedium,
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward_ios)
-                ],
-              ),
-            ),
+          SmallSettingOption(
+            onTap: () =>
+                _onTapOption(context: context, index: 1, isLarge: false),
+            title: 'Appearance',
           ),
           const Divider(),
           if (areRemindersAllowed)
@@ -110,48 +97,15 @@ class _SettingsOptionsState extends State<SettingsOptions> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () {
-                    context.read<AppBloc>().add(
-                          const AppRouteChanged('/home/settings/reminders'),
-                        );
-                    context.goNamed(
-                      AppRoutes.settingsReminders,
-                      params: {'page': 'settings'},
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(10),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 10,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Reminders',
-                          style: textTheme.titleMedium,
-                        ),
-                        const Spacer(),
-                        const Icon(Icons.arrow_forward_ios)
-                      ],
-                    ),
-                  ),
+                SmallSettingOption(
+                  onTap: () =>
+                      _onTapOption(context: context, index: 2, isLarge: false),
+                  title: 'Reminders',
                 ),
               ],
             ),
           const Spacer(),
-          ElevatedButton(
-            onPressed: context.read<AuthenticationBloc>().state.user!.isEditable
-                ? () => context.read<AuthenticationBloc>().add(
-                      const AuthenticationSignoutRequested(),
-                    )
-                : null,
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 36),
-            ),
-            child: const Text('Log out'),
-          ),
+          const LogOutButton(),
         ],
       );
     }
@@ -159,50 +113,16 @@ class _SettingsOptionsState extends State<SettingsOptions> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: () => context.read<AppBloc>().add(
-                const AppSettingsIndexChanged(0),
-              ),
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 10,
-            ),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color:
-                  selectedIndex == 0 ? Theme.of(context).highlightColor : null,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              'My details',
-              style: textTheme.titleMedium,
-            ),
-          ),
+        LargeSettingOption(
+          onTap: () => _onTapOption(context: context, index: 0, isLarge: true),
+          title: 'My details',
+          isSelected: selectedIndex == 0,
         ),
         const SizedBox(height: 5),
-        InkWell(
-          onTap: () => context.read<AppBloc>().add(
-                const AppSettingsIndexChanged(1),
-              ),
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              color:
-                  selectedIndex == 1 ? Theme.of(context).highlightColor : null,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              'Appearance',
-              style: textTheme.titleMedium,
-            ),
-          ),
+        LargeSettingOption(
+          onTap: () => _onTapOption(context: context, index: 1, isLarge: true),
+          title: 'Appearance',
+          isSelected: selectedIndex == 1,
         ),
         const SizedBox(height: 5),
         if (areRemindersAllowed)
@@ -210,44 +130,110 @@ class _SettingsOptionsState extends State<SettingsOptions> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: () => context.read<AppBloc>().add(
-                      const AppSettingsIndexChanged(2),
-                    ),
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: selectedIndex == 2
-                        ? Theme.of(context).highlightColor
-                        : null,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    'Reminders',
-                    style: textTheme.titleMedium,
-                  ),
-                ),
+              LargeSettingOption(
+                onTap: () =>
+                    _onTapOption(context: context, index: 2, isLarge: true),
+                title: 'Reminders',
+                isSelected: selectedIndex == 2,
               ),
             ],
           ),
         const Spacer(),
-        ElevatedButton(
-          onPressed: context.read<AuthenticationBloc>().state.user!.isEditable
-              ? () => context.read<AuthenticationBloc>().add(
-                    const AuthenticationSignoutRequested(),
-                  )
-              : null,
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 45),
-          ),
-          child: const Text('Log out'),
-        ),
+        const LogOutButton(),
       ],
+    );
+  }
+}
+
+class SmallSettingOption extends StatelessWidget {
+  const SmallSettingOption({
+    Key? key,
+    required this.onTap,
+    required this.title,
+  }) : super(key: key);
+
+  final void Function() onTap;
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 10,
+        ),
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const Spacer(),
+            const Icon(Icons.arrow_forward_ios)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LargeSettingOption extends StatelessWidget {
+  const LargeSettingOption({
+    Key? key,
+    required this.onTap,
+    required this.title,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final void Function() onTap;
+
+  final bool isSelected;
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 10,
+        ),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: isSelected ? Theme.of(context).highlightColor : null,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ),
+    );
+  }
+}
+
+class LogOutButton extends StatelessWidget {
+  const LogOutButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: context.read<AuthenticationBloc>().state.user!.isEditable
+          ? () => context.read<AuthenticationBloc>().add(
+                const AuthenticationSignoutRequested(),
+              )
+          : null,
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 36),
+      ),
+      child: const Text('Log out'),
     );
   }
 }
